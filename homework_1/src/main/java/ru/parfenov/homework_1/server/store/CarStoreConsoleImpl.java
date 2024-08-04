@@ -2,7 +2,6 @@ package ru.parfenov.homework_1.server.store;
 
 import ru.parfenov.homework_1.server.enums.CarCondition;
 import ru.parfenov.homework_1.server.model.Car;
-import ru.parfenov.homework_1.server.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,19 +10,11 @@ import java.util.Map;
 
 public class CarStoreConsoleImpl implements CarStore {
     private static int carId = 0;
-
     private final Map<Integer, Car> carMap = new HashMap<>();
 
     @Override
-    public Car create(User user, String brand, String model, int yearOfProd, int price, CarCondition condition) {
-        carId++;
-        Car car = new Car(carId);
-        car.setOwner(user);
-        car.setBrand(brand);
-        car.setModel(model);
-        car.setYearOfProd(yearOfProd);
-        car.setPrice(price);
-        car.setCondition(condition);
+    public Car create(Car car) {
+        car.setId(carId++);
         carMap.put(carId, car);
         return car;
     }
@@ -31,6 +22,17 @@ public class CarStoreConsoleImpl implements CarStore {
     @Override
     public Car findById(int id) {
         return carMap.get(id);
+    }
+
+    @Override
+    public List<Car> findByUser(int userId) {
+        List<Car> list = new ArrayList<>();
+        for (Car car : findAll()) {
+            if (car.getOwner().getId() == userId) {
+                list.add(car);
+            }
+        }
+        return list;
     }
 
     @Override
@@ -54,13 +56,13 @@ public class CarStoreConsoleImpl implements CarStore {
 
     @Override
     public List<Car> findByParameter(
-            int id, User owner, String brand, String model, int yearOfProd,
+            int id, int ownerId, String brand, String model, int yearOfProd,
             int priceFrom, int priceTo, CarCondition condition
     ) {
         List<Car> allCars = findAll();
         List<Car> result = new ArrayList<>();
         for (Car car : allCars) {
-            if (select(car, id, owner, brand, model, yearOfProd, priceFrom, priceTo, condition)) {
+            if (select(car, id, ownerId, brand, model, yearOfProd, priceFrom, priceTo, condition)) {
                 result.add(car);
             }
         }
@@ -68,11 +70,11 @@ public class CarStoreConsoleImpl implements CarStore {
     }
 
     private boolean select(
-            Car car, int id, User owner, String brand, String model,
+            Car car, int id, int ownerId, String brand, String model,
             int yearOfProd, int priceFrom, int priceTo, CarCondition condition
     ) {
         boolean result = id == 0 || car.getId() == id;
-        if (owner != null && !car.getOwner().equals(owner)) {
+        if (ownerId != 0 && car.getOwner().getId() != ownerId) {
             result = false;
         }
         if (!brand.isEmpty() && !car.getBrand().equals(brand)) {

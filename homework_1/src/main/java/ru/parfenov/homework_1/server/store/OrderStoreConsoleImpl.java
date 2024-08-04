@@ -3,7 +3,6 @@ package ru.parfenov.homework_1.server.store;
 import ru.parfenov.homework_1.server.enums.OrderStatus;
 import ru.parfenov.homework_1.server.enums.OrderType;
 import ru.parfenov.homework_1.server.model.Order;
-import ru.parfenov.homework_1.server.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,12 +15,8 @@ public class OrderStoreConsoleImpl implements OrderStore {
     private final Map<Integer, Order> orderMap = new HashMap<>();
 
     @Override
-    public Order create(User user, int carId, OrderType type) {
-        orderId++;
-        Order order = new Order(orderId);
-        order.getAuthors().add(user);
-        order.setCarId(carId);
-        order.setType(type);
+    public Order create(Order order) {
+        order.setId(orderId++);
         orderMap.put(orderId, order);
         return order;
     }
@@ -51,20 +46,30 @@ public class OrderStoreConsoleImpl implements OrderStore {
     }
 
     @Override
-    public List<Order> findByParameter(int id, String author, int carId, OrderType type, OrderStatus status) {
-        List<Order> allOrders = findAll();
+    public List<Order> findByAuthor(int authorId) {
         List<Order> result = new ArrayList<>();
-        for (Order order : allOrders) {
-            if (select(order, id, author, carId, type, status)) {
+        for (Order order : findAll()) {
+            if (authorId == order.getAuthor().getId()) {
                 result.add(order);
             }
         }
         return result;
     }
 
-    private boolean select(Order order, int id, String author, int carId, OrderType type, OrderStatus status) {
+    @Override
+    public List<Order> findByParameter(int id, int authorId, int carId, OrderType type, OrderStatus status) {
+        List<Order> result = new ArrayList<>();
+        for (Order order : findAll()) {
+            if (select(order, id, authorId, carId, type, status)) {
+                result.add(order);
+            }
+        }
+        return result;
+    }
+
+    private boolean select(Order order, int id, int authorId, int carId, OrderType type, OrderStatus status) {
         boolean result = id == 0 || order.getId() == id;
-        if (!author.isEmpty() && listContainsName(order.getAuthors(), author)) {
+        if (authorId != 0 && order.getAuthor().getId() != authorId) {
             result = false;
         }
         if (carId != 0 && order.getCarId() != carId) {
@@ -75,17 +80,6 @@ public class OrderStoreConsoleImpl implements OrderStore {
         }
         if (status != null && !order.getStatus().equals(status)) {
             result = false;
-        }
-        return result;
-    }
-
-    private boolean listContainsName(List<User> list, String name) {
-        boolean result = false;
-        for (User user : list) {
-            if (user.getName().contains(name)) {
-                result = true;
-                break;
-            }
         }
         return result;
     }

@@ -3,7 +3,7 @@ package ru.parfenov.homework_1.server.model;
 import ru.parfenov.homework_1.server.enums.CarCondition;
 
 public class Car {
-    private final int id;
+    private int id;
     private User owner;
     private String brand;
     private String model;
@@ -11,12 +11,22 @@ public class Car {
     private int price;
     private CarCondition condition;
 
-    public Car(int id) {
+    public Car(int id, User owner, String brand, String model, int yearOfProd, int price, CarCondition condition) {
         this.id = id;
+        this.owner = owner;
+        this.brand = brand;
+        this.model = model;
+        this.yearOfProd = yearOfProd;
+        this.price = price;
+        this.condition = condition;
     }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public User getOwner() {
@@ -65,5 +75,17 @@ public class Car {
 
     public void setCondition(CarCondition condition) {
         this.condition = condition;
+    }
+
+    @Override
+    public String toString() {
+        return "Car " +
+                "id=" + id +
+                ", owner=" + owner.toString() +
+                ", brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", yearOfProd=" + yearOfProd +
+                ", price=" + price +
+                ", condition=" + condition;
     }
 }

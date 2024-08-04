@@ -2,6 +2,7 @@ package ru.parfenov.homework_1.server.store;
 
 import ru.parfenov.homework_1.server.enums.UserRoles;
 import ru.parfenov.homework_1.server.model.User;
+import ru.parfenov.homework_1.server.utility.Utility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,26 +10,26 @@ import java.util.List;
 import java.util.Map;
 
 public class UserStoreConsoleImpl implements UserStore {
-    private static int userId = 0;
+    private static int userId = 1;
 
     private final Map<Integer, User> userMap = new HashMap<>();
 
     public UserStoreConsoleImpl() {
-        create("admin", "123");
+        User user = new User("admin", Utility.adminPassword);
+        user.setRole(UserRoles.ADMIN);
+        create(user);
     }
 
     @Override
-    public void create(String name, String password) {
-        userId++;
-        User user = new User(userId);
-        user.setName(name);
-        user.setPassword(password);
+    public User create(User user) {
+        user.setId(userId++);
         userMap.put(userId, user);
+        return user;
     }
 
     @Override
     public User findById(int id) {
-        return userMap.get(id);
+        return userMap.get(id + 1);
     }
 
     @Override
