@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class UserStoreConsoleImpl implements UserStore {
-    private static int userId = 1;
+    private static int userId = 0;
 
     private final Map<Integer, User> userMap = new HashMap<>();
 
@@ -22,14 +22,15 @@ public class UserStoreConsoleImpl implements UserStore {
 
     @Override
     public User create(User user) {
-        user.setId(userId++);
+        userId++;
+        user.setId(userId);
         userMap.put(userId, user);
         return user;
     }
 
     @Override
     public User findById(int id) {
-        return userMap.get(id + 1);
+        return userMap.get(id);
     }
 
     @Override

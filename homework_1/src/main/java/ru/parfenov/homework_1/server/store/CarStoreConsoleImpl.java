@@ -14,7 +14,8 @@ public class CarStoreConsoleImpl implements CarStore {
 
     @Override
     public Car create(Car car) {
-        car.setId(carId++);
+        carId++;
+        car.setId(carId);
         carMap.put(carId, car);
         return car;
     }

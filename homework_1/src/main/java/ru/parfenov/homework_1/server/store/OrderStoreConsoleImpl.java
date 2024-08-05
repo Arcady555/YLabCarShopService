@@ -16,7 +16,8 @@ public class OrderStoreConsoleImpl implements OrderStore {
 
     @Override
     public Order create(Order order) {
-        order.setId(orderId++);
+        orderId++;
+        order.setId(orderId);
         orderMap.put(orderId, order);
         return order;
     }

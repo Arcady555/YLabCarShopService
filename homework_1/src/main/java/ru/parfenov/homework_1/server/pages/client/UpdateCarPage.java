@@ -41,7 +41,13 @@ public class UpdateCarPage {
         }
         Car car = carService.findById(carId);
         if (car == null) {
-            run();
+            System.out.println("Dou You want out? 0 - yes, another key - no");
+            String answer = reader.readLine();
+            if (answer.equals("0")) {
+                return;
+            } else {
+                run();
+            }
         } else {
             if (user.getRole() != UserRoles.ADMIN &&
                     user.getRole() != UserRoles.MANAGER &&
@@ -53,7 +59,7 @@ public class UpdateCarPage {
             String answerDelete = reader.readLine();
             if (answerDelete.equals("0")) {
                 carService.delete(car);
-                return;
+                run();
             } else {
                 System.out.println(
                         "Do you want to change brand?" +
