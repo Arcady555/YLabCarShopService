@@ -3,6 +3,7 @@ package ru.parfenov.homework_1.server.pages;
 import ru.parfenov.homework_1.server.model.User;
 import ru.parfenov.homework_1.server.pages.admin.*;
 import ru.parfenov.homework_1.server.service.CarService;
+import ru.parfenov.homework_1.server.service.LogService;
 import ru.parfenov.homework_1.server.service.OrderService;
 import ru.parfenov.homework_1.server.service.UserService;
 
@@ -15,13 +16,15 @@ public class AdminPage {
     private final UserService userService;
     private final CarService carService;
     private final OrderService orderService;
+    private final LogService logService;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public AdminPage(User user, UserService userService, CarService carService, OrderService orderService) {
+    public AdminPage(User user, UserService userService, CarService carService, OrderService orderService, LogService logService) {
         this.user = user;
         this.userService = userService;
         this.carService = carService;
         this.orderService = orderService;
+        this.logService = logService;
     }
 
     public void run() throws IOException, InterruptedException {
@@ -35,7 +38,8 @@ public class AdminPage {
                     4 - update or delete user
                     5 - manager menu
                     6 - client menu
-                    7 - exit
+                    7 - read log
+                    8 - exit
                     """);
             String answer = reader.readLine();
             switch (answer) {
@@ -68,6 +72,10 @@ public class AdminPage {
                     clientPage.run();
                 }
                 case "7" -> {
+                    LogPage logPage = new LogPage(logService);
+                    logPage.run();
+                }
+                case "8" -> {
                     return;
                 }
                 default -> {

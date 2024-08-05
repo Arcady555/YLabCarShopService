@@ -3,6 +3,7 @@ package ru.parfenov.homework_1.server.pages;
 import ru.parfenov.homework_1.server.enums.UserRoles;
 import ru.parfenov.homework_1.server.model.User;
 import ru.parfenov.homework_1.server.service.CarService;
+import ru.parfenov.homework_1.server.service.LogService;
 import ru.parfenov.homework_1.server.service.OrderService;
 import ru.parfenov.homework_1.server.service.UserService;
 
@@ -14,12 +15,14 @@ public class SignInPage {
     private final UserService userService;
     private final CarService carService;
     private final OrderService orderService;
+    private final LogService logService;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public SignInPage(UserService userService, CarService carService, OrderService orderService) {
+    public SignInPage(UserService userService, CarService carService, OrderService orderService, LogService logService) {
         this.userService = userService;
         this.carService = carService;
         this.orderService = orderService;
+        this.logService = logService;
     }
 
     public void run() throws IOException, InterruptedException {
@@ -42,7 +45,7 @@ public class SignInPage {
             String password = reader.readLine();
             if (password.equals(user.getPassword())) {
                 if (user.getRole().equals(UserRoles.ADMIN)) {
-                    AdminPage page = new AdminPage(user, userService, carService, orderService);
+                    AdminPage page = new AdminPage(user, userService, carService, orderService, logService);
                     page.run();
                 } else if (user.getRole().equals(UserRoles.MANAGER)) {
                     ManagerPage page = new ManagerPage(user, carService, orderService);

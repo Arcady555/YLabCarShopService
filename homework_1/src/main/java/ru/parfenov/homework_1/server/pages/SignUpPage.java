@@ -1,6 +1,8 @@
 package ru.parfenov.homework_1.server.pages;
 
+import ru.parfenov.homework_1.server.model.User;
 import ru.parfenov.homework_1.server.service.UserService;
+import ru.parfenov.homework_1.server.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +17,7 @@ public class SignUpPage {
     }
 
     public void run() throws IOException, InterruptedException {
+
         System.out.println("Create name");
         String name = reader.readLine();
         if (name.isEmpty()) {
@@ -31,7 +34,8 @@ public class SignUpPage {
         if (contactInfo.isEmpty()) {
             contactInfo = "no data";
         }
-        service.createByReg(name, password, contactInfo);
+        User user = service.createByReg(name, password, contactInfo);
+        Utility.logging(user.getId(), "registration");
         Thread.sleep(5000);
     }
 }

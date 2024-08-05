@@ -1,6 +1,7 @@
 package ru.parfenov.homework_1.server.pages;
 
 import ru.parfenov.homework_1.server.service.CarService;
+import ru.parfenov.homework_1.server.service.LogService;
 import ru.parfenov.homework_1.server.service.OrderService;
 import ru.parfenov.homework_1.server.service.UserService;
 
@@ -16,12 +17,14 @@ public class StartPage {
     private final UserService userService;
     private final CarService carService;
     private final OrderService orderService;
+    private final LogService logService;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public StartPage(UserService userService, CarService carService, OrderService orderService) {
+    public StartPage(UserService userService, CarService carService, OrderService orderService, LogService logService) {
         this.userService = userService;
         this.carService = carService;
         this.orderService = orderService;
+        this.logService = logService;
     }
 
     public void run() throws IOException, InterruptedException {
@@ -29,7 +32,7 @@ public class StartPage {
                 Please enter:
                 1 - registration
                 or
-                2 - enter login
+                2 - enter id
                 """);
         String enter = reader.readLine();
         switch (enter) {
@@ -38,7 +41,7 @@ public class StartPage {
                 signUpPage.run();
                 break;
             case "2":
-                SignInPage signInPage = new SignInPage(userService, carService, orderService);
+                SignInPage signInPage = new SignInPage(userService, carService, orderService, logService);
                 signInPage.run();
                 break;
             default:

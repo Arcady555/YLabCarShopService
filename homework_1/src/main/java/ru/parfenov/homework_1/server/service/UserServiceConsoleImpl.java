@@ -21,9 +21,10 @@ public class UserServiceConsoleImpl implements UserService {
     }
 
     @Override
-    public void createByReg(String name, String password, String contactInfo) {
+    public User createByReg(String name, String password, String contactInfo) {
         User user = store.create(new User(0, UserRoles.CLIENT, name, password, contactInfo, 0));
         Utility.printUser(user);
+        return user;
     }
 
     @Override

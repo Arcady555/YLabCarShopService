@@ -4,6 +4,7 @@ import ru.parfenov.homework_1.server.enums.UserRoles;
 import ru.parfenov.homework_1.server.model.Order;
 import ru.parfenov.homework_1.server.model.User;
 import ru.parfenov.homework_1.server.service.OrderService;
+import ru.parfenov.homework_1.server.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -41,6 +42,7 @@ public class DeleteOrderPage {
         String answerDelete = reader.readLine();
         if (answerDelete.equals("0")) {
             orderService.delete(order);
+            Utility.logging(user.getId(), "delete car");
         } else {
             run();
         }

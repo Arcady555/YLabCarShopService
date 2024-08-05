@@ -6,7 +6,7 @@ import ru.parfenov.homework_1.server.model.User;
 public interface UserService {
     void createByAdmin(int id, UserRoles role, String name, String password, String contactInfo, int buysAmount);
 
-    void createByReg(String name, String password, String contactInfo);
+    User createByReg(String name, String password, String contactInfo);
 
     User findById(int id);
 

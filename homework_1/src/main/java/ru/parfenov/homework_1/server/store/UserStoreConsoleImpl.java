@@ -18,6 +18,7 @@ public class UserStoreConsoleImpl implements UserStore {
         User user = new User("admin", Utility.adminPassword);
         user.setRole(UserRoles.ADMIN);
         create(user);
+        Utility.logging(user.getId(), "registration");
     }
 
     @Override

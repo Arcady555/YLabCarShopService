@@ -5,6 +5,7 @@ import ru.parfenov.homework_1.server.model.Car;
 import ru.parfenov.homework_1.server.model.User;
 import ru.parfenov.homework_1.server.service.CarService;
 import ru.parfenov.homework_1.server.service.OrderService;
+import ru.parfenov.homework_1.server.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -56,6 +57,7 @@ public class CreateOrderPage {
             }
         }
         orderService.create(user, carId, orderType);
+        Utility.logging(user.getId(), "create order");
         Thread.sleep(5000);
     }
 }

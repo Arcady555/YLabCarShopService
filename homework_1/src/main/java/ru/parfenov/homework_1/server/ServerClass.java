@@ -12,6 +12,9 @@ public class ServerClass {
      * Вывод стартовой страницы
      */
     public void run() throws IOException, InterruptedException {
+        LogStore logStore = new LogStore();
+        LogService logService = new LogService(logStore);
+
         UserStore userStore = new UserStoreConsoleImpl();
         UserService userService = new UserServiceConsoleImpl(userStore);
 
@@ -21,7 +24,7 @@ public class ServerClass {
         OrderStore orderStore = new OrderStoreConsoleImpl();
         OrderService orderService = new OrderServiceConsoleImpl(orderStore);
 
-        StartPage page = new StartPage(userService, carService, orderService);
+        StartPage page = new StartPage(userService, carService, orderService, logService);
         page.run();
     }
 }

@@ -5,6 +5,7 @@ import ru.parfenov.homework_1.server.enums.UserRoles;
 import ru.parfenov.homework_1.server.model.Car;
 import ru.parfenov.homework_1.server.model.User;
 import ru.parfenov.homework_1.server.service.CarService;
+import ru.parfenov.homework_1.server.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -132,6 +133,7 @@ public class UpdateCarPage {
             }
         }
         carService.update(car);
+        Utility.logging(user.getId(), "update car info");
         Thread.sleep(5000);
     }
 }
