@@ -2,7 +2,6 @@ package ru.parfenov.homework_1.server.pages.manager;
 
 import ru.parfenov.homework_1.server.enums.OrderStatus;
 import ru.parfenov.homework_1.server.enums.OrderType;
-import ru.parfenov.homework_1.server.model.Order;
 import ru.parfenov.homework_1.server.service.OrderService;
 
 import java.io.BufferedReader;
@@ -22,7 +21,6 @@ public class OrderWithMyParametersPage {
         int orderId = 0;
         try {
             orderId = Integer.parseInt(reader.readLine());
-           // service.findById(orderId);
         } catch (NumberFormatException e) {
             System.out.println("Please enter the NUMBER!");
             run();

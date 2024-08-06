@@ -1,6 +1,5 @@
 package ru.parfenov.homework_1.server.pages.manager;
 
-import ru.parfenov.homework_1.server.model.Order;
 import ru.parfenov.homework_1.server.service.OrderService;
 
 import java.io.BufferedReader;

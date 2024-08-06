@@ -11,6 +11,9 @@ public class Car {
     private int price;
     private CarCondition condition;
 
+    public Car() {
+    }
+
     public Car(int id, User owner, String brand, String model, int yearOfProd, int price, CarCondition condition) {
         this.id = id;
         this.owner = owner;

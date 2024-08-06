@@ -1,6 +1,5 @@
 package ru.parfenov.homework_1.server.pages.client;
 
-import ru.parfenov.homework_1.server.model.Car;
 import ru.parfenov.homework_1.server.service.CarService;
 
 import java.io.BufferedReader;

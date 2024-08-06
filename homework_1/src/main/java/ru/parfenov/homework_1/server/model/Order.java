@@ -11,6 +11,9 @@ public class Order {
     private OrderType type;
     private OrderStatus status;
 
+    public Order() {
+    }
+
     public Order(int id, User author, int carId, OrderType type, OrderStatus status) {
         this.id = id;
         this.author = author;
