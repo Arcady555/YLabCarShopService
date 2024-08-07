@@ -42,9 +42,7 @@ public class DeleteOrderPage {
         String answerDelete = reader.readLine();
         if (answerDelete.equals("0")) {
             orderService.delete(order);
-            Utility.logging(user.getId(), "delete car");
-        } else {
-            run();
+            Utility.logging(user.getId(), "delete order");
         }
     }
 }

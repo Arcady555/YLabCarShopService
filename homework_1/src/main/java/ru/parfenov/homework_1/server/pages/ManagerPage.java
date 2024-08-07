@@ -5,6 +5,7 @@ import ru.parfenov.homework_1.server.pages.client.*;
 import ru.parfenov.homework_1.server.pages.manager.AllOrdersPage;
 import ru.parfenov.homework_1.server.pages.manager.OrderPage;
 import ru.parfenov.homework_1.server.pages.manager.OrderWithMyParametersPage;
+import ru.parfenov.homework_1.server.pages.manager.UpdateOrderPage;
 import ru.parfenov.homework_1.server.service.CarService;
 import ru.parfenov.homework_1.server.service.OrderService;
 
@@ -69,8 +70,8 @@ public class ManagerPage {
                     orderWithMyParametersPage.run();
                 }
                 case "7" -> {
-                    DeleteOrderPage deleteOrderPage = new DeleteOrderPage(user, orderService);
-                    deleteOrderPage.run();
+                    UpdateOrderPage updateOrderPage = new UpdateOrderPage(user, orderService);
+                    updateOrderPage.run();
                 }
                 case "8" -> {
                     return;
