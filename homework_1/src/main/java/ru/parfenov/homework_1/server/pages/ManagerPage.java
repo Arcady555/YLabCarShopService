@@ -12,8 +12,9 @@ import ru.parfenov.homework_1.server.service.OrderService;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
-public class ManagerPage {
+public class ManagerPage implements UserMenuPage {
     private final User user;
     private final CarService carService;
     private final OrderService orderService;
@@ -26,6 +27,16 @@ public class ManagerPage {
     }
 
     public void run() throws IOException, InterruptedException {
+        List<UserMenuPage> managerMenuList = List.of(
+                new AllCarPage(carService),
+                new CarPage(carService),
+                new CarWithMyParametersPage(carService),
+                new UpdateCarPage(user, carService),
+                new AllOrdersPage(orderService),
+                new OrderPage(orderService),
+                new OrderWithMyParametersPage(orderService),
+                new UpdateOrderPage(user, orderService)
+        );
         while (true) {
             System.out.println("""
                     What operation?
@@ -39,44 +50,21 @@ public class ManagerPage {
                     7 - update or delete order
                     8 - exit
                     """);
-            String answer = reader.readLine();
-            switch (answer) {
-                case "0" -> {
-                    AllCarPage allCarPage = new AllCarPage(carService);
-                    allCarPage.run();
+            String answerStr = reader.readLine();
+            UserMenuPage managerMenuPage;
+            try {
+                int answer = Integer.parseInt(answerStr);
+                if (answer == 8) return;
+                managerMenuPage = managerMenuList.get(answer);
+                if (managerMenuPage == null) {
+                    System.out.println("Please enter correct" + System.lineSeparator());
+                    run();
                 }
-                case "1" -> {
-                    CarPage carPage = new CarPage(carService);
-                    carPage.run();
-                }
-                case "2" -> {
-                    CarWithMyParametersPage carWithMyParametersPage = new CarWithMyParametersPage(carService);
-                    carWithMyParametersPage.run();
-                }
-                case "3" -> {
-                    UpdateCarPage updateCarPage = new UpdateCarPage(user, carService);
-                    updateCarPage.run();
-                }
-                case "4" -> {
-                    AllOrdersPage allOrdersPage = new AllOrdersPage(orderService);
-                    allOrdersPage.run();
-                }
-                case "5" -> {
-                    OrderPage orderPage = new OrderPage(orderService);
-                    orderPage.run();
-                }
-                case "6" -> {
-                    OrderWithMyParametersPage orderWithMyParametersPage = new OrderWithMyParametersPage(orderService);
-                    orderWithMyParametersPage.run();
-                }
-                case "7" -> {
-                    UpdateOrderPage updateOrderPage = new UpdateOrderPage(user, orderService);
-                    updateOrderPage.run();
-                }
-                case "8" -> {
-                    return;
-                }
-                default -> System.out.println("Please enter correct" + System.lineSeparator());
+                assert managerMenuPage != null;
+                managerMenuPage.run();
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter the NUMBER!" + System.lineSeparator());
+                run();
             }
         }
     }

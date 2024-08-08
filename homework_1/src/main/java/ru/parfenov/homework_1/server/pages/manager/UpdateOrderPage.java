@@ -3,6 +3,7 @@ package ru.parfenov.homework_1.server.pages.manager;
 import ru.parfenov.homework_1.server.enums.OrderStatus;
 import ru.parfenov.homework_1.server.model.Order;
 import ru.parfenov.homework_1.server.model.User;
+import ru.parfenov.homework_1.server.pages.UserMenuPage;
 import ru.parfenov.homework_1.server.service.OrderService;
 import ru.parfenov.homework_1.server.utility.Utility;
 
@@ -14,7 +15,7 @@ import java.io.InputStreamReader;
  * Страница, где менеджер может перевести любой заказ в статус ЗАКРЫТ
  */
 
-public class UpdateOrderPage {
+public class UpdateOrderPage implements UserMenuPage {
     private final User user;
     private final OrderService service;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

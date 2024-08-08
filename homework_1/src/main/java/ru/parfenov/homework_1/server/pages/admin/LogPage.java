@@ -1,6 +1,7 @@
 package ru.parfenov.homework_1.server.pages.admin;
 
 import ru.parfenov.homework_1.server.model.LineInLog;
+import ru.parfenov.homework_1.server.pages.UserMenuPage;
 import ru.parfenov.homework_1.server.service.LogService;
 
 import java.io.BufferedReader;
@@ -13,7 +14,7 @@ import java.util.List;
  * Страница, где админ может найти в логе инф по клиенту, по дате и по виду операции
  */
 
-public class LogPage {
+public class LogPage implements UserMenuPage {
     private final LogService service;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 

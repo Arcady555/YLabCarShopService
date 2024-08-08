@@ -3,6 +3,7 @@ package ru.parfenov.homework_1.server.pages.client;
 import ru.parfenov.homework_1.server.enums.OrderType;
 import ru.parfenov.homework_1.server.model.Car;
 import ru.parfenov.homework_1.server.model.User;
+import ru.parfenov.homework_1.server.pages.UserMenuPage;
 import ru.parfenov.homework_1.server.service.CarService;
 import ru.parfenov.homework_1.server.service.OrderService;
 import ru.parfenov.homework_1.server.utility.Utility;
@@ -16,7 +17,7 @@ import java.io.InputStreamReader;
  * или на сервис машины(если машина его)
  */
 
-public class CreateOrderPage {
+public class CreateOrderPage implements UserMenuPage {
     private final User user;
     private final OrderService orderService;
     private final CarService carService;

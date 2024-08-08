@@ -3,6 +3,7 @@ package ru.parfenov.homework_1.server.pages.client;
 import ru.parfenov.homework_1.server.enums.UserRoles;
 import ru.parfenov.homework_1.server.model.Order;
 import ru.parfenov.homework_1.server.model.User;
+import ru.parfenov.homework_1.server.pages.UserMenuPage;
 import ru.parfenov.homework_1.server.service.OrderService;
 import ru.parfenov.homework_1.server.utility.Utility;
 
@@ -15,7 +16,7 @@ import java.io.InputStreamReader;
  * (если он автор этого заказа)
  */
 
-public class DeleteOrderPage {
+public class DeleteOrderPage implements UserMenuPage {
     private final User user;
     private final OrderService orderService;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

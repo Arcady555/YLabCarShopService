@@ -1,6 +1,7 @@
 package ru.parfenov.homework_1.server.pages.admin;
 
 import ru.parfenov.homework_1.server.enums.UserRoles;
+import ru.parfenov.homework_1.server.pages.UserMenuPage;
 import ru.parfenov.homework_1.server.service.UserService;
 
 import java.io.BufferedReader;
@@ -11,7 +12,7 @@ import java.io.InputStreamReader;
  * Страница, где админ может сам создать любого юзера и с нужным профилем
  */
 
-public class CreateUserPage {
+public class CreateUserPage implements UserMenuPage {
     private final UserService service;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 

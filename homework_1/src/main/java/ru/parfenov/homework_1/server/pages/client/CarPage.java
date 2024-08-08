@@ -1,12 +1,13 @@
 package ru.parfenov.homework_1.server.pages.client;
 
+import ru.parfenov.homework_1.server.pages.UserMenuPage;
 import ru.parfenov.homework_1.server.service.CarService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class CarPage {
+public class CarPage implements UserMenuPage {
     private final CarService carService;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
