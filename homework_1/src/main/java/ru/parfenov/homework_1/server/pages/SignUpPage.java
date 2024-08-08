@@ -8,6 +8,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Страница регистрации.
+ * Есть проверки:
+ * на корректный ввод ID (должны быть цифры)
+ * на не пустой пароль
+ * После заполнения юзер вылетает обратно на стартовую страницу
+ */
+
 public class SignUpPage {
     private final UserService service;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

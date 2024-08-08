@@ -10,6 +10,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Страница, где клиент может удалить заявку на покупку или обслуживание машины
+ * (если он автор этого заказа)
+ */
+
 public class DeleteOrderPage {
     private final User user;
     private final OrderService orderService;

@@ -10,6 +10,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Страница, где пользователь может ввести машину в базу данных
+ */
+
 public class CreateCarPage {
     private final User user;
     private final CarService carService;

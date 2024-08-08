@@ -7,6 +7,11 @@ import lombok.Setter;
 import ru.parfenov.homework_1.server.enums.OrderStatus;
 import ru.parfenov.homework_1.server.enums.OrderType;
 
+/**
+ * Модель заказа
+ * У заказа есть его создатель, id машины(на которую создали заказ), тип(продажа или сервис), статус(открыт или закрыт)
+ */
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -17,4 +22,13 @@ public class Order {
     private int carId;
     private OrderType type;
     private OrderStatus status;
+
+    @Override
+    public String toString() {
+        return "id: " + getId() + ", " +
+                "author: " + getAuthor() + ", " +
+                "car id: " + getCarId() + ", " +
+                "type: " + getType() + ", " +
+                "status: " + getStatus() + ".";
+    }
 }

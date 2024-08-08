@@ -16,5 +16,10 @@ public interface UserStore {
 
     List<User> findAll();
 
+    /**
+     * * Метод предполагает поиск по параметрам (всем или некоторые можно не указать)
+     * id юзера, его роль, имя, строка(может содержаться в контактной информации), число покупок
+     */
+
     List<User> findByParameters(int id, UserRoles role, String name, String contactInfo, int buysAmount);
 }

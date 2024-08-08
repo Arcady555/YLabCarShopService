@@ -11,6 +11,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Страница, где клиент может создать заявку на покупку машины(если машина не его)
+ * или на сервис машины(если машина его)
+ */
+
 public class CreateOrderPage {
     private final User user;
     private final OrderService orderService;

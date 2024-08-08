@@ -6,6 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.parfenov.homework_1.server.enums.CarCondition;
 
+/**
+ * Модель машины
+ * у машины есть собственник, бренд(марка), модель, год выпуска, цена и состояние(новая или б/у)
+ */
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -18,4 +23,15 @@ public class Car {
     private int yearOfProd;
     private int price;
     private CarCondition condition;
+
+    @Override
+    public String toString() {
+        return "id: " + getId() + ", " +
+                "owner: " + getOwner() + ", " +
+                "brand: " + getBrand() + ", " +
+                "model: " + getModel() + ", " +
+                "year of produce: " + getYearOfProd() + ", " +
+                "price: " + getPrice() + ", " +
+                "condition: " + getCondition() + ".";
+    }
 }

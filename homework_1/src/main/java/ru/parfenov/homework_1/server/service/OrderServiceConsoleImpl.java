@@ -9,6 +9,11 @@ import ru.parfenov.homework_1.server.utility.Utility;
 
 import java.util.List;
 
+/**
+ * Класс данного слоя служит прослойкой между голым хранилищем с его строгими методами и фронтом-страницами,
+ * добавляя и изменяя некоторую логику-функционал
+ */
+
 public class OrderServiceConsoleImpl implements OrderService {
     private final OrderStore store;
 

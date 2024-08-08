@@ -11,6 +11,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Страница входа в систему.
+ * Есть проверки:
+ * на корректный ввод ID (должны быть цифры)
+ * на наличие такого ID в базе данных
+ * на правильный пароль
+ * После заполнения юзер переходит(в зависимости от своей роли)
+ * или на страницу с функционалом админа
+ * или на страницу с функционалом менеджера
+ * или на страницу с функционалом клиента
+ */
+
 public class SignInPage {
     private final UserService userService;
     private final CarService carService;

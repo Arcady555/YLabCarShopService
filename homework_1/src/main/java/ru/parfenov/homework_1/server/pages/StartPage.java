@@ -10,7 +10,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Выводит текст - меню для пользователя
+ * Выводит текст - меню для пользователя.
+ * Войти в приложение можно или через регистрацию, или через ввод своего ID
  */
 
 public class StartPage {

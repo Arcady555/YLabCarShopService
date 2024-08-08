@@ -6,6 +6,11 @@ import ru.parfenov.homework_1.server.store.LogStore;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Класс данного слоя служит прослойкой между голым хранилищем с его строгими методами и фронтом-страницами,
+ * добавляя и изменяя некоторую логику-функционал
+ */
+
 public class LogService {
     private final LogStore store;
 

@@ -9,6 +9,10 @@ import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Страница, где админ может найти в логе инф по клиенту, по дате и по виду операции
+ */
+
 public class LogPage {
     private final LogService service;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

@@ -19,5 +19,10 @@ public interface OrderStore {
 
     List<Order> findByAuthor(int authorId);
 
+    /**
+     * Метод предполагает поиск по параметрам (всем или некоторые можно не указать)
+     * id заказа, id автора заказа, id машины, тип заказа(продажа или сервис), статус(открыт или открыт)
+     */
+
     List<Order> findByParameter(int id, int authorId, int carId, OrderType type, OrderStatus status);
 }

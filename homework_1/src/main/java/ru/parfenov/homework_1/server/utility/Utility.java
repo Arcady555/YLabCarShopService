@@ -23,39 +23,19 @@ public class Utility {
 
     public static void printUser(User user) {
         if (user != null) {
-            System.out.println(
-                    "id: " + user.getId() + ", " +
-                            "role: " + user.getRole() + ", " +
-                            "name: " + user.getName() + ", " +
-                            "contact info: " + user.getContactInfo() + ", " +
-                            "buy amount: " + user.getBuysAmount() + "."
-            );
+            System.out.println(user);
         }
     }
 
     public static void printCar(Car car) {
         if (car != null) {
-            System.out.println(
-                    "id: " + car.getId() + ", " +
-                            "owner: " + car.getOwner() + ", " +
-                            "brand: " + car.getBrand() + ", " +
-                            "model: " + car.getModel() + ", " +
-                            "year of produce: " + car.getYearOfProd() + ", " +
-                            "price: " + car.getPrice() + ", " +
-                            "condition: " + car.getCondition() + "."
-            );
+            System.out.println(car);
         }
     }
 
     public static void printOrder(Order order) {
         if (order != null) {
-            System.out.println(
-                    "id: " + order.getId() + ", " +
-                            "author: " + order.getAuthor() + ", " +
-                            "car id: " + order.getCarId() + ", " +
-                            "type: " + order.getType() + ", " +
-                            "status: " + order.getStatus() + "."
-            );
+            System.out.println(order);
         }
     }
 

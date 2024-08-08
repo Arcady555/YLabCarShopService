@@ -7,6 +7,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Страница, где админ может сам создать любого юзера и с нужным профилем
+ */
+
 public class CreateUserPage {
     private final UserService service;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

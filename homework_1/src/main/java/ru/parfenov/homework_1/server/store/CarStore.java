@@ -18,6 +18,12 @@ public interface CarStore {
 
     List<Car> findAll();
 
+    /**
+     * Метод предполагает поиск по параметрам (всем или некоторые можно не указать)
+     * id машины, id собственника, марка, модель, года выпуска, выше указанной цены,
+     * ниже указанной цены, состояние.
+     */
+
     List<Car> findByParameter(
             int id, int ownerId, String brand, String model, int yearOfProd,
             int priceFrom, int priceTo, CarCondition condition

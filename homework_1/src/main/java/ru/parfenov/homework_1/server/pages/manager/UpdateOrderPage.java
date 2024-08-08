@@ -10,6 +10,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Страница, где менеджер может перевести любой заказ в статус ЗАКРЫТ
+ */
+
 public class UpdateOrderPage {
     private final User user;
     private final OrderService service;
