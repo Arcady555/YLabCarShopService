@@ -22,7 +22,7 @@ public class LogStore {
     public List<LineInLog> findByDateTimeTo(LocalDateTime dateTime) {
         List<LineInLog> result = new ArrayList<>();
         for (LineInLog element : findAll()) {
-            if (element.getTime().isBefore(dateTime)) {
+            if (element.time().isBefore(dateTime)) {
                 result.add(element);
             }
         }
@@ -32,7 +32,7 @@ public class LogStore {
     public List<LineInLog> findByDateTimeFrom(LocalDateTime dateTime) {
         List<LineInLog> result = new ArrayList<>();
         for (LineInLog element : findAll()) {
-            if (element.getTime().isAfter(dateTime)) {
+            if (element.time().isAfter(dateTime)) {
                 result.add(element);
             }
         }
@@ -42,7 +42,7 @@ public class LogStore {
     public List<LineInLog> findByUserId(String userId) {
         List<LineInLog> result = new ArrayList<>();
         for (LineInLog element : findAll()) {
-            String[] array = element.getUserId().split(":");
+            String[] array = element.userId().split(":");
             if (array[1].equals(userId)) {
                 result.add(element);
             }
@@ -77,11 +77,11 @@ public class LogStore {
         for (LineInLog element : list) {
             builder
                     .append("INFO: ")
-                    .append(element.getTime())
+                    .append(element.time())
                     .append(" user: ")
-                    .append(element.getUserId())
+                    .append(element.userId())
                     .append(" action: ")
-                    .append(element.getAction())
+                    .append(element.action())
                     .append(System.lineSeparator());
         }
         return builder.toString();

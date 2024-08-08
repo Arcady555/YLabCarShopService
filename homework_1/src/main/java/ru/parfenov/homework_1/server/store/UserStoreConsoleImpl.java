@@ -46,11 +46,7 @@ public class UserStoreConsoleImpl implements UserStore {
 
     @Override
     public List<User> findAll() {
-        List<User> list = new ArrayList<>();
-        for (Map.Entry<Integer, User> element : userMap.entrySet()) {
-            list.add(element.getValue());
-        }
-        return list;
+        return new ArrayList<>(userMap.values());
     }
 
     @Override

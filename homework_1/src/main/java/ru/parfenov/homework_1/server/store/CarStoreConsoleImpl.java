@@ -48,11 +48,7 @@ public class CarStoreConsoleImpl implements CarStore {
 
     @Override
     public List<Car> findAll() {
-        List<Car> list = new ArrayList<>();
-        for (Map.Entry<Integer, Car> element : carMap.entrySet()) {
-            list.add(element.getValue());
-        }
-        return list;
+        return new ArrayList<>(carMap.values());
     }
 
     @Override

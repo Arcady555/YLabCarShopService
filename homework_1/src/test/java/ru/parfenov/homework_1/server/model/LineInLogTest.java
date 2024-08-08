@@ -11,13 +11,13 @@ class LineInLogTest {
     public void returns_correct_localdatetime() {
         LocalDateTime expectedTime = LocalDateTime.of(2023, 10, 1, 12, 0);
         LineInLog log = new LineInLog(expectedTime, "user123", "login");
-        assertEquals(expectedTime, log.getTime());
+        assertEquals(expectedTime, log.time());
     }
 
     @Test
     public void handles_null_localdatetime() {
         LineInLog log = new LineInLog(null, "user123", "login");
-        assertNull(log.getTime());
+        assertNull(log.time());
     }
     @Test
     public void test_returns_correct_userid() {
@@ -25,7 +25,7 @@ class LineInLogTest {
         String userId = "user123";
         String action = "login";
         LineInLog lineInLog = new LineInLog(time, userId, action);
-        assertEquals(userId, lineInLog.getUserId());
+        assertEquals(userId, lineInLog.userId());
     }
 
     @Test
@@ -34,7 +34,7 @@ class LineInLogTest {
         String userId = null;
         String action = "login";
         LineInLog lineInLog = new LineInLog(time, userId, action);
-        assertNull(lineInLog.getUserId());
+        assertNull(lineInLog.userId());
     }
 
 }

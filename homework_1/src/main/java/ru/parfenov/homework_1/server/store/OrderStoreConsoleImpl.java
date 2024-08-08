@@ -4,10 +4,7 @@ import ru.parfenov.homework_1.server.enums.OrderStatus;
 import ru.parfenov.homework_1.server.enums.OrderType;
 import ru.parfenov.homework_1.server.model.Order;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class OrderStoreConsoleImpl implements OrderStore {
     private static int orderId = 0;
@@ -39,11 +36,7 @@ public class OrderStoreConsoleImpl implements OrderStore {
 
     @Override
     public List<Order> findAll() {
-        List<Order> list = new ArrayList<>();
-        for (Map.Entry<Integer, Order> element : orderMap.entrySet()) {
-            list.add(element.getValue());
-        }
-        return list;
+        return new ArrayList<>(orderMap.values());
     }
 
     @Override

@@ -44,9 +44,9 @@ public class LogService {
     private void printLogLines(List<LineInLog> list) {
         for (LineInLog element : list) {
             System.out.println(
-                    element.getTime() + " " +
-                            element.getUserId() + " " +
-                            element.getAction()
+                    element.time() + " " +
+                            element.userId() + " " +
+                            element.action()
             );
         }
     }
