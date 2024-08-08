@@ -10,6 +10,7 @@ import ru.parfenov.homework_1.server.service.UserService;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Map;
 
 /**
  * Страница входа в систему.
@@ -49,6 +50,11 @@ public class SignInPage {
             run();
         }
         User user = userService.findById(id);
+        Map<UserRoles, UserMenuPage> userMenuMap = Map.of(
+                UserRoles.ADMIN, new AdminPage(user, userService, carService, orderService, logService),
+                UserRoles.MANAGER, new ManagerPage(user, carService, orderService),
+                UserRoles.CLIENT, new ClientPage(user, carService, orderService)
+        );
         if (user == null) {
             System.out.println("User not found!");
             run();
@@ -56,16 +62,8 @@ public class SignInPage {
             System.out.println("Enter password");
             String password = reader.readLine();
             if (password.equals(user.getPassword())) {
-                if (user.getRole().equals(UserRoles.ADMIN)) {
-                    AdminPage page = new AdminPage(user, userService, carService, orderService, logService);
-                    page.run();
-                } else if (user.getRole().equals(UserRoles.MANAGER)) {
-                    ManagerPage page = new ManagerPage(user, carService, orderService);
-                    page.run();
-                } else {
-                    ClientPage page = new ClientPage(user, carService, orderService);
-                    page.run();
-                }
+                UserMenuPage userMenuPage = userMenuMap.get(user.getRole());
+                userMenuPage.run();
             } else {
                 System.out.println("Not correct password!\n");
                 run();
