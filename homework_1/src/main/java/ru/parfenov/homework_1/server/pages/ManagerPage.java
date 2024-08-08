@@ -26,6 +26,7 @@ public class ManagerPage implements UserMenuPage {
         this.orderService = orderService;
     }
 
+    @Override
     public void run() throws IOException, InterruptedException {
         List<UserMenuPage> managerMenuList = List.of(
                 new AllCarPage(carService),

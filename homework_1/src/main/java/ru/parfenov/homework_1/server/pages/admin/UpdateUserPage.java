@@ -18,6 +18,7 @@ public class UpdateUserPage implements UserMenuPage {
         this.service = service;
     }
 
+    @Override
     public void run() throws IOException, InterruptedException {
         System.out.println("Enter the id of the desired user");
         int userId = 0;

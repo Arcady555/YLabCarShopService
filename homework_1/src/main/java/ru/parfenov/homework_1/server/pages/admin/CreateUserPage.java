@@ -20,6 +20,7 @@ public class CreateUserPage implements UserMenuPage {
         this.service = service;
     }
 
+    @Override
     public void run() throws IOException, InterruptedException {
         System.out.println("Enter user role 0 - ADMIN,  1 - MANAGER, 2 - CLIENT");
         String answer = reader.readLine();

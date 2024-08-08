@@ -10,6 +10,7 @@ public class AllUserPage implements UserMenuPage {
         this.service = service;
     }
 
+    @Override
     public void run() {
         service.findAll();
     }

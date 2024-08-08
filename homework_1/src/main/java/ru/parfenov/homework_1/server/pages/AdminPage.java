@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
-public class AdminPage {
+public class AdminPage implements UserMenuPage {
     private final User user;
     private final UserService userService;
     private final CarService carService;
@@ -28,6 +28,7 @@ public class AdminPage {
         this.logService = logService;
     }
 
+    @Override
     public void run() throws IOException, InterruptedException {
         List<UserMenuPage> adminMenuList = List.of(
                 new AllUserPage(userService),

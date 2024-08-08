@@ -12,6 +12,7 @@ public class AllCarPage implements UserMenuPage {
         this.carService = carService;
     }
 
+    @Override
     public void run() throws IOException, InterruptedException {
         carService.findAll();
     }

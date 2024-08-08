@@ -22,6 +22,7 @@ public class LogPage implements UserMenuPage {
         this.service = service;
     }
 
+    @Override
     public void run() throws IOException {
         System.out.println(
                 "Do you want to see all logs?" +
