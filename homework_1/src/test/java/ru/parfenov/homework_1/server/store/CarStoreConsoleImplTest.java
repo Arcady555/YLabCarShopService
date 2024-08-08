@@ -1,5 +1,6 @@
 package ru.parfenov.homework_1.server.store;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.parfenov.homework_1.server.enums.CarCondition;
 import ru.parfenov.homework_1.server.enums.UserRoles;
@@ -10,9 +11,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@DisplayName("Тестирование хранилища машин")
 public class CarStoreConsoleImplTest {
 
     @Test
+    @DisplayName("Поиск машины по собственнику")
     public void test_find_by_user() {
         CarStoreConsoleImpl store = new CarStoreConsoleImpl();
         User user = new User(1, UserRoles.CLIENT, "John Doe", "password", "contact", 0);
@@ -25,6 +28,7 @@ public class CarStoreConsoleImplTest {
     }
 
     @Test
+    @DisplayName("Создание записи о машине")
     public void test_create_car_with_existing_id() {
         CarStoreConsoleImpl store = new CarStoreConsoleImpl();
         User user = new User(1, UserRoles.CLIENT, "John Doe", "password", "contact", 0);
@@ -36,6 +40,7 @@ public class CarStoreConsoleImplTest {
     }
 
     @Test
+    @DisplayName("Поиск машины в пустом списке")
     public void test_find_by_non_existent_id() {
         CarStoreConsoleImpl store = new CarStoreConsoleImpl();
         Car foundCar = store.findById(999);
@@ -43,6 +48,7 @@ public class CarStoreConsoleImplTest {
     }
 
     @Test
+    @DisplayName("Выявление пустого списка")
     public void test_find_by_user_with_no_cars() {
         CarStoreConsoleImpl store = new CarStoreConsoleImpl();
         List<Car> cars = store.findByUser(999);
@@ -50,6 +56,7 @@ public class CarStoreConsoleImplTest {
     }
 
     @Test
+    @DisplayName("Обновление несуществующей машины")
     public void test_update_non_existent_car() {
         CarStoreConsoleImpl store = new CarStoreConsoleImpl();
         User user = new User(1, UserRoles.CLIENT, "John Doe", "password", "contact", 0);

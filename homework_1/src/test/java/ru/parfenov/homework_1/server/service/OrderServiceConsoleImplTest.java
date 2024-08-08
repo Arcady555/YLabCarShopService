@@ -1,5 +1,6 @@
 package ru.parfenov.homework_1.server.service;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.parfenov.homework_1.server.enums.OrderStatus;
 import ru.parfenov.homework_1.server.enums.OrderType;
@@ -12,9 +13,11 @@ import ru.parfenov.homework_1.server.store.OrderStore;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@DisplayName("Тестирование сервиса заказов")
 public class OrderServiceConsoleImplTest {
 
     @Test
+    @DisplayName("Поиск заказа по ID")
     public void find_existing_order_by_id() {
         OrderStore store = mock(OrderStore.class);
         User user = new User(1, UserRoles.CLIENT, "John Doe", "password", "contact", 0);
@@ -29,6 +32,7 @@ public class OrderServiceConsoleImplTest {
     }
 
     @Test
+    @DisplayName("Обновление заказа")
     public void update_existing_order() {
         OrderStore store = mock(OrderStore.class);
         User user = new User(1, UserRoles.CLIENT, "John Doe", "password", "contact", 0);
@@ -41,6 +45,7 @@ public class OrderServiceConsoleImplTest {
     }
 
     @Test
+    @DisplayName("Удаление заказа")
     public void delete_existing_order() {
         OrderStore store = mock(OrderStore.class);
         User user = new User(1, UserRoles.CLIENT, "John Doe", "password", "contact", 0);
@@ -55,6 +60,7 @@ public class OrderServiceConsoleImplTest {
     }
 
     @Test
+    @DisplayName("Поиск заказа по несуществующему ID")
     public void find_order_by_non_existent_id() {
         OrderStore store = mock(OrderStore.class);
         when(store.findById(999)).thenReturn(null);
@@ -67,6 +73,7 @@ public class OrderServiceConsoleImplTest {
     }
 
     @Test
+    @DisplayName("Обновление несуществующего заказа")
     public void update_non_existent_order() {
         OrderStore store = mock(OrderStore.class);
         User user = new User(1, UserRoles.CLIENT, "John Doe", "password", "contact", 0);
@@ -84,6 +91,7 @@ public class OrderServiceConsoleImplTest {
     }
 
     @Test
+    @DisplayName("Удаление несуществующего заказа")
     public void delete_non_existent_order() {
         OrderStore store = mock(OrderStore.class);
         User user = new User(1, UserRoles.CLIENT, "John Doe", "password", "contact", 0);

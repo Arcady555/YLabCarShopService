@@ -1,5 +1,6 @@
 package ru.parfenov.homework_1.server.service;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.parfenov.homework_1.server.enums.CarCondition;
 import ru.parfenov.homework_1.server.enums.UserRoles;
@@ -13,9 +14,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@DisplayName("Тестирование сервиса машин")
 public class CarServiceConsoleImplTest {
 
     @Test
+    @DisplayName("Создание машины")
     public void create_car_with_valid_parameters() {
         CarStore store = mock(CarStore.class);
         CarServiceConsoleImpl service = new CarServiceConsoleImpl(store);
@@ -32,6 +35,7 @@ public class CarServiceConsoleImplTest {
     }
 
     @Test
+    @DisplayName("Поиск машины по ID")
     public void find_car_by_valid_id() {
         CarStore store = mock(CarStore.class);
         CarServiceConsoleImpl service = new CarServiceConsoleImpl(store);
@@ -48,6 +52,7 @@ public class CarServiceConsoleImplTest {
     }
 
     @Test
+    @DisplayName("Поиск машины по собственнику")
     public void find_cars_by_valid_user_id() {
         CarStore store = mock(CarStore.class);
         CarServiceConsoleImpl service = new CarServiceConsoleImpl(store);
@@ -67,6 +72,7 @@ public class CarServiceConsoleImplTest {
     }
 
     @Test
+    @DisplayName("Поиск машины по несуществующему ID")
     public void find_car_by_invalid_id() {
         CarStore store = mock(CarStore.class);
         CarServiceConsoleImpl service = new CarServiceConsoleImpl(store);
@@ -80,6 +86,7 @@ public class CarServiceConsoleImplTest {
     }
 
     @Test
+    @DisplayName("Поиск машины в пустом списке")
     public void find_cars_by_user_id_with_no_cars() {
         CarStore store = mock(CarStore.class);
         CarServiceConsoleImpl service = new CarServiceConsoleImpl(store);
@@ -94,6 +101,7 @@ public class CarServiceConsoleImplTest {
     }
 
     @Test
+    @DisplayName("Обновление несуществующей машины")
     public void update_non_existent_car() {
         CarStore store = mock(CarStore.class);
         CarServiceConsoleImpl service = new CarServiceConsoleImpl(store);

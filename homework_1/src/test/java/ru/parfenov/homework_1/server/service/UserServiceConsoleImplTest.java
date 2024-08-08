@@ -1,5 +1,6 @@
 package ru.parfenov.homework_1.server.service;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.parfenov.homework_1.server.enums.UserRoles;
 import ru.parfenov.homework_1.server.model.User;
@@ -10,9 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@DisplayName("Тестирование сервиса юзеров")
 public class UserServiceConsoleImplTest {
 
     @Test
+    @DisplayName("Обновление и печать")
     public void update_user_should_store_and_print_details() {
         UserStore store = mock(UserStore.class);
         UserServiceConsoleImpl service = new UserServiceConsoleImpl(store);
@@ -24,6 +27,7 @@ public class UserServiceConsoleImplTest {
     }
 
     @Test
+    @DisplayName("Обновление несуществующего юзера")
     public void update_non_existent_user_should_handle_error_gracefully() {
         UserStore store = mock(UserStore.class);
         UserServiceConsoleImpl service = new UserServiceConsoleImpl(store);
@@ -34,6 +38,7 @@ public class UserServiceConsoleImplTest {
     }
 
     @Test
+    @DisplayName("Удаление несуществующего юзера")
     public void delete_non_existent_user_should_handle_error_gracefully() {
         UserStore store = mock(UserStore.class);
         UserServiceConsoleImpl service = new UserServiceConsoleImpl(store);
