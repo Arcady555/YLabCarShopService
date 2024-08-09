@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <property name="now" value="now()" dbms="postgresql"/>
+    <changeSet id="01" author="Arcady555">
+
+        <createSequence
+                        startValue="1"
+                        incrementBy="1"
+                        sequenceName="cs_users"/>
+
+        <createSequence
+                startValue="1"
+                incrementBy="1"
+                sequenceName="cs_cars"/>
+
+        <createSequence
+                startValue="1"
+                incrementBy="1"
+                sequenceName="cs_orders"/>
+
+        <createSequence
+                startValue="1"
+                incrementBy="1"
+                sequenceName="cs_log"/>
+
+        <createTable tableName="users" schemaName="cs_schema">
+            <column name="id" type="int" defaultValueComputed="nextval('cs_users')"/>
+            <column name="user_role" type="varchar(50)"/>
+            <column name="name" type="varchar(50)"/>
+            <column name="password" type="varchar(100)"/>
+            <column name="contact_info" type="varchar(1000)"/>
+            <column name="buys_amount" type="int"/>
+        </createTable>
+
+        <createTable tableName="cars" schemaName="cs_schema">
+            <column name="id" type="int" defaultValueComputed="nextval('cs_cars')"/>
+            <column name="owner_id" type="int"/>
+            <column name="brand" type="varchar(50)"/>
+            <column name="model" type="varchar(50)"/>
+            <column name="year_of_prod" type="int"/>
+            <column name="price" type="int"/>
+            <column name="car_condition" type="varchar(50)"/>
+        </createTable>
+
+        <createTable tableName="orders" schemaName="cs_schema">
+            <column name="id" type="int" defaultValueComputed="nextval('cs_orders')"/>
+            <column name="author_id" type="int"/>
+            <column name="car_id" type="int"/>
+            <column name="order_type" type="varchar(50)"/>
+            <column name="order_status" type="varchar(50)"/>
+        </createTable>
+
+        <createTable tableName="log_records" schemaName="cs_schema">
+            <column name="id" type="bigint" defaultValueComputed="nextval('cs_log')"/>
+            <column name="date_time" type="timestamp"/>
+            <column name="user_id" type="int"/>
+            <column name="action" type="varchar"/>
+        </createTable>
+
+    </changeSet>
+</databaseChangeLog>
