@@ -27,6 +27,10 @@
                 incrementBy="1"
                 sequenceName="cs_log"/>
 
+        <sql>
+            CREATE SCHEMA IF NOT EXISTS cs_schema;
+        </sql>
+
         <createTable tableName="users" schemaName="cs_schema">
             <column name="id" type="int" defaultValueComputed="nextval('cs_users')"/>
             <column name="user_role" type="varchar(50)"/>
