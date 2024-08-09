@@ -1,6 +1,6 @@
 package ru.parfenov;
 
-import ru.parfenov.homework_2.server.ServerClass;
+import ru.parfenov.homework_2.ServerClass;
 
 public class Main {
     public static void main(String[] args) throws Exception {
