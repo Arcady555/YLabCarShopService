@@ -4,12 +4,14 @@ import ru.parfenov.homework_2.enums.UserRole;
 import ru.parfenov.homework_2.model.Order;
 import ru.parfenov.homework_2.model.User;
 import ru.parfenov.homework_2.pages.UserMenuPage;
+import ru.parfenov.homework_2.service.LogService;
 import ru.parfenov.homework_2.service.OrderService;
 import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
 
 /**
  * Страница, где клиент может удалить заявку на покупку или обслуживание машины
@@ -19,11 +21,13 @@ import java.io.InputStreamReader;
 public class DeleteOrderPage implements UserMenuPage {
     private final User user;
     private final OrderService orderService;
+    private final LogService logService;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public DeleteOrderPage(User user, OrderService orderService) {
+    public DeleteOrderPage(User user, OrderService orderService, LogService logService) {
         this.user = user;
         this.orderService = orderService;
+        this.logService = logService;
     }
 
     @Override
@@ -49,7 +53,10 @@ public class DeleteOrderPage implements UserMenuPage {
         String answerDelete = reader.readLine();
         if (answerDelete.equals("0")) {
             orderService.delete(order);
-            Utility.logging(user.getId(), "delete order");
+            logService.saveLineInLog(
+                    LocalDateTime.now(),
+                    user.getId(),
+                    "delete the order with ID:" + order.getId());
         }
     }
 }

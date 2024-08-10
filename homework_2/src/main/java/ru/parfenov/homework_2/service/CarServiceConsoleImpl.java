@@ -1,5 +1,6 @@
 package ru.parfenov.homework_2.service;
 
+import lombok.AllArgsConstructor;
 import ru.parfenov.homework_2.enums.CarCondition;
 import ru.parfenov.homework_2.model.Car;
 import ru.parfenov.homework_2.store.CarStore;
@@ -12,12 +13,9 @@ import java.util.List;
  * добавляя и изменяя некоторую логику-функционал
  */
 
+@AllArgsConstructor
 public class CarServiceConsoleImpl implements CarService {
     private final CarStore store;
-
-    public CarServiceConsoleImpl(CarStore store) {
-        this.store = store;
-    }
 
     @Override
     public Car create(int ownerId, String brand, String model, int yearOfProd, int price, CarCondition condition) {

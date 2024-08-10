@@ -61,7 +61,7 @@
         <createTable tableName="log_records" schemaName="cs_schema">
             <column name="id" type="bigint" defaultValueComputed="nextval('cs_log')"/>
             <column name="date_time" type="timestamp"/>
-            <column name="user_id" type="int"/>
+            <column name="user_id" type="varchar(50)"/>
             <column name="action" type="varchar"/>
         </createTable>
 

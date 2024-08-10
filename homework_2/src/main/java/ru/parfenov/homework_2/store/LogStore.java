@@ -1,81 +1,126 @@
 package ru.parfenov.homework_2.store;
 
-public class LogStore {
-  /*  List<LineInLog> listLog = new ArrayList<>();
+import lombok.extern.slf4j.Slf4j;
+import ru.parfenov.homework_2.model.LineInLog;
+import ru.parfenov.homework_2.utility.Utility;
 
-    public LogStore() {
-        getLogList();
+import java.io.InputStream;
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+
+@Slf4j
+public class LogStore {
+    private final Connection connection;
+
+    public LogStore() throws Exception {
+        InputStream in = UserStoreJdbcImpl.class.getClassLoader()
+                .getResourceAsStream("db/liquibase.properties");
+        this.connection = Utility.loadConnection(in);
+    }
+
+    public LogStore(Connection connection) throws Exception {
+        this.connection = connection;
+    }
+
+    public void create(LineInLog lineInLog) {
+        try (PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO cs_schema.log_records(" +
+                        "date_time," +
+                        " user_id," +
+                        " action" +
+                        ")" +
+                        " VALUES (?, ?, ?)")
+        ) {
+            statement.setTimestamp(1, Timestamp.valueOf(lineInLog.time()));
+            statement.setString(2, lineInLog.userId());
+            statement.setString(3, lineInLog.action());
+            statement.execute();
+        } catch (Exception e) {
+            log.error("Exception in LogStore.create()!", e);
+        }
     }
 
     public List<LineInLog> findAll() {
-        return listLog;
+        List<LineInLog> logList = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.log_records")) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    LineInLog lineInLog = returnLogRecord(resultSet);
+                    logList.add(lineInLog);
+                }
+            }
+        } catch (Exception e) {
+            log.error("Exception in LogStore.findAll()!", e);
+        }
+        return logList;
     }
 
     public List<LineInLog> findByDateTimeTo(LocalDateTime dateTime) {
-        List<LineInLog> result = new ArrayList<>();
-        for (LineInLog element : findAll()) {
-            if (element.time().isBefore(dateTime)) {
-                result.add(element);
+        List<LineInLog> logList = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM cs_schema.log_records WHERE date_time < ?")
+        ) {
+            statement.setTimestamp(1, Timestamp.valueOf(dateTime));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    LineInLog lineInLog = returnLogRecord(resultSet);
+                    logList.add(lineInLog);
+                }
             }
+        } catch (Exception e) {
+            log.error("Exception in LogStore.findByDateTimeTo()!", e);
+            ;
         }
-        return result;
+        return logList;
     }
 
     public List<LineInLog> findByDateTimeFrom(LocalDateTime dateTime) {
-        List<LineInLog> result = new ArrayList<>();
-        for (LineInLog element : findAll()) {
-            if (element.time().isAfter(dateTime)) {
-                result.add(element);
+        List<LineInLog> logList = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM cs_schema.log_records WHERE date_time > ?")
+        ) {
+            statement.setTimestamp(1, Timestamp.valueOf(dateTime));
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    LineInLog lineInLog = returnLogRecord(resultSet);
+                    logList.add(lineInLog);
+                }
             }
+        } catch (Exception e) {
+            log.error("Exception in LogStore.findByDateTimeFrom()!", e);
+            ;
         }
-        return result;
+        return logList;
     }
 
     public List<LineInLog> findByUserId(String userId) {
-        List<LineInLog> result = new ArrayList<>();
-        for (LineInLog element : findAll()) {
-            String[] array = element.userId().split(":");
-            if (array[1].equals(userId)) {
-                result.add(element);
+        List<LineInLog> logList = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM cs_schema.log_records WHERE user_id = ?")
+        ) {
+            statement.setString(1, userId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    LineInLog lineInLog = returnLogRecord(resultSet);
+                    logList.add(lineInLog);
+                }
             }
+        } catch (Exception e) {
+            log.error("Exception in LogStore.findByUserId()!", e);
+            ;
         }
-        return result;
+        return logList;
     }
 
-    public void saveLog(List<LineInLog> list) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Utility.saveLogPath))) {
-            String data = listToString(list);
-            writer.write(data);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private LineInLog returnLogRecord(ResultSet resultSet) throws SQLException {
+        return new LineInLog(
+                resultSet.getLong("id"),
+                resultSet.getTimestamp("date_time").toLocalDateTime().truncatedTo(ChronoUnit.MINUTES),
+                resultSet.getString("user_id"),
+                resultSet.getString("action")
+        );
     }
-
-    private void getLogList() {
-        try (BufferedReader reader = new BufferedReader(new FileReader(Utility.logFilePath))) {
-            while (reader.readLine() != null) {
-                String logStr = reader.readLine();
-                String[] array = logStr.split(" ");
-                LineInLog lineInLog = new LineInLog(LocalDateTime.parse(array[1]), array[2], array[3]);
-                listLog.add(lineInLog);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private String listToString(List<LineInLog> list) {
-        StringBuilder builder = new StringBuilder();
-        for (LineInLog element : list) {
-            builder
-                    .append("INFO: ")
-                    .append(element.time())
-                    .append(" user: ")
-                    .append(element.userId())
-                    .append(" action: ")
-                    .append(element.action())
-                    .append(System.lineSeparator());
-        }
-        return builder.toString();
-    } */
 }

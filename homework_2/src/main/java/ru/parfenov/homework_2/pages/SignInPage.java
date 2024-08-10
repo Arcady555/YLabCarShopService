@@ -52,8 +52,8 @@ public class SignInPage {
         User user = userService.findById(id);
         Map<UserRole, UserMenuPage> userMenuMap = Map.of(
                 UserRole.ADMIN, new AdminPage(user, userService, carService, orderService, logService),
-                UserRole.MANAGER, new ManagerPage(user, carService, orderService),
-                UserRole.CLIENT, new ClientPage(user, carService, orderService)
+                UserRole.MANAGER, new ManagerPage(user, carService, orderService, logService),
+                UserRole.CLIENT, new ClientPage(user, carService, orderService, logService)
         );
         if (user == null) {
             System.out.println("User not found!");

@@ -3,6 +3,7 @@ package ru.parfenov.homework_2.pages;
 import ru.parfenov.homework_2.model.User;
 import ru.parfenov.homework_2.pages.client.*;
 import ru.parfenov.homework_2.service.CarService;
+import ru.parfenov.homework_2.service.LogService;
 import ru.parfenov.homework_2.service.OrderService;
 
 import java.io.BufferedReader;
@@ -14,24 +15,26 @@ public class ClientPage implements UserMenuPage {
     private final User user;
     private final CarService carService;
     private final OrderService orderService;
+    private final LogService logService;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public ClientPage(User user, CarService carService, OrderService orderService) {
+    public ClientPage(User user, CarService carService, OrderService orderService, LogService logService) {
         this.user = user;
         this.carService = carService;
         this.orderService = orderService;
+        this.logService = logService;
     }
 
     @Override
     public void run() throws IOException, InterruptedException {
         List<UserMenuPage> clientMenuList = List.of(
-                new CreateCarPage(user, carService),
-                new UpdateCarPage(user, carService),
+                new CreateCarPage(user, carService, logService),
+                new UpdateCarPage(user, carService, logService),
                 new AllCarPage(carService),
                 new CarPage(carService),
                 new CarWithMyParametersPage(carService),
-                new CreateOrderPage(user, orderService, carService),
-                new DeleteOrderPage(user, orderService)
+                new CreateOrderPage(user, orderService, carService, logService),
+                new DeleteOrderPage(user, orderService, logService)
         );
         while (true) {
             System.out.println("""

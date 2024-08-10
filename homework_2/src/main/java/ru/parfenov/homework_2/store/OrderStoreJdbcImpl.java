@@ -1,5 +1,6 @@
 package ru.parfenov.homework_2.store;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_2.enums.OrderStatus;
 import ru.parfenov.homework_2.enums.OrderType;
 import ru.parfenov.homework_2.model.Order;
@@ -10,6 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class OrderStoreJdbcImpl implements OrderStore {
     private final Connection connection;
 
@@ -46,7 +48,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in OrderStoreJdbcImpl.create(). ", e);
         }
         return order;
     }
@@ -62,7 +64,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in OrderStoreJdbcImpl.findById(). ", e);
         }
         return order;
     }
@@ -83,7 +85,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
             statement.setInt(5, order.getId());
             statement.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in OrderStoreJdbcImpl.update(). ", e);
         }
         return order;
     }
@@ -94,7 +96,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
             statement.setInt(1, order.getId());
             statement.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in OrderStoreJdbcImpl.delete(). ", e);
         }
         return order;
     }
@@ -110,7 +112,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in OrderStoreJdbcImpl.findAll(). ", e);
         }
         return orders;
     }
@@ -127,7 +129,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in OrderStoreJdbcImpl.findByAuthor(). ", e);
         }
         return orders;
     }
@@ -155,7 +157,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in OrderStoreJdbcImpl.findByParameter(). ", e);
         }
         return orders;
     }

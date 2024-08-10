@@ -10,6 +10,7 @@ import ru.parfenov.homework_2.pages.manager.AllOrdersPage;
 import ru.parfenov.homework_2.pages.manager.OrderPage;
 import ru.parfenov.homework_2.pages.manager.UpdateOrderPage;
 import ru.parfenov.homework_2.service.CarService;
+import ru.parfenov.homework_2.service.LogService;
 import ru.parfenov.homework_2.service.OrderService;
 
 import java.io.BufferedReader;
@@ -21,12 +22,14 @@ public class ManagerPage implements UserMenuPage {
     private final User user;
     private final CarService carService;
     private final OrderService orderService;
+    private final LogService logService;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public ManagerPage(User user, CarService carService, OrderService orderService) {
+    public ManagerPage(User user, CarService carService, OrderService orderService, LogService logService) {
         this.user = user;
         this.carService = carService;
         this.orderService = orderService;
+        this.logService = logService;
     }
 
     @Override
@@ -35,11 +38,11 @@ public class ManagerPage implements UserMenuPage {
                 new AllCarPage(carService),
                 new CarPage(carService),
                 new CarWithMyParametersPage(carService),
-                new UpdateCarPage(user, carService),
+                new UpdateCarPage(user, carService, logService),
                 new AllOrdersPage(orderService),
                 new OrderPage(orderService),
                 new OrderWithMyParametersPage(orderService),
-                new UpdateOrderPage(user, orderService)
+                new UpdateOrderPage(user, orderService, logService)
         );
         while (true) {
             System.out.println("""

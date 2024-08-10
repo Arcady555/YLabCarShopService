@@ -1,5 +1,7 @@
 package ru.parfenov.homework_2.service;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_2.enums.UserRole;
 import ru.parfenov.homework_2.model.User;
 import ru.parfenov.homework_2.store.UserStore;
@@ -12,17 +14,15 @@ import java.util.List;
  * добавляя и изменяя некоторую логику-функционал
  */
 
+@AllArgsConstructor
 public class UserServiceConsoleImpl implements UserService {
     private final UserStore store;
 
-    public UserServiceConsoleImpl(UserStore store) {
-        this.store = store;
-    }
-
     @Override
-    public void createByAdmin(int id, UserRole role, String name, String password, String contactInfo, int buysAmount) {
+    public User createByAdmin(int id, UserRole role, String name, String password, String contactInfo, int buysAmount) {
         User user = store.create(new User(0, role, name, password, contactInfo, buysAmount));
         Utility.printUser(user);
+        return user;
     }
 
     @Override

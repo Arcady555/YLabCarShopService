@@ -1,12 +1,13 @@
 package ru.parfenov.homework_2.pages;
 
 import ru.parfenov.homework_2.model.User;
+import ru.parfenov.homework_2.service.LogService;
 import ru.parfenov.homework_2.service.UserService;
-import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
 
 /**
  * Страница регистрации.
@@ -17,15 +18,16 @@ import java.io.InputStreamReader;
  */
 
 public class SignUpPage {
+    private final LogService logService;
     private final UserService service;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public SignUpPage(UserService service) {
+    public SignUpPage(LogService logService, UserService service) {
+        this.logService = logService;
         this.service = service;
     }
 
     public void run() throws IOException, InterruptedException {
-
         System.out.println("Create name");
         String name = reader.readLine();
         if (name.isEmpty()) {
@@ -43,7 +45,7 @@ public class SignUpPage {
             contactInfo = "no data";
         }
         User user = service.createByReg(name, password, contactInfo);
-        Utility.logging(user.getId(), "registration");
+        logService.saveLineInLog(LocalDateTime.now(), user.getId(), "registration");
         Thread.sleep(5000);
     }
 }

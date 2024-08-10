@@ -1,5 +1,6 @@
 package ru.parfenov.homework_2.store;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_2.enums.CarCondition;
 import ru.parfenov.homework_2.model.Car;
 import ru.parfenov.homework_2.utility.Utility;
@@ -9,6 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class CarStoreJdbcImpl implements CarStore {
     private final Connection connection;
 
@@ -49,7 +51,7 @@ public class CarStoreJdbcImpl implements CarStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in CarStoreJdbcImpl.create(). ", e);;
         }
         return car;
     }
@@ -65,7 +67,7 @@ public class CarStoreJdbcImpl implements CarStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in CarStoreJdbcImpl.findById(). ", e);
         }
         return car;
     }
@@ -82,7 +84,7 @@ public class CarStoreJdbcImpl implements CarStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in CarStoreJdbcImpl.findByOwner(). ", e);
         }
         return cars;
     }
@@ -108,7 +110,7 @@ public class CarStoreJdbcImpl implements CarStore {
             statement.setInt(7, car.getId());
             statement.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in CarStoreJdbcImpl.update(). ", e);
         }
         return car;
     }
@@ -119,7 +121,7 @@ public class CarStoreJdbcImpl implements CarStore {
             statement.setInt(1, car.getId());
             statement.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in CarStoreJdbcImpl.delete(). ", e);
         }
     }
 
@@ -134,7 +136,7 @@ public class CarStoreJdbcImpl implements CarStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in CarStoreJdbcImpl.findAll(). ", e);
         }
         return cars;
     }
@@ -144,7 +146,7 @@ public class CarStoreJdbcImpl implements CarStore {
             int id, int ownerId, String brand, String model, int yearOfProd,
             int priceFrom, int priceTo, CarCondition condition
     ) {
-        List<Car> orders = new ArrayList<>();
+        List<Car> cars = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement(
                 "SELECT * FROM cs_schema.cars WHERE" +
                         " id = ?," +
@@ -168,13 +170,13 @@ public class CarStoreJdbcImpl implements CarStore {
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     Car car = returnCar(resultSet);
-                    orders.add(car);
+                    cars.add(car);
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in CarStoreJdbcImpl.findByParameter(). ", e);
         }
-        return orders;
+        return cars;
     }
 
     private Car returnCar(ResultSet resultSet) throws SQLException {

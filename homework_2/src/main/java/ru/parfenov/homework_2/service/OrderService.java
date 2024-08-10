@@ -5,7 +5,7 @@ import ru.parfenov.homework_2.enums.OrderType;
 import ru.parfenov.homework_2.model.Order;
 
 public interface OrderService {
-    void create(int authorId, int carId, OrderType type);
+    Order create(int authorId, int carId, OrderType type);
 
     Order findById(int id);
 

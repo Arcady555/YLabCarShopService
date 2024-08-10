@@ -1,5 +1,6 @@
 package ru.parfenov.homework_2.service;
 
+import lombok.AllArgsConstructor;
 import ru.parfenov.homework_2.enums.OrderStatus;
 import ru.parfenov.homework_2.enums.OrderType;
 import ru.parfenov.homework_2.model.Order;
@@ -13,17 +14,15 @@ import java.util.List;
  * добавляя и изменяя некоторую логику-функционал
  */
 
+@AllArgsConstructor
 public class OrderServiceConsoleImpl implements OrderService {
     private final OrderStore store;
 
-    public OrderServiceConsoleImpl(OrderStore store) {
-        this.store = store;
-    }
-
     @Override
-    public void create(int authorId, int carId, OrderType orderType) {
+    public Order create(int authorId, int carId, OrderType orderType) {
         Order order = store.create(new Order(0, authorId, carId, orderType, OrderStatus.OPEN));
         Utility.printOrder(order);
+        return order;
     }
 
     @Override

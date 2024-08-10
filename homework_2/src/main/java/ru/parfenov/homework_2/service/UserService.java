@@ -4,7 +4,7 @@ import ru.parfenov.homework_2.enums.UserRole;
 import ru.parfenov.homework_2.model.User;
 
 public interface UserService {
-    void createByAdmin(int id, UserRole role, String name, String password, String contactInfo, int buysAmount);
+    User createByAdmin(int id, UserRole role, String name, String password, String contactInfo, int buysAmount);
 
     User createByReg(String name, String password, String contactInfo);
 

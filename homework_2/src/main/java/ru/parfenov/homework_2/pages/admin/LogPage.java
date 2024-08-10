@@ -1,11 +1,14 @@
 package ru.parfenov.homework_2.pages.admin;
 
+import ru.parfenov.homework_2.model.LineInLog;
 import ru.parfenov.homework_2.pages.UserMenuPage;
 import ru.parfenov.homework_2.service.LogService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Страница, где админ может найти в логе инф по клиенту, по дате и по виду операции
@@ -21,7 +24,7 @@ public class LogPage implements UserMenuPage {
 
     @Override
     public void run() throws IOException {
-     /*   System.out.println(
+        System.out.println(
                 "Do you want to see all logs?" +
                         System.lineSeparator() +
                         "0 - yes, another key - no"
@@ -72,7 +75,7 @@ public class LogPage implements UserMenuPage {
                         "0 - yes, another key - no"
         );
         if (reader.readLine().equals("0")) {
-            service.saveLog(list);
-        } */
+            service.saveLogList(list);
+        }
     }
 }

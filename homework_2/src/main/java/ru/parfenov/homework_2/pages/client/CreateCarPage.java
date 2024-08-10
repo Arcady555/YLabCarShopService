@@ -5,11 +5,13 @@ import ru.parfenov.homework_2.model.Car;
 import ru.parfenov.homework_2.model.User;
 import ru.parfenov.homework_2.pages.UserMenuPage;
 import ru.parfenov.homework_2.service.CarService;
+import ru.parfenov.homework_2.service.LogService;
 import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
 
 /**
  * Страница, где пользователь может ввести машину в базу данных
@@ -18,11 +20,13 @@ import java.io.InputStreamReader;
 public class CreateCarPage implements UserMenuPage {
     private final User user;
     private final CarService carService;
+    private final LogService logService;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    public CreateCarPage(User user, CarService carService) {
+    public CreateCarPage(User user, CarService carService, LogService logService) {
         this.user = user;
         this.carService = carService;
+        this.logService = logService;
     }
 
     @Override
@@ -62,7 +66,10 @@ public class CreateCarPage implements UserMenuPage {
                 System.lineSeparator() +
                 "Remember the ID: " +
                 car.getId());
-        Utility.logging(user.getId(), "create car");
+        logService.saveLineInLog(
+                LocalDateTime.now(),
+                user.getId(),
+                "create the car with ID:" + car.getId());
         Thread.sleep(5000);
     }
 }

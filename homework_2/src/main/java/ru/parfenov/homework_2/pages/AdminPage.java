@@ -34,10 +34,10 @@ public class AdminPage implements UserMenuPage {
                 new AllUserPage(userService),
                 new UserPage(userService),
                 new UserWithMyParametersPage(userService),
-                new CreateUserPage(userService),
+                new CreateUserPage(userService, logService),
                 new UpdateUserPage(userService),
-                new ManagerPage(user, carService, orderService),
-                new ClientPage(user, carService, orderService),
+                new ManagerPage(user, carService, orderService, logService),
+                new ClientPage(user, carService, orderService, logService),
                 new LogPage(logService)
         );
         while (true) {

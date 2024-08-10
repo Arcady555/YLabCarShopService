@@ -38,7 +38,7 @@ public class StartPage {
         String enter = reader.readLine();
         switch (enter) {
             case "1":
-                SignUpPage signUpPage = new SignUpPage(userService);
+                SignUpPage signUpPage = new SignUpPage(logService, userService);
                 signUpPage.run();
                 break;
             case "2":

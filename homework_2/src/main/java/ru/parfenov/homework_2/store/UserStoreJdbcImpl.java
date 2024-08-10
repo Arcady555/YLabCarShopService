@@ -1,5 +1,6 @@
 package ru.parfenov.homework_2.store;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_2.enums.UserRole;
 import ru.parfenov.homework_2.model.User;
 import ru.parfenov.homework_2.utility.Utility;
@@ -9,6 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class UserStoreJdbcImpl implements UserStore {
     private final Connection connection;
 
@@ -47,7 +49,7 @@ public class UserStoreJdbcImpl implements UserStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in UserStoreJdbcImpl.create(). ", e);
         }
         return user;
     }
@@ -63,7 +65,7 @@ public class UserStoreJdbcImpl implements UserStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in UserStoreJdbcImpl.findById(). ", e);
         }
         return user;
     }
@@ -86,7 +88,7 @@ public class UserStoreJdbcImpl implements UserStore {
             statement.setInt(6, user.getId());
             statement.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in UserStoreJdbcImpl.update(). ", e);
         }
         return user;
     }
@@ -97,7 +99,7 @@ public class UserStoreJdbcImpl implements UserStore {
             statement.setInt(1, user.getId());
             statement.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in UserStoreJdbcImpl.delete(). ", e);
         }
         return user;
     }
@@ -113,7 +115,7 @@ public class UserStoreJdbcImpl implements UserStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in UserStoreJdbcImpl.findAll(). ", e);
         }
         return users;
     }
@@ -144,7 +146,7 @@ public class UserStoreJdbcImpl implements UserStore {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception in UserStoreJdbcImpl.findByParameters(). ", e);
         }
         return users;
     }
