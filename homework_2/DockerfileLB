@@ -6,4 +6,4 @@ WORKDIR y_lab_car_service
 
 COPY . .
 
-CMD ["mvn", "liquibase:update", "-Pdocker"]
+CMD ["mvn", "liquibase:update", "-P docker"]

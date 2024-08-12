@@ -8,4 +8,4 @@ COPY . .
 
 RUN mvn package -Dmaven.test.skip=true
 
-CMD ["java", "-jar", "target/y_lab_car_service.jar"]
+CMD ["java", "-jar", "target/homework_2-1.0-SNAPSHOT.jar"]
