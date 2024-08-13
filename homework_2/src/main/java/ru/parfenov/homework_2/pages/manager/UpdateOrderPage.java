@@ -30,37 +30,32 @@ public class UpdateOrderPage implements UserMenuPage {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws IOException, InterruptedException {
         System.out.println("Enter the id of the desired order");
-        int oderId = 0;
-        try {
-            oderId = Integer.parseInt(reader.readLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Please enter the NUMBER!");
+        int orderId = Utility.checkIfReadInt(reader.readLine(), this);
+        Order order = service.findById(orderId);
+        if (order == null) {
+            System.out.println("The order not found!");
             run();
-        }
-        Order order = service.findById(oderId);
-        if (order != null) {
+        } else {
             System.out.println("Do you want to delete the order?" + System.lineSeparator() + "0 - yes, another key - no");
-            if (reader.readLine().equals("0")) {
+            if ("0".equals(reader.readLine())) {
                 service.delete(order);
                 logService.saveLineInLog(
                         LocalDateTime.now(),
                         user.getId(),
-                        "delete the order with ID:" + order.getId());
+                        " delete the order with ID:" + order.getId());
             } else {
                 System.out.println("Do you want to close the order?" + System.lineSeparator() + "0 - yes, another key - no");
-                if (reader.readLine().equals("0")) {
+                if ("0".equals(reader.readLine())) {
                     order.setStatus(OrderStatus.CLOSED);
                     service.update(order);
                     logService.saveLineInLog(
                             LocalDateTime.now(),
                             user.getId(),
-                            "close the order with ID:" + order.getId());
+                            " close the order with ID:" + order.getId());
                 }
             }
-        } else {
-            System.out.println("Order not found!");
         }
     }
 }

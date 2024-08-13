@@ -4,6 +4,7 @@ import ru.parfenov.homework_2.enums.UserRole;
 import ru.parfenov.homework_2.model.Order;
 import ru.parfenov.homework_2.model.User;
 import ru.parfenov.homework_2.pages.UserMenuPage;
+import ru.parfenov.homework_2.pages.manager.OrderWithMyParametersPage;
 import ru.parfenov.homework_2.service.LogService;
 import ru.parfenov.homework_2.service.OrderService;
 import ru.parfenov.homework_2.utility.Utility;
@@ -31,27 +32,23 @@ public class DeleteOrderPage implements UserMenuPage {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws IOException, InterruptedException {
         System.out.println("This are Your orders:");
         orderService.findByAuthor(user.getId());
         System.out.println("Enter the id of the desired order");
-        int orderId = 0;
-        try {
-            orderId = Integer.parseInt(reader.readLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Please enter the NUMBER!");
-            run();
-        }
+        int orderId = Utility.checkIfReadInt(reader.readLine(), this);
+
         Order order = orderService.findById(orderId);
+
         if (user.getRole() != UserRole.ADMIN &&
                 user.getRole() != UserRole.MANAGER &&
                 order.getAuthorId() != user.getId()) {
             System.out.println("Sorry? It is not Your order! You can't perform actions with this order!");
             run();
         }
+
         System.out.println("Do you want to delete the order?" + System.lineSeparator() + "0 - yes, another key - no");
-        String answerDelete = reader.readLine();
-        if (answerDelete.equals("0")) {
+        if ("0".equals(reader.readLine())) {
             orderService.delete(order);
             logService.saveLineInLog(
                     LocalDateTime.now(),

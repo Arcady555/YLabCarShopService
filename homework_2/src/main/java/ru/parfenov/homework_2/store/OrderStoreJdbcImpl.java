@@ -1,6 +1,7 @@
 package ru.parfenov.homework_2.store;
 
 import lombok.extern.slf4j.Slf4j;
+import ru.parfenov.homework_2.enums.CarCondition;
 import ru.parfenov.homework_2.enums.OrderStatus;
 import ru.parfenov.homework_2.enums.OrderType;
 import ru.parfenov.homework_2.model.Order;
@@ -32,7 +33,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
                         "author_id," +
                         " car_id," +
                         " order_type," +
-                        " order_status," +
+                        " order_status" +
                         ")" +
                         " VALUES (?, ?, ?, ?)",
                 Statement.RETURN_GENERATED_KEYS)
@@ -72,10 +73,10 @@ public class OrderStoreJdbcImpl implements OrderStore {
     @Override
     public Order update(Order order) {
         try (PreparedStatement statement = connection.prepareStatement(
-                "UPDATE cs_schema.orders SET authorId = ?," +
+                "UPDATE cs_schema.orders SET author_Id = ?," +
                         " car_id = ?," +
                         " order_type = ?," +
-                        " order_status = ?," +
+                        " order_status = ?" +
                         " WHERE id = ?")
         ) {
             statement.setInt(1, order.getAuthorId());
@@ -123,7 +124,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
         try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.orders WHERE author_id = ?")) {
             statement.setInt(1, authorId);
             try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     Order order = returnOrder(resultSet);
                     orders.add(order);
                 }
@@ -135,23 +136,30 @@ public class OrderStoreJdbcImpl implements OrderStore {
     }
 
     @Override
-    public List<Order> findByParameter(int id, int authorId, int carId, OrderType type, OrderStatus status) {
+    public List<Order> findByParameter(int authorId, int carId, OrderType type, OrderStatus status) {
+        String request = getRequest(authorId, carId, type, status);
         List<Order> orders = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT * FROM cs_schema.orders WHERE" +
-                        " id = ?," +
-                        " authorId = ?," +
-                        " car_id = ?," +
-                        " order_type = ?," +
-                        " order_status = ?")
+        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.orders " + request)
         ) {
-            statement.setInt(1, id);
-            statement.setInt(2, authorId);
-            statement.setInt(3, carId);
-            statement.setString(4, type.toString());
-            statement.setString(5, status.toString());
+            int i = 0;
+            if (authorId != 0) {
+                i++;
+                statement.setInt(i, authorId);
+            }
+            if (carId != 0) {
+                i++;
+                statement.setInt(i, carId);
+            }
+            if (type != null) {
+                i++;
+                statement.setString(i, type.toString());
+            }
+            if (status != null) {
+                i++;
+                statement.setString(i, status.toString());
+            }
             try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     Order order = returnOrder(resultSet);
                     orders.add(order);
                 }
@@ -170,5 +178,16 @@ public class OrderStoreJdbcImpl implements OrderStore {
                 "buy".equals(resultSet.getString("order_type")) ? OrderType.BUY : OrderType.SERVICE,
                 "open".equals(resultSet.getString("order_status")) ? OrderStatus.OPEN : OrderStatus.CLOSED
         );
+    }
+
+    private String getRequest(int authorId, int carId, OrderType type, OrderStatus status) {
+        StringBuilder stringBuilder = new StringBuilder(" WHERE ");
+        stringBuilder.append(authorId != 0 ? " author_id = ? and" : "").
+                append(carId != 0 ? " car_id = ? and" : "").
+                append(type != null ? " order_type = ? and" : "").
+                append(status != null ? " order_status = ?" : "");
+        if (stringBuilder.toString().endsWith("and")) stringBuilder.setLength(stringBuilder.length() - 3);
+
+        return stringBuilder.toString();
     }
 }

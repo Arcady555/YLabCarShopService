@@ -5,6 +5,7 @@ import ru.parfenov.homework_2.model.User;
 import ru.parfenov.homework_2.pages.UserMenuPage;
 import ru.parfenov.homework_2.service.LogService;
 import ru.parfenov.homework_2.service.UserService;
+import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,13 +47,7 @@ public class CreateUserPage implements UserMenuPage {
         System.out.println("Create user contact info");
         String contactInfo = reader.readLine();
         System.out.println("Create buys amount");
-        int buysAmount = 0;
-        try {
-            buysAmount = Integer.parseInt(reader.readLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Please enter the NUMBER!");
-            run();
-        }
+        int buysAmount = Utility.checkIfReadInt(reader.readLine(), this);
         User user = service.createByAdmin(0, role, name, password, contactInfo, buysAmount);
         logService.saveLineInLog(LocalDateTime.now(), user.getId(), "registration by admin");
         Thread.sleep(5000);

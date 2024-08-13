@@ -125,22 +125,30 @@ public class UserStoreJdbcImpl implements UserStore {
      * id юзера, его роль, имя, строка(может содержаться в контактной информации), число покупок
      */
 
-    public List<User> findByParameters(int id, UserRole role, String name, String contactInfo, int buysAmount) {
+    public List<User> findByParameters(UserRole role, String name, String contactInfo, int buysAmount) {
+        String request = getRequest(role, name, contactInfo, buysAmount);
         List<User> users = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT * FROM cs_schema.users WHERE id = ?" +
-                        " user_role = ?" +
-                        " name = ?," +
-                        " contact_info = %?%," +
-                        " buys_amount = ?")
+        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.users " + request)
         ) {
-            statement.setInt(1, id);
-            statement.setString(2, role.toString());
-            statement.setString(3, name);
-            statement.setString(4, contactInfo);
-            statement.setInt(5, buysAmount);
+            int i = 0;
+            if (role != null) {
+                i++;
+                statement.setString(i, role.toString());
+            }
+            if (!name.isEmpty()) {
+                i++;
+                statement.setString(i, name);
+            }
+            if (!contactInfo.isEmpty()) {
+                i++;
+                statement.setString(i, contactInfo);
+            }
+            if (buysAmount != 0) {
+                i++;
+                statement.setInt(i, buysAmount);
+            }
             try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     User user = returnUser(resultSet);
                     users.add(user);
                 }
@@ -171,5 +179,16 @@ public class UserStoreJdbcImpl implements UserStore {
             result = UserRole.CLIENT;
         }
         return result;
+    }
+
+    private String getRequest(UserRole role, String name, String contactInfo, int buysAmount) {
+        StringBuilder stringBuilder = new StringBuilder(" WHERE ");
+        stringBuilder.append(role != null ? " user_role = ?" : "").
+                append(!name.isEmpty() ? " name = ? and" : "").
+                append(!contactInfo.isEmpty() ? " contact_info = ? and" : "").
+                append(buysAmount != 0 ? " buys_amount = ?" : "");
+        if (stringBuilder.toString().endsWith("and")) stringBuilder.setLength(stringBuilder.length() - 3);
+
+        return stringBuilder.toString();
     }
 }

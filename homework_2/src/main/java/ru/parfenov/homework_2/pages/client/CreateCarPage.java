@@ -36,13 +36,8 @@ public class CreateCarPage implements UserMenuPage {
         System.out.println("Enter model");
         String model = reader.readLine();
         System.out.println("Enter year of car production");
-        int yearOfProd = 0;
-        try {
-            yearOfProd = Integer.parseInt(reader.readLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Please enter the NUMBER!");
-            run();
-        }
+        int yearOfProd = Utility.checkIfReadInt(reader.readLine(), this);
+
         System.out.println("Enter price");
         int price = 0;
         try {

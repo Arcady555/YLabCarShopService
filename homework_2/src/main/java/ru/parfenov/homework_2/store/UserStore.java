@@ -18,8 +18,8 @@ public interface UserStore {
 
     /**
      * * Метод предполагает поиск по параметрам (всем или некоторые можно не указать)
-     * id юзера, его роль, имя, строка(может содержаться в контактной информации), число покупок
+     * роль юзера, имя, строка(может содержаться в контактной информации), число покупок
      */
 
-    List<User> findByParameters(int id, UserRole role, String name, String contactInfo, int buysAmount);
+    List<User> findByParameters(UserRole role, String name, String contactInfo, int buysAmount);
 }

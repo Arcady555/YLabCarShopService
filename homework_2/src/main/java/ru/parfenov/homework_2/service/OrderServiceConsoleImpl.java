@@ -68,8 +68,8 @@ public class OrderServiceConsoleImpl implements OrderService {
     }
 
     @Override
-    public void findByParameter(int id, int authorId, int carId, OrderType type, OrderStatus status) {
-        List<Order> orderList = store.findByParameter(id, authorId, carId, type, status);
+    public void findByParameter(int authorId, int carId, OrderType type, OrderStatus status) {
+        List<Order> orderList = store.findByParameter(authorId, carId, type, status);
         for (Order order : orderList) {
             Utility.printOrder(order);
         }

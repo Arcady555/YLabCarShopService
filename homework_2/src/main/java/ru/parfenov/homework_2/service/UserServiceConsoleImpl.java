@@ -1,7 +1,6 @@
 package ru.parfenov.homework_2.service;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_2.enums.UserRole;
 import ru.parfenov.homework_2.model.User;
 import ru.parfenov.homework_2.store.UserStore;
@@ -80,8 +79,8 @@ public class UserServiceConsoleImpl implements UserService {
     }
 
     @Override
-    public void findByParameters(int id, UserRole role, String name, String contactInfo, int buysAmount) {
-        List<User> list = store.findByParameters(id, role, name, contactInfo, buysAmount);
+    public void findByParameters(UserRole role, String name, String contactInfo, int buysAmount) {
+        List<User> list = store.findByParameters(role, name, contactInfo, buysAmount);
         for (User user : list) {
             Utility.printUser(user);
         }

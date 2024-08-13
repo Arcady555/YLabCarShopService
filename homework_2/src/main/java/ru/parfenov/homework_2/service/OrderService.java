@@ -17,5 +17,5 @@ public interface OrderService {
 
     void findByAuthor(int authorId);
 
-    void findByParameter(int id, int authorId, int carId, OrderType type, OrderStatus status);
+    void findByParameter(int authorId, int carId, OrderType type, OrderStatus status);
 }

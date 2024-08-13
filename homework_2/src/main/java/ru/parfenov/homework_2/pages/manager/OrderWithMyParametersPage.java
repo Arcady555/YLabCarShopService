@@ -4,6 +4,7 @@ import ru.parfenov.homework_2.enums.OrderStatus;
 import ru.parfenov.homework_2.enums.OrderType;
 import ru.parfenov.homework_2.pages.UserMenuPage;
 import ru.parfenov.homework_2.service.OrderService;
+import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,47 +19,26 @@ public class OrderWithMyParametersPage implements UserMenuPage {
     }
 
     @Override
-    public void run() throws IOException {
-        System.out.println("Enter order ID");
-        int orderId = 0;
-        try {
-            orderId = Integer.parseInt(reader.readLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Please enter the NUMBER!");
-            run();
-        }
+    public void run() throws IOException, InterruptedException {
         System.out.println("Enter author id");
-        int authorId = 0;
-        try {
-            authorId = Integer.parseInt(reader.readLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Please enter the NUMBER!");
-            run();
-        }
+        int authorId = Utility.checkIfReadInt(reader.readLine(), this);
+
         System.out.println("Enter car ID");
-        int carId = 0;
-        try {
-            carId = Integer.parseInt(reader.readLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Please enter the NUMBER!");
-            run();
-        }
-        System.out.println("Enter type 0 - BUY,  another key - SERVICE");
+        int carId = Utility.checkIfReadInt(reader.readLine(), this);
+
+        System.out.println("Enter type 0 - BUY, enter key - not type,  another key - SERVICE");
         String answerType = reader.readLine();
-        OrderType type;
-        if (answerType.equals("0")) {
-            type = OrderType.BUY;
-        } else {
-            type = OrderType.SERVICE;
-        }
-        System.out.println("Enter status 0 - OPEN,  another key - CLOSED");
+        OrderType type = OrderType.SERVICE;
+        if (answerType.isEmpty()) type = null;
+        if ("0".equals(answerType)) type = OrderType.BUY;
+
+
+        System.out.println("Enter status 0 - OPEN, enter key - not type,  another key - CLOSED");
         String answerStatus = reader.readLine();
-        OrderStatus status;
-        if (answerStatus.equals("0")) {
-            status = OrderStatus.OPEN;
-        } else {
-            status = OrderStatus.CLOSED;
-        }
-        service.findByParameter(orderId, authorId, carId, type, status);
+        OrderStatus status = OrderStatus.CLOSED;
+        if (answerStatus.isEmpty()) status = null;
+        if ("0".equals(answerStatus)) status = OrderStatus.OPEN;
+
+        service.findByParameter(authorId, carId, type, status);
     }
 }

@@ -18,5 +18,5 @@ public interface UserService {
 
     void findAll();
 
-    void findByParameters(int id, UserRole role, String name, String contactInfo, int buysAmount);
+    void findByParameters(UserRole role, String name, String contactInfo, int buysAmount);
 }

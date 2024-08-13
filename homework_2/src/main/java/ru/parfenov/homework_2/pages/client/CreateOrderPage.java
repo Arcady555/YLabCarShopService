@@ -5,6 +5,7 @@ import ru.parfenov.homework_2.model.Car;
 import ru.parfenov.homework_2.model.Order;
 import ru.parfenov.homework_2.model.User;
 import ru.parfenov.homework_2.pages.UserMenuPage;
+import ru.parfenov.homework_2.pages.manager.OrderWithMyParametersPage;
 import ru.parfenov.homework_2.service.CarService;
 import ru.parfenov.homework_2.service.LogService;
 import ru.parfenov.homework_2.service.OrderService;
@@ -37,37 +38,27 @@ public class CreateOrderPage implements UserMenuPage {
     @Override
     public void run() throws InterruptedException, IOException {
         System.out.println("Enter car id");
-        int carId = 0;
-        try {
-            carId = Integer.parseInt(reader.readLine());
-            Car car = carService.findById(carId);
-            if (car == null) {
-                System.out.println("The car not found!");
-                run();
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Please enter the NUMBER!");
+        int carId = Utility.checkIfReadInt(reader.readLine(), this);
+        if (carService.findById(carId) == null) {
+            System.out.println("The car not found!");
             run();
         }
+
         int ownerId = carService.findById(carId).getOwnerId();
         System.out.println("What the type of order? 0 - BUY,  another key - SERVICE");
-        String answerType = reader.readLine();
-        OrderType orderType = null;
-        if (answerType.equals("0")) {
-            if (ownerId == user.getId()) {
-                System.out.println("Sorry! But the car is already Your!)))");
-                run();
-            } else {
-                orderType = OrderType.BUY;
-            }
-        } else {
-            if (ownerId != user.getId()) {
-                System.out.println("Sorry! Only the owner can order the car for service!");
-                run();
-            } else {
-                orderType = OrderType.SERVICE;
-            }
+        OrderType orderType = OrderType.SERVICE;
+        if ("0".equals(reader.readLine())) orderType = OrderType.BUY;
+
+        if (ownerId == user.getId() && orderType == OrderType.BUY) {
+            System.out.println("Sorry! But the car is already Your!)))");
+            run();
         }
+
+        if (ownerId != user.getId() && orderType == OrderType.SERVICE) {
+            System.out.println("Sorry! Only the owner can order the car for service!");
+            run();
+        }
+
         Order order = orderService.create(user.getId(), carId, orderType);
         logService.saveLineInLog(
                 LocalDateTime.now(),

@@ -21,27 +21,20 @@ public class UpdateUserPage implements UserMenuPage {
     @Override
     public void run() throws IOException, InterruptedException {
         System.out.println("Enter the id of the desired user");
-        int userId = 0;
-        try {
-            userId = Integer.parseInt(reader.readLine());
-        } catch (NumberFormatException e) {
-            System.out.println("Please enter the NUMBER!");
-            run();
-        }
+        int userId = Utility.checkIfReadInt(reader.readLine(), this);
         User user = service.findByIdForAdmin(userId);
+
         if (user != null) {
             Utility.printUser(user);
             System.out.println("Do you want to delete the user?" + System.lineSeparator() + "0 - yes, another key - no");
-            String answerDelete = reader.readLine();
-            if (answerDelete.equals("0")) {
+            if ("0".equals(reader.readLine())) {
                 service.delete(user);
             } else {
                 System.out.println(
                         "Do you want to change role?" +
                                 System.lineSeparator() +
                                 "0 - yes, another key - no");
-                String answerRole = reader.readLine();
-                if (answerRole.equals("0")) {
+                if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new role 0 - ADMIN,  1 - MANAGER, 2 - CLIENT");
                     String answer = reader.readLine();
                     switch (answer) {
@@ -59,8 +52,7 @@ public class UpdateUserPage implements UserMenuPage {
                                 System.lineSeparator() +
                                 "0 - yes, another key - no"
                 );
-                String answerBrand = reader.readLine();
-                if (answerBrand.equals("0")) {
+                if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new name");
                     String newName = reader.readLine();
                     user.setName(newName);
@@ -69,8 +61,7 @@ public class UpdateUserPage implements UserMenuPage {
                         "Do you want to change password?" +
                                 System.lineSeparator() +
                                 "0 - yes, another key - no");
-                String answerPassword = reader.readLine();
-                if (answerPassword.equals("0")) {
+                if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new password");
                     String newPassword = reader.readLine();
                     user.setPassword(newPassword);
@@ -79,8 +70,7 @@ public class UpdateUserPage implements UserMenuPage {
                         "Do you want to change contact info?" +
                                 System.lineSeparator() +
                                 "0 - yes, another key - no");
-                String answerContactInfo = reader.readLine();
-                if (answerContactInfo.equals("0")) {
+                if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new contact info");
                     String newContactInfo = reader.readLine();
                     user.setContactInfo(newContactInfo);
@@ -89,10 +79,9 @@ public class UpdateUserPage implements UserMenuPage {
                         "Do you want to change buy amount?" +
                                 System.lineSeparator() +
                                 "0 - yes, another key - no");
-                String answerBuyAmount = reader.readLine();
-                if (answerBuyAmount.equals("0")) {
+                if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new buy amount");
-                    int newBuyAmount = Integer.parseInt(reader.readLine());
+                    int newBuyAmount = Utility.checkIfReadInt(reader.readLine(), this);
                     user.setBuysAmount(newBuyAmount);
                 }
                 service.update(user);

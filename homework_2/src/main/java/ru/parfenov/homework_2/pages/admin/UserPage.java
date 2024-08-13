@@ -2,6 +2,7 @@ package ru.parfenov.homework_2.pages.admin;
 
 import ru.parfenov.homework_2.pages.UserMenuPage;
 import ru.parfenov.homework_2.service.UserService;
+import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,15 +17,9 @@ public class UserPage implements UserMenuPage {
     }
 
     @Override
-    public void run() throws IOException {
+    public void run() throws IOException, InterruptedException {
         System.out.println("Enter user ID");
-        int userId;
-        try {
-            userId = Integer.parseInt(reader.readLine());
-            service.findByIdForAdmin(userId);
-        } catch (NumberFormatException e) {
-            System.out.println("Please enter the NUMBER!");
-            run();
-        }
+        int userId = Utility.checkIfReadInt(reader.readLine(), this);
+        service.findByIdForAdmin(userId);
     }
 }

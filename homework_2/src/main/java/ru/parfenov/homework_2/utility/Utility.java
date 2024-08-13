@@ -3,7 +3,9 @@ package ru.parfenov.homework_2.utility;
 import ru.parfenov.homework_2.model.Car;
 import ru.parfenov.homework_2.model.Order;
 import ru.parfenov.homework_2.model.User;
+import ru.parfenov.homework_2.pages.UserMenuPage;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,6 +34,19 @@ public class Utility {
         if (order != null) {
             System.out.println(order);
         }
+    }
+
+    public static int checkIfReadInt(String answer, UserMenuPage menuPage) throws IOException, InterruptedException {
+        int result = 0;
+        if (!answer.isEmpty()) {
+            try {
+                result = Integer.parseInt(answer);
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter the NUMBER!");
+                menuPage.run();
+            }
+        }
+        return result;
     }
 
     public static Connection loadConnection(InputStream in) throws ClassNotFoundException, SQLException {
