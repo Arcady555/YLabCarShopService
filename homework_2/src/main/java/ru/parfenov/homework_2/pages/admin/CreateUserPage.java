@@ -5,7 +5,6 @@ import ru.parfenov.homework_2.model.User;
 import ru.parfenov.homework_2.pages.UserMenuPage;
 import ru.parfenov.homework_2.service.LogService;
 import ru.parfenov.homework_2.service.UserService;
-import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,6 +43,11 @@ public class CreateUserPage implements UserMenuPage {
         String name = reader.readLine();
         System.out.println("Create password");
         String password = reader.readLine();
+        if (password.isEmpty()) {
+            System.out.println("The password must to be!");
+            Thread.sleep(3000);
+            run();
+        }
         System.out.println("Create user contact info");
         String contactInfo = reader.readLine();
         System.out.println("Create buys amount");
