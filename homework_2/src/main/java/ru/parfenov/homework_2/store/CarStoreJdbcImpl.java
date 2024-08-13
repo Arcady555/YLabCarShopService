@@ -33,7 +33,7 @@ public class CarStoreJdbcImpl implements CarStore {
                         " model," +
                         " year_of_prod," +
                         " price," +
-                        " condition" +
+                        " car_condition" +
                         ")" +
                         " VALUES (?, ?, ?, ?, ?, ?)",
                 Statement.RETURN_GENERATED_KEYS)
@@ -51,7 +51,8 @@ public class CarStoreJdbcImpl implements CarStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in CarStoreJdbcImpl.create(). ", e);;
+            log.error("Exception in CarStoreJdbcImpl.create(). ", e);
+            ;
         }
         return car;
     }
@@ -78,7 +79,7 @@ public class CarStoreJdbcImpl implements CarStore {
         try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.cars WHERE owner_id = ?")) {
             statement.setInt(1, ownerId);
             try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     Car car = returnCar(resultSet);
                     cars.add(car);
                 }
@@ -98,7 +99,7 @@ public class CarStoreJdbcImpl implements CarStore {
                         " model = ?," +
                         " year_of_prod = ?," +
                         " price = ?," +
-                        " car_condition = ?," +
+                        " car_condition = ? " +
                         " WHERE id = ?")
         ) {
             statement.setInt(1, car.getOwnerId());
@@ -142,33 +143,43 @@ public class CarStoreJdbcImpl implements CarStore {
     }
 
     @Override
-    public List<Car> findByParameter(
-            int id, int ownerId, String brand, String model, int yearOfProd,
-            int priceFrom, int priceTo, CarCondition condition
-    ) {
+    public List<Car> findByParameter(int ownerId, String brand, String model, int yearOfProd,
+                                     int priceFrom, int priceTo, CarCondition condition) {
+        String request = getRequest(ownerId, brand, model, yearOfProd, priceFrom, priceTo, condition);
         List<Car> cars = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT * FROM cs_schema.cars WHERE" +
-                        " id = ?," +
-                        " owner_Id = ?," +
-                        " brand = ?," +
-                        " model = ?," +
-                        " year_of_prod = ?," +
-                        " price > ?," +
-                        " price < ?," +
-                        " car_condition = ?")
+        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.cars " + request)
         ) {
-            statement.setInt(1, id);
-            statement.setInt(1, ownerId);
-            statement.setString(2, brand);
-            statement.setString(3, model);
-            statement.setInt(4, yearOfProd);
-            statement.setInt(5, priceFrom);
-            statement.setInt(6, priceTo);
-            statement.setString(7, condition.toString());
-            statement.setInt(8, id);
+            int i = 0;
+            if (ownerId != 0) {
+                i++;
+                statement.setInt(i, ownerId);
+            }
+            if (!brand.isEmpty()) {
+                i++;
+                statement.setString(i, brand);
+            }
+            if (!model.isEmpty()) {
+                i++;
+                statement.setString(i, model);
+            }
+            if (yearOfProd != 0) {
+                i++;
+                statement.setInt(i, yearOfProd);
+            }
+            if (priceFrom != 0) {
+                i++;
+                statement.setInt(i, priceFrom);
+            }
+            if (priceTo != 0) {
+                i++;
+                statement.setInt(i, priceTo);
+            }
+            if (condition != null) {
+                i++;
+                statement.setString(i, condition.toString());
+            }
             try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
+                while (resultSet.next()) {
                     Car car = returnCar(resultSet);
                     cars.add(car);
                 }
@@ -189,5 +200,20 @@ public class CarStoreJdbcImpl implements CarStore {
                 resultSet.getInt("price"),
                 "new".equals(resultSet.getString("car_condition")) ? CarCondition.NEW : CarCondition.USED
         );
+    }
+
+    private String getRequest(int ownerId, String brand, String model, int yearOfProd,
+                              int priceFrom, int priceTo, CarCondition condition) {
+        StringBuilder stringBuilder = new StringBuilder(" WHERE ");
+        stringBuilder.append(ownerId != 0 ? " owner_id = ? and" : "").
+                append(!brand.isEmpty() ? " brand = ? and" : "").
+                append(!model.isEmpty() ? " model = ? and" : "").
+                append(yearOfProd != 0 ? " year_of_prod = ? and" : "").
+                append(priceFrom != 0 ? " price > ? and" : "").
+                append(priceTo != 0 ? " price < ? and" : "").
+                append(condition != null ? " car_condition = ?" : "");
+        if (stringBuilder.toString().endsWith("and")) stringBuilder.setLength(stringBuilder.length() - 3);
+
+        return stringBuilder.toString();
     }
 }

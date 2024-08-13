@@ -63,8 +63,8 @@ public class CarServiceConsoleImpl implements CarService {
     }
 
     @Override
-    public void findByParameter(int id, int ownerId, String brand, String model, int yearOfProd, int priceFrom, int priceTo, CarCondition condition) {
-        for (Car car : store.findByParameter(id, ownerId, brand, model, yearOfProd, priceFrom, priceTo, condition)) {
+    public void findByParameter(int ownerId, String brand, String model, int yearOfProd, int priceFrom, int priceTo, CarCondition condition) {
+        for (Car car : store.findByParameter(ownerId, brand, model, yearOfProd, priceFrom, priceTo, condition)) {
             Utility.printCar(car);
         }
     }

@@ -25,7 +25,7 @@ public interface CarStore {
      */
 
     List<Car> findByParameter(
-            int id, int ownerId, String brand, String model, int yearOfProd,
+            int ownerId, String brand, String model, int yearOfProd,
             int priceFrom, int priceTo, CarCondition condition
     );
 }

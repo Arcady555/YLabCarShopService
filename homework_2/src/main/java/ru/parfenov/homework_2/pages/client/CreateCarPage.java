@@ -52,13 +52,7 @@ public class CreateCarPage implements UserMenuPage {
             run();
         }
         System.out.println("Enter condition 0 - NEW,  another key - USED");
-        String answerCondition = reader.readLine();
-        CarCondition condition;
-        if (answerCondition.equals("0")) {
-            condition = CarCondition.NEW;
-        } else {
-            condition = CarCondition.USED;
-        }
+        CarCondition condition = "0".equals(reader.readLine()) ? CarCondition.NEW : CarCondition.USED;
         Car car = carService.create(user.getId(), brand, model, yearOfProd, price, condition);
         System.out.println("Congratulation!" +
                 System.lineSeparator() +
@@ -71,5 +65,6 @@ public class CreateCarPage implements UserMenuPage {
                 user.getId(),
                 "create the car with ID:" + car.getId());
         Thread.sleep(5000);
+
     }
 }
