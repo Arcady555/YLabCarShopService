@@ -6,7 +6,6 @@ import ru.parfenov.homework_2.model.User;
 import ru.parfenov.homework_2.pages.UserMenuPage;
 import ru.parfenov.homework_2.service.CarService;
 import ru.parfenov.homework_2.service.LogService;
-import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class CreateCarPage implements UserMenuPage {
         System.out.println("Enter model");
         String model = reader.readLine();
         System.out.println("Enter year of car production");
-        int yearOfProd = Utility.checkIfReadInt(reader.readLine(), this);
+        int yearOfProd = checkIfReadInt(reader.readLine());
 
         System.out.println("Enter price");
         int price = 0;
@@ -60,6 +59,5 @@ public class CreateCarPage implements UserMenuPage {
                 user.getId(),
                 "create the car with ID:" + car.getId());
         Thread.sleep(5000);
-
     }
 }

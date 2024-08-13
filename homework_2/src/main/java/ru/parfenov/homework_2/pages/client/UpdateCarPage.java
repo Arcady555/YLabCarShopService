@@ -7,7 +7,6 @@ import ru.parfenov.homework_2.model.User;
 import ru.parfenov.homework_2.pages.UserMenuPage;
 import ru.parfenov.homework_2.service.CarService;
 import ru.parfenov.homework_2.service.LogService;
-import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,7 +38,7 @@ public class UpdateCarPage implements UserMenuPage {
             carService.findByOwner(user.getId());
         }
         System.out.println("Enter the id of the desired car");
-        int carId = Utility.checkIfReadInt(reader.readLine(), this);
+        int carId = checkIfReadInt(reader.readLine());
         Car car = carService.findById(carId);
         if (car == null) {
             System.out.println("The car is not founded");
@@ -83,7 +82,7 @@ public class UpdateCarPage implements UserMenuPage {
                                 "0 - yes, another key - no");
                 if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new date");
-                    int newDate = Utility.checkIfReadInt(reader.readLine(), this);
+                    int newDate = checkIfReadInt(reader.readLine());
                     car.setYearOfProd(newDate);
                 }
 
@@ -94,7 +93,7 @@ public class UpdateCarPage implements UserMenuPage {
                 if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new price");
                     String newPriceStr = reader.readLine();
-                    int newPrice =  Utility.checkIfReadInt(reader.readLine(), this);
+                    int newPrice =  checkIfReadInt(reader.readLine());
                     car.setPrice(newPrice);
                 }
 

@@ -1,15 +1,12 @@
 package ru.parfenov.homework_2.pages.client;
 
 import ru.parfenov.homework_2.enums.OrderType;
-import ru.parfenov.homework_2.model.Car;
 import ru.parfenov.homework_2.model.Order;
 import ru.parfenov.homework_2.model.User;
 import ru.parfenov.homework_2.pages.UserMenuPage;
-import ru.parfenov.homework_2.pages.manager.OrderWithMyParametersPage;
 import ru.parfenov.homework_2.service.CarService;
 import ru.parfenov.homework_2.service.LogService;
 import ru.parfenov.homework_2.service.OrderService;
-import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,7 +35,7 @@ public class CreateOrderPage implements UserMenuPage {
     @Override
     public void run() throws InterruptedException, IOException {
         System.out.println("Enter car id");
-        int carId = Utility.checkIfReadInt(reader.readLine(), this);
+        int carId = checkIfReadInt(reader.readLine());
         if (carService.findById(carId) == null) {
             System.out.println("The car not found!");
             run();

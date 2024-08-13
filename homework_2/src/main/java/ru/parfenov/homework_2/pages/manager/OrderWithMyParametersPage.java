@@ -4,7 +4,6 @@ import ru.parfenov.homework_2.enums.OrderStatus;
 import ru.parfenov.homework_2.enums.OrderType;
 import ru.parfenov.homework_2.pages.UserMenuPage;
 import ru.parfenov.homework_2.service.OrderService;
-import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,10 +20,10 @@ public class OrderWithMyParametersPage implements UserMenuPage {
     @Override
     public void run() throws IOException, InterruptedException {
         System.out.println("Enter author id");
-        int authorId = Utility.checkIfReadInt(reader.readLine(), this);
+        int authorId = checkIfReadInt(reader.readLine());
 
         System.out.println("Enter car ID");
-        int carId = Utility.checkIfReadInt(reader.readLine(), this);
+        int carId = checkIfReadInt(reader.readLine());
 
         System.out.println("Enter type 0 - BUY, enter key - not type,  another key - SERVICE");
         String answerType = reader.readLine();

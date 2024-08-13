@@ -3,7 +3,6 @@ package ru.parfenov.homework_2.pages.admin;
 import ru.parfenov.homework_2.enums.UserRole;
 import ru.parfenov.homework_2.pages.UserMenuPage;
 import ru.parfenov.homework_2.service.UserService;
-import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,7 +32,7 @@ public class UserWithMyParametersPage implements UserMenuPage {
         System.out.println("Enter user contact info");
         String contactInfo = reader.readLine();
         System.out.println("Enter buys amount");
-        int buysAmount = Utility.checkIfReadInt(reader.readLine(), this);
+        int buysAmount = checkIfReadInt(reader.readLine());
 
         service.findByParameters(role, name, contactInfo, buysAmount);
     }

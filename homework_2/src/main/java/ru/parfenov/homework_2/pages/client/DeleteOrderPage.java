@@ -4,10 +4,8 @@ import ru.parfenov.homework_2.enums.UserRole;
 import ru.parfenov.homework_2.model.Order;
 import ru.parfenov.homework_2.model.User;
 import ru.parfenov.homework_2.pages.UserMenuPage;
-import ru.parfenov.homework_2.pages.manager.OrderWithMyParametersPage;
 import ru.parfenov.homework_2.service.LogService;
 import ru.parfenov.homework_2.service.OrderService;
-import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,7 +34,7 @@ public class DeleteOrderPage implements UserMenuPage {
         System.out.println("This are Your orders:");
         orderService.findByAuthor(user.getId());
         System.out.println("Enter the id of the desired order");
-        int orderId = Utility.checkIfReadInt(reader.readLine(), this);
+        int orderId = checkIfReadInt(reader.readLine());
 
         Order order = orderService.findById(orderId);
 

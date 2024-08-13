@@ -36,19 +36,6 @@ public class Utility {
         }
     }
 
-    public static int checkIfReadInt(String answer, UserMenuPage menuPage) throws IOException, InterruptedException {
-        int result = 0;
-        if (!answer.isEmpty()) {
-            try {
-                result = Integer.parseInt(answer);
-            } catch (NumberFormatException e) {
-                System.out.println("Please enter the NUMBER!");
-                menuPage.run();
-            }
-        }
-        return result;
-    }
-
     public static Connection loadConnection(InputStream in) throws ClassNotFoundException, SQLException {
         var config = new Properties();
         Connection connection;

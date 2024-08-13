@@ -47,7 +47,7 @@ public class CreateUserPage implements UserMenuPage {
         System.out.println("Create user contact info");
         String contactInfo = reader.readLine();
         System.out.println("Create buys amount");
-        int buysAmount = Utility.checkIfReadInt(reader.readLine(), this);
+        int buysAmount = checkIfReadInt(reader.readLine());
         User user = service.createByAdmin(0, role, name, password, contactInfo, buysAmount);
         logService.saveLineInLog(LocalDateTime.now(), user.getId(), "registration by admin");
         Thread.sleep(5000);

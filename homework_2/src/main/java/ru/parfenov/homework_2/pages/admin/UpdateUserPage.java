@@ -21,7 +21,7 @@ public class UpdateUserPage implements UserMenuPage {
     @Override
     public void run() throws IOException, InterruptedException {
         System.out.println("Enter the id of the desired user");
-        int userId = Utility.checkIfReadInt(reader.readLine(), this);
+        int userId = checkIfReadInt(reader.readLine());
         User user = service.findByIdForAdmin(userId);
 
         if (user != null) {
@@ -81,7 +81,7 @@ public class UpdateUserPage implements UserMenuPage {
                                 "0 - yes, another key - no");
                 if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new buy amount");
-                    int newBuyAmount = Utility.checkIfReadInt(reader.readLine(), this);
+                    int newBuyAmount = checkIfReadInt(reader.readLine());
                     user.setBuysAmount(newBuyAmount);
                 }
                 service.update(user);
