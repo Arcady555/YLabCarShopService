@@ -1,5 +1,6 @@
 package ru.parfenov.homework_2.model;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.parfenov.homework_2.enums.UserRole;
 
@@ -9,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 public class UserTest {
 
     @Test
+    @DisplayName("Создание юзера со всеми полями")
     public void create_user_with_all_fields() {
         User user = new User(1, UserRole.ADMIN, "John Doe", "password123", "john.doe@example.com", 5);
         assertEquals(1, user.getId());
@@ -20,6 +22,7 @@ public class UserTest {
     }
 
     @Test
+    @DisplayName("Создание юзера с именем и паролем")
     public void create_user_with_name_and_password() {
         User user = new User("Jane Doe", "password456");
         assertEquals("Jane Doe", user.getName());
@@ -28,6 +31,7 @@ public class UserTest {
     }
 
     @Test
+    @DisplayName("Проверка сеттера ID")
     public void get_and_set_user_id() {
         User user = new User();
         user.setId(10);
@@ -35,6 +39,7 @@ public class UserTest {
     }
 
     @Test
+    @DisplayName("Проверка сеттера ROLE")
     public void get_and_set_user_role() {
         User user = new User();
         user.setRole(UserRole.MANAGER);
@@ -42,6 +47,7 @@ public class UserTest {
     }
 
     @Test
+    @DisplayName("Создание юзера с пустыми полями")
     public void create_user_with_null_optional_fields() {
         User user = new User(2, null, null, null, null, 0);
         assertNull(user.getRole());
@@ -52,6 +58,7 @@ public class UserTest {
     }
 
     @Test
+    @DisplayName("Проверка сеттера на нулл")
     public void set_role_to_null_and_verify_default() {
         User user = new User();
         user.setRole(null);
@@ -59,6 +66,7 @@ public class UserTest {
     }
 
     @Test
+    @DisplayName("Проверка сеттера числа покупок")
     public void set_negative_buys_amount() {
         User user = new User();
         user.setBuysAmount(-5);
@@ -66,6 +74,7 @@ public class UserTest {
     }
 
     @Test
+    @DisplayName("Создание сеттера с пустым именем)")
     public void create_user_with_empty_name() {
         User user = new User("", "password789");
         assertEquals("", user.getName());

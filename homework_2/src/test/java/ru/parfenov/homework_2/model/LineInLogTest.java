@@ -1,5 +1,6 @@
 package ru.parfenov.homework_2.model;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import static org.junit.Assert.*;
 public class LineInLogTest {
 
     @Test
+    @DisplayName("Создание строки лога с валидным временем")
     public void create_line_in_log_with_valid_data() {
         Long id = 1L;
         LocalDateTime time = LocalDateTime.now();
@@ -26,6 +28,7 @@ public class LineInLogTest {
     }
 
     @Test
+    @DisplayName("Проверка ID")
     public void retrieve_id_from_line_in_log() {
         Long id = 1L;
         LocalDateTime time = LocalDateTime.now();
@@ -36,6 +39,7 @@ public class LineInLogTest {
     }
 
     @Test
+    @DisplayName("Проверка time")
     public void retrieve_time_from_line_in_log() {
         Long id = 1L;
         LocalDateTime time = LocalDateTime.now();
@@ -46,6 +50,7 @@ public class LineInLogTest {
     }
 
     @Test
+    @DisplayName("Проверка userId")
     public void retrieve_user_id_from_line_in_log() {
         Long id = 1L;
         LocalDateTime time = LocalDateTime.now();
@@ -56,6 +61,7 @@ public class LineInLogTest {
     }
 
     @Test
+    @DisplayName("Создание строки лога с null id")
     public void create_line_in_log_with_null_id() {
         LocalDateTime time = LocalDateTime.now();
         String userId = "user123";
@@ -66,6 +72,7 @@ public class LineInLogTest {
     }
 
     @Test
+    @DisplayName("Создание строки лога с null time")
     public void create_line_in_log_with_null_time() {
         Long id = 1L;
         String userId = "user123";
@@ -76,6 +83,7 @@ public class LineInLogTest {
     }
 
     @Test
+    @DisplayName("Создание строки лога с null userId")
     public void create_line_in_log_with_null_user_id() {
         Long id = 1L;
         LocalDateTime time = LocalDateTime.now();
@@ -86,6 +94,7 @@ public class LineInLogTest {
     }
 
     @Test
+    @DisplayName("Создание строки лога с null action")
     public void create_line_in_log_with_null_action() {
         Long id = 1L;
         LocalDateTime time = LocalDateTime.now();
