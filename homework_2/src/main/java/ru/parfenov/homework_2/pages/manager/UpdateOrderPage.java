@@ -47,8 +47,7 @@ public class UpdateOrderPage implements UserMenuPage {
             } else {
                 System.out.println("Do you want to close the order?" + System.lineSeparator() + "0 - yes, another key - no");
                 if ("0".equals(reader.readLine())) {
-                    order.setStatus(OrderStatus.CLOSED);
-                    service.update(order);
+                    service.close(order);
                     logService.saveLineInLog(
                             LocalDateTime.now(),
                             user.getId(),

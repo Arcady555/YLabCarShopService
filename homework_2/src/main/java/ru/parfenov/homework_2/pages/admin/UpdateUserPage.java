@@ -28,19 +28,25 @@ public class UpdateUserPage implements UserMenuPage {
             Utility.printUser(user);
             System.out.println("Do you want to delete the user?" + System.lineSeparator() + "0 - yes, another key - no");
             if ("0".equals(reader.readLine())) {
-                service.delete(user);
+                service.delete(userId);
             } else {
+                UserRole newUserRole = null;
+                String newName = "";
+                String newPassword = "";
+                String newContactInfo = "";
+                int newBuysAmount = 0;
+
                 System.out.println(
                         "Do you want to change role?" +
                                 System.lineSeparator() +
                                 "0 - yes, another key - no");
                 if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new role 0 - ADMIN,  1 - MANAGER, 2 - CLIENT");
-                    String answer = reader.readLine();
-                    switch (answer) {
-                        case "0" -> user.setRole(UserRole.ADMIN);
-                        case "1" -> user.setRole(UserRole.MANAGER);
-                        case "2" -> user.setRole(UserRole.CLIENT);
+                    String answerRole = reader.readLine();
+                    switch (answerRole) {
+                        case "0" -> newUserRole = UserRole.ADMIN;
+                        case "1" -> newUserRole = UserRole.MANAGER;
+                        case "2" -> newUserRole = UserRole.CLIENT;
                         default -> {
                             System.out.println("Please enter correct" + System.lineSeparator());
                             run();
@@ -54,8 +60,7 @@ public class UpdateUserPage implements UserMenuPage {
                 );
                 if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new name");
-                    String newName = reader.readLine();
-                    user.setName(newName);
+                    newName = reader.readLine();
                 }
                 System.out.println(
                         "Do you want to change password?" +
@@ -63,8 +68,7 @@ public class UpdateUserPage implements UserMenuPage {
                                 "0 - yes, another key - no");
                 if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new password");
-                    String newPassword = reader.readLine();
-                    user.setPassword(newPassword);
+                    newPassword = reader.readLine();
                 }
                 System.out.println(
                         "Do you want to change contact info?" +
@@ -72,8 +76,7 @@ public class UpdateUserPage implements UserMenuPage {
                                 "0 - yes, another key - no");
                 if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new contact info");
-                    String newContactInfo = reader.readLine();
-                    user.setContactInfo(newContactInfo);
+                    newContactInfo = reader.readLine();
                 }
                 System.out.println(
                         "Do you want to change buy amount?" +
@@ -81,14 +84,12 @@ public class UpdateUserPage implements UserMenuPage {
                                 "0 - yes, another key - no");
                 if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new buy amount");
-                    int newBuyAmount = checkIfReadInt(reader.readLine());
-                    user.setBuysAmount(newBuyAmount);
+                    newBuysAmount = checkIfReadInt(reader.readLine());
                 }
-                service.update(user);
+                service.update(userId, newUserRole, newName, newPassword, newContactInfo, newBuysAmount);
                 Thread.sleep(5000);
             }
         } else {
-            System.out.println("User not found!");
             run();
         }
     }

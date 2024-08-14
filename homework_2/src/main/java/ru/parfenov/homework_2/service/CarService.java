@@ -12,7 +12,10 @@ public interface CarService {
 
     List<Car> findByOwner(int ownerId);
 
-    void update(Car car);
+    void update(
+            int carId, int ownerId, String brand, String model,
+            int yearOfProd, int price, CarCondition condition
+    );
 
     void delete(Car car);
 

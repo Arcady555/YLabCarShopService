@@ -12,9 +12,9 @@ public interface UserService {
 
     User findByIdForAdmin(int id);
 
-    void update(User user);
+    void update(int userId, UserRole userRole, String name, String password, String contactInfo, int buysAmount);
 
-    User delete(User user);
+    User delete(int userId);
 
     void findAll();
 

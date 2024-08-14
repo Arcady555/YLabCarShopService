@@ -45,7 +45,8 @@ public class CarServiceConsoleImpl implements CarService {
     }
 
     @Override
-    public void update(Car car) {
+    public void update(int carId, int ownerId, String brand, String model, int yearOfProd, int price, CarCondition condition) {
+        Car car = new Car(carId, ownerId, brand, model, yearOfProd, price, condition);
         store.update(car);
         Utility.printCar(car);
     }

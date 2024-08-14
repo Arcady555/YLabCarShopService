@@ -9,7 +9,7 @@ public interface OrderService {
 
     Order findById(int id);
 
-    void update(Order order);
+    void close(Order order);
 
     Order delete(Order order);
 

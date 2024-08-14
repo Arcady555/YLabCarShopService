@@ -56,6 +56,12 @@ public class UpdateCarPage implements UserMenuPage {
                 carService.delete(car);
                 run();
             } else {
+                String newBrand = "";
+                String newModel = "";
+                int newYearOfProd = 0;
+                int newPrice = 0;
+                CarCondition newCondition = null;
+
                 System.out.println(
                         "Do you want to change brand?" +
                                 System.lineSeparator() +
@@ -63,7 +69,7 @@ public class UpdateCarPage implements UserMenuPage {
                 );
                 if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new brand");
-                    car.setBrand(reader.readLine());
+                    newBrand = reader.readLine();
                 }
 
                 System.out.println(
@@ -72,8 +78,7 @@ public class UpdateCarPage implements UserMenuPage {
                                 "0 - yes, another key - no");
                 if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new model");
-                    String newModel = reader.readLine();
-                    car.setModel(newModel);
+                    newModel = reader.readLine();
                 }
 
                 System.out.println(
@@ -82,8 +87,7 @@ public class UpdateCarPage implements UserMenuPage {
                                 "0 - yes, another key - no");
                 if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new date");
-                    int newDate = checkIfReadInt(reader.readLine());
-                    car.setYearOfProd(newDate);
+                    newYearOfProd = checkIfReadInt(reader.readLine());
                 }
 
                 System.out.println(
@@ -92,9 +96,7 @@ public class UpdateCarPage implements UserMenuPage {
                                 "0 - yes, another key - no");
                 if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new price");
-                    String newPriceStr = reader.readLine();
-                    int newPrice =  checkIfReadInt(reader.readLine());
-                    car.setPrice(newPrice);
+                    newPrice = checkIfReadInt(reader.readLine());
                 }
 
                 System.out.println(
@@ -103,11 +105,10 @@ public class UpdateCarPage implements UserMenuPage {
                                 "0 - yes, another key - no");
                 if ("0".equals(reader.readLine())) {
                     System.out.println("Enter new condition 0 - NEW,  another key - USED");
-                    CarCondition condition = "0".equals(reader.readLine()) ? CarCondition.NEW : CarCondition.USED;
-                    car.setCondition(condition);
+                    newCondition = "0".equals(reader.readLine()) ? CarCondition.NEW : CarCondition.USED;
                 }
 
-                carService.update(car);
+                carService.update(carId, user.getId(), newBrand, newModel, newYearOfProd, newPrice, newCondition);
                 logService.saveLineInLog(
                         LocalDateTime.now(),
                         user.getId(),

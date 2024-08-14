@@ -37,8 +37,9 @@ public class OrderServiceConsoleImpl implements OrderService {
     }
 
     @Override
-    public void update(Order order) {
-        store.update(order);
+    public void close(Order order) {
+        order.setStatus(OrderStatus.CLOSED);
+        order = store.update(order);
         Utility.printOrder(order);
     }
 

@@ -9,49 +9,31 @@ import ru.parfenov.homework_2.service.UserService;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class UpdateUserPageTest {
     UserService service = mock(UserService.class);
-    User user = new User(1, UserRole.CLIENT, "John", "password", "contact", 5);
-    UpdateUserPage page = new UpdateUserPage(service);
+    UpdateUserPage updateUserPage = new UpdateUserPage(service);
+    User user = new User(1, UserRole.CLIENT, "John Doe", "password", "contact", 5);
     BufferedReader reader = mock(BufferedReader.class);
 
     @Test
     @DisplayName("Удаление юзера")
-    public void test_user_found_deleted_successfully() throws IOException, InterruptedException {
+    public void user_is_deleted_successfully_when_0_is_entered() throws IOException, InterruptedException {
         when(service.findByIdForAdmin(1)).thenReturn(user);
-        page.reader = reader;
+        updateUserPage.reader = reader;
         when(reader.readLine()).thenReturn("1", "0");
-
-        page.run();
-
-        verify(service).delete(user);
+        updateUserPage.run();
+        verify(service).delete(1);
     }
 
     @Test
-    @DisplayName("Обновление юзера")
-    public void test_user_found_role_updated() throws IOException, InterruptedException {
+    @DisplayName("Обновление имени юзера")
+    public void user_name_is_updated_successfully_when_0_is_entered_and_new_name_provided() throws IOException, InterruptedException {
         when(service.findByIdForAdmin(1)).thenReturn(user);
-        page.reader = reader;
-        when(reader.readLine()).thenReturn("1", "1", "0", "0");
-        page.run();
-        verify(service).update(user);
-        assertEquals(UserRole.ADMIN, user.getRole());
-    }
-
-    @Test
-    @DisplayName("Изменение name")
-    public void test_user_found_name_updated() throws IOException, InterruptedException {
-        when(service.findByIdForAdmin(1)).thenReturn(user);
-        page.reader = reader;
-
-        when(reader.readLine()).thenReturn("1", "1", "1", "0", "newName");
-
-        page.run();
-
-        verify(service).update(user);
-        assertEquals("newName", user.getName());
+        updateUserPage.reader = reader;
+        when(reader.readLine()).thenReturn("1", "1", "1", "0", "New Name");
+        updateUserPage.run();
+        verify(service).update(1, null, "New Name", "", "", 0);
     }
 }

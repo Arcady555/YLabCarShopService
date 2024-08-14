@@ -61,13 +61,15 @@ public class UserServiceConsoleImpl implements UserService {
     }
 
     @Override
-    public void update(User user) {
+    public void update(int userId, UserRole userRole, String name, String password, String contactInfo, int buysAmount) {
+        User user = new User(userId, userRole, name, password, contactInfo, buysAmount);
         store.update(user);
         Utility.printUser(user);
     }
 
     @Override
-    public User delete(User user) {
+    public User delete(int userId) {
+        User user = store.findById(userId);
         return store.delete(user);
     }
 

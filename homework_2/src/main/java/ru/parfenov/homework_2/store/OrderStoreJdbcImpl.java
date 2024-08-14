@@ -1,7 +1,6 @@
 package ru.parfenov.homework_2.store;
 
 import lombok.extern.slf4j.Slf4j;
-import ru.parfenov.homework_2.enums.CarCondition;
 import ru.parfenov.homework_2.enums.OrderStatus;
 import ru.parfenov.homework_2.enums.OrderType;
 import ru.parfenov.homework_2.model.Order;
@@ -73,17 +72,9 @@ public class OrderStoreJdbcImpl implements OrderStore {
     @Override
     public Order update(Order order) {
         try (PreparedStatement statement = connection.prepareStatement(
-                "UPDATE cs_schema.orders SET author_Id = ?," +
-                        " car_id = ?," +
-                        " order_type = ?," +
-                        " order_status = ?" +
-                        " WHERE id = ?")
+                "UPDATE cs_schema.orders SET order_status = 'closed' WHERE id = ?")
         ) {
-            statement.setInt(1, order.getAuthorId());
-            statement.setInt(2, order.getCarId());
-            statement.setString(3, order.getType().toString());
-            statement.setString(4, order.getStatus().toString());
-            statement.setInt(5, order.getId());
+            statement.setInt(1, order.getId());
             statement.execute();
         } catch (Exception e) {
             log.error("Exception in OrderStoreJdbcImpl.update(). ", e);
@@ -135,6 +126,10 @@ public class OrderStoreJdbcImpl implements OrderStore {
         return orders;
     }
 
+    /**
+     * Метод предполагает поиск по параметрам (всем или некоторые можно не указать)
+     * id автора заказа, id машины, тип заказа(продажа или сервис), статус(открыт или открыт)
+     */
     @Override
     public List<Order> findByParameter(int authorId, int carId, OrderType type, OrderStatus status) {
         String request = getRequest(authorId, carId, type, status);

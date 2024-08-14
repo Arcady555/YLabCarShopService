@@ -6,23 +6,42 @@ import ru.parfenov.homework_2.model.Order;
 
 import java.util.List;
 
+/**
+ * Класс передаёт запросы в хранилище данных о заказах
+ */
 public interface OrderStore {
+    /**
+     * Создание карточки заказа
+     */
     Order create(Order order);
 
+    /**
+     * Поиск заказа по его уникальному ID
+     */
     Order findById(int id);
 
+    /**
+     * Метод предлагает обновление заказа.
+     */
     Order update(Order order);
 
+    /**
+     * Удаление карточки заказа
+     */
     Order delete(Order order);
 
+    /**
+     * Вывод списка всех заказов
+     */
     List<Order> findAll();
 
+    /**
+     * Поиск заказа по его создателю
+     */
     List<Order> findByAuthor(int authorId);
 
     /**
-     * Метод предполагает поиск по параметрам (всем или некоторые можно не указать)
-     * id автора заказа, id машины, тип заказа(продажа или сервис), статус(открыт или открыт)
+     * Метод предлагает поиск заказа по указанным параметрам
      */
-
     List<Order> findByParameter(int authorId, int carId, OrderType type, OrderStatus status);
 }

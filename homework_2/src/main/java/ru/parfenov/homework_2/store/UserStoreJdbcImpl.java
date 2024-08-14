@@ -70,26 +70,32 @@ public class UserStoreJdbcImpl implements UserStore {
         return user;
     }
 
+    /**
+     * Запрос в БД формируется из того, какие поля юзера были заполнены для изменения
+     */
     @Override
     public User update(User user) {
+        int id = user.getId();
+        UserRole role = user.getRole();
+        String name = user.getName();
+        String password = user.getPassword();
+        String contactInfo = user.getContactInfo();
+        int buysAmount = user.getBuysAmount();
+
+        String request = getRequestForUpdate(role, name, password, contactInfo, buysAmount);
+
         try (PreparedStatement statement = connection.prepareStatement(
-                "UPDATE cs_schema.users SET user_role = ?," +
-                        " name = ?," +
-                        " password = ?," +
-                        " contact_info = ?," +
-                        " buys_amount = ?" +
+                "UPDATE cs_schema.users SET " + request +
                         " WHERE id = ?")
         ) {
-            statement.setString(1, user.getRole().toString());
-            statement.setString(2, user.getName());
-            statement.setString(3, user.getPassword());
-            statement.setString(4, user.getContactInfo());
-            statement.setInt(5, user.getBuysAmount());
-            statement.setInt(6, user.getId());
+            int i = generateStatementSets(statement, role, name, password, contactInfo, buysAmount);
+            i++;
+            statement.setInt(i, id);
             statement.execute();
         } catch (Exception e) {
             log.error("Exception in UserStoreJdbcImpl.update(). ", e);
         }
+
         return user;
     }
 
@@ -121,32 +127,16 @@ public class UserStoreJdbcImpl implements UserStore {
     }
 
     /**
-     * Метод предполагает поиск по параметрам (всем или некоторые можно не указать)
-     * id юзера, его роль, имя, строка(может содержаться в контактной информации), число покупок
+     * Запрос в БД формируется из того, какие поля юзера были заполнены в качестве параметров поиска
      */
-
+    @Override
     public List<User> findByParameters(UserRole role, String name, String contactInfo, int buysAmount) {
-        String request = getRequest(role, name, contactInfo, buysAmount);
+        String request = getRequestForFindByParam(role, name, contactInfo, buysAmount);
         List<User> users = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.users " + request)
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM cs_schema.users WHERE " + request)
         ) {
-            int i = 0;
-            if (role != null) {
-                i++;
-                statement.setString(i, role.toString());
-            }
-            if (!name.isEmpty()) {
-                i++;
-                statement.setString(i, name);
-            }
-            if (!contactInfo.isEmpty()) {
-                i++;
-                statement.setString(i, contactInfo);
-            }
-            if (buysAmount != 0) {
-                i++;
-                statement.setInt(i, buysAmount);
-            }
+            generateStatementSets(statement, role, name, "", contactInfo, buysAmount);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     User user = returnUser(resultSet);
@@ -181,14 +171,63 @@ public class UserStoreJdbcImpl implements UserStore {
         return result;
     }
 
-    private String getRequest(UserRole role, String name, String contactInfo, int buysAmount) {
-        StringBuilder stringBuilder = new StringBuilder(" WHERE ");
+    private String getRequestForFindByParam(UserRole role,
+                                            String name,
+                                            String contactInfo,
+                                            int buysAmount) {
+        StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(role != null ? " user_role = ?" : "").
                 append(!name.isEmpty() ? " name = ? and" : "").
-                append(!contactInfo.isEmpty() ? " contact_info = ? and" : "").
+                append(!contactInfo.isEmpty() ? " contact_info LIKE %?% and" : "").
                 append(buysAmount != 0 ? " buys_amount = ?" : "");
         if (stringBuilder.toString().endsWith("and")) stringBuilder.setLength(stringBuilder.length() - 3);
 
         return stringBuilder.toString();
+    }
+
+    private String getRequestForUpdate(UserRole role,
+                                       String name,
+                                       String password,
+                                       String contactInfo,
+                                       int buysAmount) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(role != null ? " user_role = ? ," : "").
+                append(!name.isEmpty() ? " name = ? ," : "").
+                append(!password.isEmpty() ? "password = ? ," : "").
+                append(!contactInfo.isEmpty() ? " contact_info = ? ," : "").
+                append(buysAmount != 0 ? " buys_amount = ?" : "");
+        if (stringBuilder.toString().endsWith(",")) stringBuilder.setLength(stringBuilder.length() - 1);
+
+        return stringBuilder.toString();
+    }
+
+    private int generateStatementSets(PreparedStatement statement,
+                                      UserRole role,
+                                      String name,
+                                      String password,
+                                      String contactInfo,
+                                      int buysAmount) throws SQLException {
+        int result = 0;
+        if (role != null) {
+            result++;
+            statement.setString(result, role.toString());
+        }
+        if (!name.isEmpty()) {
+            result++;
+            statement.setString(result, name);
+        }
+        if (!password.isEmpty()) {
+            result++;
+            statement.setString(result, password);
+        }
+        if (!contactInfo.isEmpty()) {
+            result++;
+            statement.setString(result, contactInfo);
+        }
+        if (buysAmount != 0) {
+            result++;
+            statement.setInt(result, buysAmount);
+        }
+        return result;
     }
 }

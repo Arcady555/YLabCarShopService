@@ -5,25 +5,43 @@ import ru.parfenov.homework_2.model.Car;
 
 import java.util.List;
 
+/**
+ * Класс передаёт запросы в хранилище данных о машинах
+ */
 public interface CarStore {
+    /**
+     * Создание карточки машины
+     */
     Car create(Car car);
 
+    /**
+     * Поиск машины по её уникальному ID
+     */
     Car findById(int id);
 
+    /**
+     * Поиск машины пол ID её собственника
+     */
     List<Car> findByOwner(int ownerId);
 
+    /**
+     * Метод предлагает обновление автомобиля.
+     */
     Car update(Car car);
 
+    /**
+     * Удаление карточки машины
+     */
     void delete(Car car);
 
+    /**
+     * Вывод списка всех машин
+     */
     List<Car> findAll();
 
     /**
-     * Метод предполагает поиск по параметрам (всем или некоторые можно не указать)
-     * id собственника, марка, модель, года выпуска, выше указанной цены,
-     * ниже указанной цены, состояние.
+     * Метод предлагает поиск авто по указанным параметрам
      */
-
     List<Car> findByParameter(
             int ownerId, String brand, String model, int yearOfProd,
             int priceFrom, int priceTo, CarCondition condition
