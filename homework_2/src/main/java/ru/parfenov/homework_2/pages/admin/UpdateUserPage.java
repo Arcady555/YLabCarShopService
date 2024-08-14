@@ -10,6 +10,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Страница обновления информации о юзере
+ */
 public class UpdateUserPage implements UserMenuPage {
     private final UserService service;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

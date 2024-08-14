@@ -8,11 +8,6 @@ import ru.parfenov.homework_2.utility.Utility;
 
 import java.util.List;
 
-/**
- * Класс данного слоя служит прослойкой между голым хранилищем с его строгими методами и фронтом-страницами,
- * добавляя и изменяя некоторую логику-функционал
- */
-
 @AllArgsConstructor
 public class CarServiceConsoleImpl implements CarService {
     private final CarStore store;

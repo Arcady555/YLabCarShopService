@@ -7,6 +7,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Страница вывода юзера по введённому id
+ */
 public class UserPage implements UserMenuPage {
     private final UserService service;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

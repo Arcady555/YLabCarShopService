@@ -7,6 +7,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Страница вывода карточки машины по её ID
+ */
 public class CarPage implements UserMenuPage {
     private final CarService carService;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

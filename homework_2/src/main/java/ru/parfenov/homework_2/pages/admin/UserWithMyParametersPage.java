@@ -8,6 +8,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Страница позволяет провести поиск юзера
+ * по нужным параметрам, в поисковике пропуская enter"ом ненужные параметры
+ */
 public class UserWithMyParametersPage implements UserMenuPage {
     private final UserService service;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

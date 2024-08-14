@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 
+/**
+ * Страница, на которую попадает юзер - клиент
+ */
 public class ClientPage implements UserMenuPage {
     private final User user;
     private final CarService carService;

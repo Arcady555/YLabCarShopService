@@ -24,7 +24,7 @@ import java.util.Map;
  * или на страницу с функционалом клиента
  */
 
-public class SignInPage {
+public class SignInPage implements UserMenuPage {
     private final UserService userService;
     private final CarService carService;
     private final OrderService orderService;
@@ -38,17 +38,10 @@ public class SignInPage {
         this.logService = logService;
     }
 
+    @Override
     public void run() throws IOException, InterruptedException {
         System.out.println("Enter Id");
-        String idStr = reader.readLine();
-        System.out.println(idStr);
-        int id = 0;
-        try {
-            id = Integer.parseInt(idStr);
-        } catch (NumberFormatException e) {
-            System.out.println("Please enter the NUMBER!");
-            run();
-        }
+        int id = checkIfReadInt(reader.readLine());
         User user = userService.findById(id);
         Map<UserRole, UserMenuPage> userMenuMap = Map.of(
                 UserRole.ADMIN, new AdminPage(user, userService, carService, orderService, logService),

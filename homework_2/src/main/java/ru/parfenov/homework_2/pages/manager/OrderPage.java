@@ -6,6 +6,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Страница вывода заказа по его ID
+ */
 public class OrderPage implements UserMenuPage {
     private final OrderService service;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

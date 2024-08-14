@@ -9,6 +9,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * Страница, где можно найти заказы по введённым параметрам
+ */
 public class OrderWithMyParametersPage implements UserMenuPage {
     private final OrderService service;
     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

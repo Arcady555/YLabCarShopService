@@ -5,6 +5,9 @@ import ru.parfenov.homework_2.service.CarService;
 
 import java.io.IOException;
 
+/**
+ * Страница вывода списка всех машин
+ */
 public class AllCarPage implements UserMenuPage {
     private final CarService carService;
 

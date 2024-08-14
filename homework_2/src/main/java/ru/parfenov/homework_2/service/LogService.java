@@ -40,30 +40,45 @@ public class LogService {
         store.create(lineInLog);
     }
 
+    /**
+     * Вывод всех записей лога, которые ушли в базу данных
+     */
     public List<LineInLog> findAll() {
         List<LineInLog> result = store.findAll();
         printLogLines(result);
         return result;
     }
 
+    /**
+     * Фильтрация списка записей лога по времени до заданной даты
+     */
     public List<LineInLog> findByDateTimeTo(LocalDateTime dateTime) {
         List<LineInLog> result = store.findByDateTimeTo(dateTime);
         printLogLines(result);
         return result;
     }
 
+    /**
+     * Фильтрация списка записей лога по времени после заданной даты
+     */
     public List<LineInLog> findByDateTimeFrom(LocalDateTime dateTime) {
         List<LineInLog> result = store.findByDateTimeFrom(dateTime);
         printLogLines(result);
         return result;
     }
 
+    /**
+     * Фильтрация списка записей лога по юзеру
+     */
     public List<LineInLog> findByUserId(String userId) {
         List<LineInLog> result = store.findByUserId(userId);
         printLogLines(result);
         return result;
     }
 
+    /**
+     * Список лога можно сохранить в файл по заданной траектории
+     */
     public void saveLogList(List<LineInLog> list) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(Utility.saveLogPath))) {
             String data = listToString(list);
