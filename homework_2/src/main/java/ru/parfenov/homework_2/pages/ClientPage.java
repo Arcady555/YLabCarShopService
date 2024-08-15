@@ -5,6 +5,7 @@ import ru.parfenov.homework_2.pages.client.*;
 import ru.parfenov.homework_2.service.CarService;
 import ru.parfenov.homework_2.service.LogService;
 import ru.parfenov.homework_2.service.OrderService;
+import ru.parfenov.homework_2.utility.PageGreetings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -40,17 +41,7 @@ public class ClientPage implements UserMenuPage {
                 new DeleteOrderPage(user, orderService, logService)
         );
         while (true) {
-            System.out.println("""
-                    What operation?
-                    0 - create car
-                    1 - update or delete Your cars
-                    2 - view all cars
-                    3 - find the car by id
-                    4 - find the cars with Your parameters
-                    5 - create order
-                    6 - delete Your order
-                    7 - exit
-                    """);
+            System.out.println(PageGreetings.clientPageMenu);
             String answerStr = reader.readLine();
             UserMenuPage clientMenuPage;
             try {

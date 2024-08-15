@@ -3,6 +3,7 @@ package ru.parfenov.homework_2.store;
 import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_2.enums.UserRole;
 import ru.parfenov.homework_2.model.User;
+import ru.parfenov.homework_2.utility.JdbcRequests;
 import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.InputStream;
@@ -27,14 +28,7 @@ public class UserStoreJdbcImpl implements UserStore {
     @Override
     public User create(User user) {
         try (PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO cs_schema.users(" +
-                        "user_role," +
-                        " name," +
-                        " password," +
-                        " contact_info," +
-                        " buys_amount" +
-                        ")" +
-                        " VALUES (?, ?, ?, ?, ?)",
+                JdbcRequests.createUser,
                 Statement.RETURN_GENERATED_KEYS)
         ) {
             statement.setString(1, user.getRole().toString());
@@ -57,7 +51,7 @@ public class UserStoreJdbcImpl implements UserStore {
     @Override
     public User findById(int userId) {
         User user = null;
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.users WHERE id = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findUserById)) {
             statement.setInt(1, userId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -101,7 +95,7 @@ public class UserStoreJdbcImpl implements UserStore {
 
     @Override
     public User delete(User user) {
-        try (PreparedStatement statement = connection.prepareStatement("UPDATE cs_schema.users delete WHERE id = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.deleteUser)) {
             statement.setInt(1, user.getId());
             statement.execute();
         } catch (Exception e) {
@@ -113,7 +107,7 @@ public class UserStoreJdbcImpl implements UserStore {
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.users")) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findAllUsers)) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     User user = returnUser(resultSet);

@@ -3,6 +3,7 @@ package ru.parfenov.homework_2.store;
 import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_2.enums.CarCondition;
 import ru.parfenov.homework_2.model.Car;
+import ru.parfenov.homework_2.utility.JdbcRequests;
 import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.InputStream;
@@ -27,15 +28,7 @@ public class CarStoreJdbcImpl implements CarStore {
     @Override
     public Car create(Car car) {
         try (PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO cs_schema.cars(" +
-                        "owner_id," +
-                        " brand," +
-                        " model," +
-                        " year_of_prod," +
-                        " price," +
-                        " car_condition" +
-                        ")" +
-                        " VALUES (?, ?, ?, ?, ?, ?)",
+                JdbcRequests.createCar,
                 Statement.RETURN_GENERATED_KEYS)
         ) {
             statement.setInt(1, car.getOwnerId());
@@ -52,7 +45,6 @@ public class CarStoreJdbcImpl implements CarStore {
             }
         } catch (Exception e) {
             log.error("Exception in CarStoreJdbcImpl.create(). ", e);
-            ;
         }
         return car;
     }
@@ -60,7 +52,7 @@ public class CarStoreJdbcImpl implements CarStore {
     @Override
     public Car findById(int id) {
         Car car = null;
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.cars WHERE id = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findCarById)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -76,7 +68,7 @@ public class CarStoreJdbcImpl implements CarStore {
     @Override
     public List<Car> findByOwner(int ownerId) {
         List<Car> cars = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.cars WHERE owner_id = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findCarByOwner)) {
             statement.setInt(1, ownerId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -122,7 +114,7 @@ public class CarStoreJdbcImpl implements CarStore {
 
     @Override
     public void delete(Car car) {
-        try (PreparedStatement statement = connection.prepareStatement("UPDATE cs_schema.cars delete WHERE id = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.deleteCar)) {
             statement.setInt(1, car.getId());
             statement.execute();
         } catch (Exception e) {
@@ -133,7 +125,7 @@ public class CarStoreJdbcImpl implements CarStore {
     @Override
     public List<Car> findAll() {
         List<Car> cars = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.cars")) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findAllCars)) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Car car = returnCar(resultSet);

@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_2.enums.OrderStatus;
 import ru.parfenov.homework_2.enums.OrderType;
 import ru.parfenov.homework_2.model.Order;
+import ru.parfenov.homework_2.utility.JdbcRequests;
 import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.InputStream;
@@ -28,13 +29,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
     @Override
     public Order create(Order order) {
         try (PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO cs_schema.orders(" +
-                        "author_id," +
-                        " car_id," +
-                        " order_type," +
-                        " order_status" +
-                        ")" +
-                        " VALUES (?, ?, ?, ?)",
+                JdbcRequests.createOrder,
                 Statement.RETURN_GENERATED_KEYS)
         ) {
             statement.setInt(1, order.getCarId());
@@ -56,7 +51,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
     @Override
     public Order findById(int id) {
         Order order = null;
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.orders WHERE id = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findOrderById)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -71,9 +66,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
 
     @Override
     public Order update(Order order) {
-        try (PreparedStatement statement = connection.prepareStatement(
-                "UPDATE cs_schema.orders SET order_status = 'closed' WHERE id = ?")
-        ) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.updateOrder)) {
             statement.setInt(1, order.getId());
             statement.execute();
         } catch (Exception e) {
@@ -84,7 +77,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
 
     @Override
     public Order delete(Order order) {
-        try (PreparedStatement statement = connection.prepareStatement("UPDATE cs_schema.orders delete WHERE id = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.deleteOrder)) {
             statement.setInt(1, order.getId());
             statement.execute();
         } catch (Exception e) {
@@ -96,7 +89,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
     @Override
     public List<Order> findAll() {
         List<Order> orders = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.orders")) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findAllOrders)) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Order order = returnOrder(resultSet);
@@ -112,7 +105,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
     @Override
     public List<Order> findByAuthor(int authorId) {
         List<Order> orders = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.orders WHERE author_id = ?")) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findOrderByAuthor)) {
             statement.setInt(1, authorId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
@@ -136,23 +129,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
         List<Order> orders = new ArrayList<>();
         try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.orders " + request)
         ) {
-            int i = 0;
-            if (authorId != 0) {
-                i++;
-                statement.setInt(i, authorId);
-            }
-            if (carId != 0) {
-                i++;
-                statement.setInt(i, carId);
-            }
-            if (type != null) {
-                i++;
-                statement.setString(i, type.toString());
-            }
-            if (status != null) {
-                i++;
-                statement.setString(i, status.toString());
-            }
+            generateStatementSets(statement, authorId, carId, type, status);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     Order order = returnOrder(resultSet);
@@ -184,5 +161,34 @@ public class OrderStoreJdbcImpl implements OrderStore {
         if (stringBuilder.toString().endsWith("and")) stringBuilder.setLength(stringBuilder.length() - 3);
 
         return stringBuilder.toString();
+    }
+
+    /**
+     * Метод используется для обработки пустых и не пустых полей, для PreparedStatement.
+     * Можно сделать void, но на случай расширения в будущем пусть возвращает int, как в других хранилищах
+     */
+    private int generateStatementSets(PreparedStatement statement,
+                                      int authorId,
+                                      int carId,
+                                      OrderType type,
+                                      OrderStatus status) throws SQLException {
+        int result = 0;
+        if (authorId != 0) {
+            result++;
+            statement.setInt(result, authorId);
+        }
+        if (carId != 0) {
+            result++;
+            statement.setInt(result, carId);
+        }
+        if (type != null) {
+            result++;
+            statement.setString(result, type.toString());
+        }
+        if (status != null) {
+            result++;
+            statement.setString(result, status.toString());
+        }
+        return result;
     }
 }

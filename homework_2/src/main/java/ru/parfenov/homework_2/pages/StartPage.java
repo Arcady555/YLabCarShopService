@@ -4,6 +4,7 @@ import ru.parfenov.homework_2.service.CarService;
 import ru.parfenov.homework_2.service.LogService;
 import ru.parfenov.homework_2.service.OrderService;
 import ru.parfenov.homework_2.service.UserService;
+import ru.parfenov.homework_2.utility.PageGreetings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,12 +30,7 @@ public class StartPage {
     }
 
     public void run() throws IOException, InterruptedException {
-        System.out.println("""
-                Please enter:
-                1 - registration
-                or
-                2 - enter id
-                """);
+        System.out.println(PageGreetings.startPageGreeting);
         String enter = reader.readLine();
         switch (enter) {
             case "1":

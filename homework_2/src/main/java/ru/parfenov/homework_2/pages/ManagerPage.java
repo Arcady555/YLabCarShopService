@@ -5,13 +5,14 @@ import ru.parfenov.homework_2.pages.client.AllCarPage;
 import ru.parfenov.homework_2.pages.client.CarPage;
 import ru.parfenov.homework_2.pages.client.CarWithMyParametersPage;
 import ru.parfenov.homework_2.pages.client.UpdateCarPage;
-import ru.parfenov.homework_2.pages.manager.OrderWithMyParametersPage;
 import ru.parfenov.homework_2.pages.manager.AllOrdersPage;
 import ru.parfenov.homework_2.pages.manager.OrderPage;
+import ru.parfenov.homework_2.pages.manager.OrderWithMyParametersPage;
 import ru.parfenov.homework_2.pages.manager.UpdateOrderPage;
 import ru.parfenov.homework_2.service.CarService;
 import ru.parfenov.homework_2.service.LogService;
 import ru.parfenov.homework_2.service.OrderService;
+import ru.parfenov.homework_2.utility.PageGreetings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -48,18 +49,7 @@ public class ManagerPage implements UserMenuPage {
                 new UpdateOrderPage(user, orderService, logService)
         );
         while (true) {
-            System.out.println("""
-                    What operation?
-                    0 - view all cars
-                    1 - find the car by id
-                    2 - find the cars with Your parameters
-                    3 - update or delete car
-                    4 - view all orders
-                    5 - find the order by id
-                    6 - find the order with Your parameters
-                    7 - update or delete order
-                    8 - exit
-                    """);
+            System.out.println(PageGreetings.managerPageMenu);
             String answerStr = reader.readLine();
             UserMenuPage managerMenuPage;
             try {

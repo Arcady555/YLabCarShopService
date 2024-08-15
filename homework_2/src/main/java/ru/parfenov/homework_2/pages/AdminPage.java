@@ -6,6 +6,7 @@ import ru.parfenov.homework_2.service.CarService;
 import ru.parfenov.homework_2.service.LogService;
 import ru.parfenov.homework_2.service.OrderService;
 import ru.parfenov.homework_2.service.UserService;
+import ru.parfenov.homework_2.utility.PageGreetings;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,18 +45,7 @@ public class AdminPage implements UserMenuPage {
                 new LogPage(logService)
         );
         while (true) {
-            System.out.println("""
-                    What operation?
-                    0 - view all users
-                    1 - find the user by id
-                    2 - find the user with Your parameters
-                    3 - create user
-                    4 - update or delete user
-                    5 - manager menu
-                    6 - client menu
-                    7 - read log
-                    8 - exit
-                    """);
+            System.out.println(PageGreetings.adminPageMenu);
             String answerStr = reader.readLine();
             UserMenuPage adminMenuPage;
             try {

@@ -2,6 +2,7 @@ package ru.parfenov.homework_2.store;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_2.model.LineInLog;
+import ru.parfenov.homework_2.utility.JdbcRequests;
 import ru.parfenov.homework_2.utility.Utility;
 
 import java.io.InputStream;
@@ -26,14 +27,7 @@ public class LogStore {
     }
 
     public void create(LineInLog lineInLog) {
-        try (PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO cs_schema.log_records(" +
-                        "date_time," +
-                        " user_id," +
-                        " action" +
-                        ")" +
-                        " VALUES (?, ?, ?)")
-        ) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.createLineInLog)) {
             statement.setTimestamp(1, Timestamp.valueOf(lineInLog.time()));
             statement.setString(2, lineInLog.userId());
             statement.setString(3, lineInLog.action());
@@ -45,7 +39,7 @@ public class LogStore {
 
     public List<LineInLog> findAll() {
         List<LineInLog> logList = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement("SELECT * FROM cs_schema.log_records")) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findAllLinesInLog)) {
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     LineInLog lineInLog = returnLogRecord(resultSet);
@@ -60,9 +54,7 @@ public class LogStore {
 
     public List<LineInLog> findByDateTimeTo(LocalDateTime dateTime) {
         List<LineInLog> logList = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT * FROM cs_schema.log_records WHERE date_time < ?")
-        ) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findLinesInLogByDateTimeTo)) {
             statement.setTimestamp(1, Timestamp.valueOf(dateTime));
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -72,16 +64,13 @@ public class LogStore {
             }
         } catch (Exception e) {
             log.error("Exception in LogStore.findByDateTimeTo()!", e);
-            ;
         }
         return logList;
     }
 
     public List<LineInLog> findByDateTimeFrom(LocalDateTime dateTime) {
         List<LineInLog> logList = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT * FROM cs_schema.log_records WHERE date_time > ?")
-        ) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findLinesInLogByDateTimeFrom)) {
             statement.setTimestamp(1, Timestamp.valueOf(dateTime));
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -91,16 +80,13 @@ public class LogStore {
             }
         } catch (Exception e) {
             log.error("Exception in LogStore.findByDateTimeFrom()!", e);
-            ;
         }
         return logList;
     }
 
     public List<LineInLog> findByUserId(String userId) {
         List<LineInLog> logList = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(
-                "SELECT * FROM cs_schema.log_records WHERE user_id = ?")
-        ) {
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findLinesInLogByUserId)) {
             statement.setString(1, userId);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -110,7 +96,6 @@ public class LogStore {
             }
         } catch (Exception e) {
             log.error("Exception in LogStore.findByUserId()!", e);
-            ;
         }
         return logList;
     }
