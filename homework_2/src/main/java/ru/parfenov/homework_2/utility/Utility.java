@@ -3,8 +3,8 @@ package ru.parfenov.homework_2.utility;
 import ru.parfenov.homework_2.model.Car;
 import ru.parfenov.homework_2.model.Order;
 import ru.parfenov.homework_2.model.User;
-import ru.parfenov.homework_2.pages.UserMenuPage;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -36,28 +36,16 @@ public class Utility {
         }
     }
 
-    public static Connection loadConnection(InputStream in) throws ClassNotFoundException, SQLException {
-        var config = new Properties();
+    public static Connection loadConnection(InputStream in) throws ClassNotFoundException, SQLException, IOException {
+        Properties prop = new Properties();
+        prop.load(new FileInputStream("application.properties"));
         Connection connection;
-        try (in) {
-            config.load(in);
-        } catch (Exception e) {
-            throw new IllegalStateException(e);
-        }
-        String url = loadSysEnvIfNullThenConfig("JDBC_URL", "url", config);
-        String username = loadSysEnvIfNullThenConfig("JDBC_USERNAME", "username", config);
-        String password = loadSysEnvIfNullThenConfig("JDBC_PASSWORD", "password", config);
-        String driver = loadSysEnvIfNullThenConfig("JDBC_DRIVER", "driver-class-name", config);
+        String url = prop.getProperty("container.JDBC_URL");
+        String username = prop.getProperty("container.JDBC_USERNAME");
+        String password = prop.getProperty("container.JDBC_PASSWORD");
+        String driver = prop.getProperty("container.JDBC_DRIVER");
         Class.forName(driver);
         connection = DriverManager.getConnection(url, username, password);
         return connection;
-    }
-
-    private static String loadSysEnvIfNullThenConfig(String sysEnv, String key, Properties config) {
-        String value = System.getenv(sysEnv);
-        if (value == null) {
-            value = config.getProperty(key);
-        }
-        return value;
     }
 }
