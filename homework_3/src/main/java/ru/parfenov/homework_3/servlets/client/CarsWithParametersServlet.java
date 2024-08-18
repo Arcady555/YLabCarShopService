@@ -5,8 +5,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.model.Car;
+import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.CarService;
 import ru.parfenov.homework_3.utility.Utility;
 
@@ -27,18 +29,28 @@ public class CarsWithParametersServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String ownerId = request.getParameter("ownerId");
-        String brand = request.getParameter("brand");
-        String model = request.getParameter("model");
-        String yearOfProd = request.getParameter("yearOfProd");
-        String priceFrom = request.getParameter("priceFrom");
-        String priceTo = request.getParameter("priceTo");
-        String condition = request.getParameter("condition");
-        List<Car> carList = carService.findByParameter(
-                ownerId, brand, model, yearOfProd, priceFrom, priceTo, condition
-        );
-        String carJsonString = !carList.isEmpty() ? new Gson().toJson(carList) : "no cars!";
-        response.setStatus("no cars!".equals(carJsonString) ? 404 : 200);
+        HttpSession session = request.getSession();
+        int responseStatus;
+        var user = (User) session.getAttribute("user");
+        String carJsonString;
+        if (user == null) {
+            carJsonString = "no registration!";
+            responseStatus = 401;
+        } else {
+            String ownerId = request.getParameter("ownerId");
+            String brand = request.getParameter("brand");
+            String model = request.getParameter("model");
+            String yearOfProd = request.getParameter("yearOfProd");
+            String priceFrom = request.getParameter("priceFrom");
+            String priceTo = request.getParameter("priceTo");
+            String condition = request.getParameter("condition");
+            List<Car> carList = carService.findByParameter(
+                    ownerId, brand, model, yearOfProd, priceFrom, priceTo, condition
+            );
+            carJsonString = !carList.isEmpty() ? new Gson().toJson(carList) : "no cars!";
+            responseStatus = "no cars!".equals(carJsonString) ? 404 : 200;
+        }
+        response.setStatus(responseStatus);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

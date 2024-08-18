@@ -61,6 +61,23 @@ public class UserStoreJdbcImpl implements UserStore {
         return user;
     }
 
+    @Override
+    public User findByIdAndPassword(int userId, String password) {
+        User user = null;
+        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findUserByIdAndPassword)) {
+            statement.setInt(1, userId);
+            statement.setString(2, password);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    user = returnUser(resultSet);
+                }
+            }
+        } catch (Exception e) {
+            log.error("Exception in UserStoreJdbcImpl.findByIdAndPassword(). ", e);
+        }
+        return user;
+    }
+
     /**
      * Запрос в БД формируется из того, какие поля юзера были заполнены для изменения
      */

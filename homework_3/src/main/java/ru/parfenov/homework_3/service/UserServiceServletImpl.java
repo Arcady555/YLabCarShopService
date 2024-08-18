@@ -34,6 +34,11 @@ public class UserServiceServletImpl implements UserService, GettingIntFromString
     }
 
     @Override
+    public Optional<User> findByIdAndPassword(int userId, String password) {
+        return Optional.ofNullable(store.findByIdAndPassword(userId, password));
+    }
+
+    @Override
     public boolean update(int userId, String roleStr, String name, String password, String contactInfo, int buysAmount) {
         UserRole role = getUserRoleFromString(roleStr);
         User user = new User(userId, role, name, password, contactInfo, buysAmount);

@@ -10,6 +10,7 @@ public class JdbcRequests {
             ")" +
             " VALUES (?, ?, ?, ?, ?)";
     public static String findUserById = "SELECT * FROM cs_schema.users WHERE id = ?";
+    public static String findUserByIdAndPassword = "SELECT * FROM cs_schema.users WHERE id = ? AND password = ?";
     public static String deleteUser = "UPDATE cs_schema.users delete WHERE id = ?";
     public static String findAllUsers = "SELECT * FROM cs_schema.users";
 

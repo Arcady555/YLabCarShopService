@@ -5,8 +5,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.Order;
+import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.OrderService;
 import ru.parfenov.homework_3.utility.Utility;
 
@@ -24,13 +27,23 @@ public class OrdersWithParametersServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String authorIdStr = request.getParameter("authorId");
-        String carIdStr = request.getParameter("carId");
-        String typeStr = request.getParameter("type");
-        String statusStr = request.getParameter("status");
-        List<Order> orderList = orderService.findByParameter(authorIdStr, carIdStr, typeStr, statusStr);
-        String orderJsonString = !orderList.isEmpty() ? new Gson().toJson(orderList) : "no orders with these parameters";
-        response.setStatus("no orders with these parameters".equals(orderJsonString) ? 404 : 200);
+        HttpSession session = request.getSession();
+        int responseStatus;
+        var user = (User) session.getAttribute("user");
+        String orderJsonString;
+        if (user == null || user.getRole() != UserRole.MANAGER) {
+            orderJsonString = "no rights or registration!";
+            responseStatus = user == null ? 401 : 403;
+        } else {
+            String authorIdStr = request.getParameter("authorId");
+            String carIdStr = request.getParameter("carId");
+            String typeStr = request.getParameter("type");
+            String statusStr = request.getParameter("status");
+            List<Order> orderList = orderService.findByParameter(authorIdStr, carIdStr, typeStr, statusStr);
+            orderJsonString = !orderList.isEmpty() ? new Gson().toJson(orderList) : "no orders with these parameters";
+            responseStatus = "no orders with these parameters".equals(orderJsonString) ? 404 : 200;
+        }
+        response.setStatus(responseStatus);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

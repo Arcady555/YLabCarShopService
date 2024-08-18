@@ -5,8 +5,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.Order;
+import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.OrderService;
 import ru.parfenov.homework_3.utility.Utility;
 
@@ -24,12 +27,21 @@ public class ViewOrderServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String orderIdStr = request.getParameter("id");
-        Optional<Order> orderOptional = orderService.findById(orderIdStr);
-        String orderJsonString = orderOptional.isPresent() ? new Gson().toJson(orderOptional.get()) : "order not found!";
-        response.setStatus("order not found!".equals(orderJsonString) ? 404 : 200);
+        HttpSession session = request.getSession();
+        int responseStatus;
+        var user = (User) session.getAttribute("user");
+        String orderJsonString;
+        if (user == null || user.getRole() != UserRole.MANAGER) {
+            orderJsonString = "no rights or registration!";
+            responseStatus = user == null ? 401 : 403;
+        } else {
+            String orderIdStr = request.getParameter("id");
+            Optional<Order> orderOptional = orderService.findById(orderIdStr);
+            orderJsonString = orderOptional.isPresent() ? new Gson().toJson(orderOptional.get()) : "order not found!";
+            responseStatus = "order not found!".equals(orderJsonString) ? 404 : 200;
+        }
+        response.setStatus(responseStatus);
         PrintWriter out = response.getWriter();
-        response.setStatus(orderOptional.isPresent() ? 200 : 404);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         out.print(orderJsonString);

@@ -8,7 +8,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import ru.parfenov.homework_3.dto.UserNamePasContDTO;
+import ru.parfenov.homework_3.dto.UserDTOMapper;
+import ru.parfenov.homework_3.dto.UserDTOMapperImpl;
+import ru.parfenov.homework_3.dto.UserIdPassDTO;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.UserService;
 import ru.parfenov.homework_3.utility.Utility;
@@ -19,26 +21,36 @@ import java.util.Optional;
 import java.util.Scanner;
 
 @Slf4j
-@WebServlet(name = "SignUpServlet", urlPatterns = "/sign-up")
-public class SignUpServlet extends HttpServlet {
+@WebServlet(name = "SignInServlet", urlPatterns = "/sign-in")
+
+public class SignInServlet extends HttpServlet {
     private final UserService userService = Utility.loadUserservice();
 
-    public SignUpServlet() throws Exception {
+    public SignInServlet() throws Exception {
     }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        UserDTOMapper mapper = new UserDTOMapperImpl();
         Scanner scanner = new Scanner(request.getInputStream());
         String userJson = scanner.useDelimiter("\\A").next();
         scanner.close();
         ObjectMapper objectMapper = new ObjectMapper();
-        UserNamePasContDTO userDIO = objectMapper.readValue(userJson, UserNamePasContDTO.class);
+        UserIdPassDTO userDTO = objectMapper.readValue(userJson, UserIdPassDTO.class);
         Optional<User> userOptional =
-                userService.createByReg(userDIO.getName(), userDIO.getPassword(), userDIO.getContactInfo());
-        String userJsonString = userOptional.isPresent() ?
-                new Gson().toJson(userOptional.get()) :
-                "user is not created!";
-        response.setStatus("user is not created!".equals(userJsonString) ? 404 : 200);
+                userService.findByIdAndPassword(userDTO.getId(), userDTO.getPassword());
+        String userJsonString;
+        int responseStatus;
+        if (userOptional.isPresent()) {
+            userJsonString = new Gson().toJson(mapper.toUserIdNameRoleDTO(userOptional.get()));
+            responseStatus = 200;
+            var session = request.getSession();
+            session.setAttribute("user", userOptional.get());
+        } else {
+            userJsonString = "user is not found!";
+            responseStatus = 404;
+        }
+        response.setStatus(responseStatus);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

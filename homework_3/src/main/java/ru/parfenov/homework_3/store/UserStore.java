@@ -20,6 +20,11 @@ public interface UserStore {
     User findById(int id);
 
     /**
+     * Проверка наличия в хранилище юзера с таким ID и паролем
+     */
+    User findByIdAndPassword(int userId, String password);
+
+    /**
      * Метод предлагает обновление юзера.
      */
     boolean update(User user);

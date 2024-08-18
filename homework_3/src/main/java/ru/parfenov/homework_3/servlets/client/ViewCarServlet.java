@@ -5,8 +5,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.model.Car;
+import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.CarService;
 import ru.parfenov.homework_3.utility.Utility;
 
@@ -27,10 +29,20 @@ public class ViewCarServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String carIdStr = request.getParameter("id");
-        Optional<Car> carOptional = carService.findById(carIdStr);
-        String carJsonString = carOptional.isPresent() ? new Gson().toJson(carOptional.get()) : "car not found!";
-        response.setStatus("car not found!".equals(carJsonString) ? 404 : 200);
+        HttpSession session = request.getSession();
+        int responseStatus;
+        var user = (User) session.getAttribute("user");
+        String carJsonString;
+        if (user == null) {
+            carJsonString = "no registration!";
+            responseStatus = 401;
+        } else {
+            String carIdStr = request.getParameter("id");
+            Optional<Car> carOptional = carService.findById(carIdStr);
+            carJsonString = carOptional.isPresent() ? new Gson().toJson(carOptional.get()) : "car not found!";
+            responseStatus = "car not found!".equals(carJsonString) ? 404 : 200;
+        }
+        response.setStatus(responseStatus);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

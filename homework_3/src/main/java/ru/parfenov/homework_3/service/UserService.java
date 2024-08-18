@@ -27,6 +27,11 @@ public interface UserService {
     Optional<User> findById(String userId);
 
     /**
+     * Проверяет наличие в хранилище юзера с таким ID b паролем. При аутентификации
+     */
+    Optional<User> findByIdAndPassword(int userId, String password);
+
+    /**
      * Обновление данных о юзере
      */
     boolean update(int userId, String userRole, String name, String password, String contactInfo, int buysAmount);
