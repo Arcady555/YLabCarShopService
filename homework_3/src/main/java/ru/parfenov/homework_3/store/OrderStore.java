@@ -23,12 +23,12 @@ public interface OrderStore {
     /**
      * Метод предлагает обновление заказа.
      */
-    Order update(Order order);
+    boolean update(int orderId);
 
     /**
      * Удаление карточки заказа
      */
-    Order delete(Order order);
+    boolean delete(int orderId);
 
     /**
      * Вывод списка всех заказов

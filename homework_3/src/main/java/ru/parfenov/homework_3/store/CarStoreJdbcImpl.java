@@ -6,7 +6,6 @@ import ru.parfenov.homework_3.model.Car;
 import ru.parfenov.homework_3.utility.JdbcRequests;
 import ru.parfenov.homework_3.utility.Utility;
 
-import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +43,7 @@ public class CarStoreJdbcImpl implements CarStore {
         } catch (Exception e) {
             log.error("Exception in CarStoreJdbcImpl.create(). ", e);
         }
-        return car;
+        return findById(car.getId());
     }
 
     @Override
@@ -84,7 +83,7 @@ public class CarStoreJdbcImpl implements CarStore {
      * Запрос в БД формируется из того, какие поля карточки машины были заполнены для изменения
      */
     @Override
-    public Car update(Car car) {
+    public boolean update(Car car) {
         int carId = car.getId();
         int ownerId = car.getOwnerId();
         String brand = car.getBrand();
@@ -107,17 +106,18 @@ public class CarStoreJdbcImpl implements CarStore {
         } catch (Exception e) {
             log.error("Exception in CarStoreJdbcImpl.update(). ", e);
         }
-        return car;
+        return findById(carId) != null && checkUpdate(car);
     }
 
     @Override
-    public void delete(Car car) {
+    public boolean delete(int carId) {
         try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.deleteCar)) {
-            statement.setInt(1, car.getId());
+            statement.setInt(1, carId);
             statement.execute();
         } catch (Exception e) {
             log.error("Exception in CarStoreJdbcImpl.delete(). ", e);
         }
+        return findById(carId) == null;
     }
 
     @Override
@@ -265,5 +265,18 @@ public class CarStoreJdbcImpl implements CarStore {
             statement.setString(result, condition.toString());
         }
         return result;
+    }
+
+    private boolean checkUpdate(Car car) {
+        Car carForCheck = findById(car.getId());
+        boolean isOwnerId = car.getOwnerId() == 0 || car.getOwnerId() == carForCheck.getOwnerId();
+        boolean isBrand = "".equals(car.getBrand()) || car.getBrand().equals(carForCheck.getBrand());
+        boolean isModel = "".equals(car.getModel()) || car.getModel().equals(carForCheck.getModel());
+        boolean isYearOfProd = car.getYearOfProd() == 0 || car.getYearOfProd() == carForCheck.getYearOfProd();
+        boolean isPrice = car.getPrice() == 0 || car.getPrice() == carForCheck.getPrice();
+        boolean isCondition = car.getCondition() == null || car.getCondition().equals(carForCheck.getCondition());
+
+        return isOwnerId && isBrand && isModel && isYearOfProd && isPrice && isCondition;
+
     }
 }

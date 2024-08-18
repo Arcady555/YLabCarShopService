@@ -18,7 +18,7 @@ import ru.parfenov.homework_3.enums.UserRole;
 @Setter
 public class User {
     private int id;
-    private UserRole role = UserRole.CLIENT;
+    private UserRole role;
     private String name;
     private String password;
     private String contactInfo;

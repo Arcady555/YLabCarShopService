@@ -42,7 +42,7 @@ public class UserStoreJdbcImpl implements UserStore {
         } catch (Exception e) {
             log.error("Exception in UserStoreJdbcImpl.create(). ", e);
         }
-        return user;
+        return findById(user.getId());
     }
 
     @Override
@@ -65,7 +65,7 @@ public class UserStoreJdbcImpl implements UserStore {
      * Запрос в БД формируется из того, какие поля юзера были заполнены для изменения
      */
     @Override
-    public User update(User user) {
+    public boolean update(User user) {
         int id = user.getId();
         UserRole role = user.getRole();
         String name = user.getName();
@@ -86,19 +86,18 @@ public class UserStoreJdbcImpl implements UserStore {
         } catch (Exception e) {
             log.error("Exception in UserStoreJdbcImpl.update(). ", e);
         }
-
-        return user;
+        return findById(user.getId()) != null && checkUpdate(user);
     }
 
     @Override
-    public User delete(User user) {
+    public boolean delete(int userId) {
         try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.deleteUser)) {
-            statement.setInt(1, user.getId());
+            statement.setInt(1, userId);
             statement.execute();
         } catch (Exception e) {
             log.error("Exception in UserStoreJdbcImpl.delete(). ", e);
         }
-        return user;
+        return findById(userId) == null;
     }
 
     @Override
@@ -220,5 +219,16 @@ public class UserStoreJdbcImpl implements UserStore {
             statement.setInt(result, buysAmount);
         }
         return result;
+    }
+
+    private boolean checkUpdate(User user) {
+        User userForCheck = findById(user.getId());
+        boolean isRole = user.getRole() == null || user.getRole().equals(userForCheck.getRole());
+        boolean isName = user.getName() == null || user.getName().equals(userForCheck.getName());
+        boolean isPassword = user.getPassword() == null || user.getPassword().equals(userForCheck.getPassword());
+        boolean isContact = user.getContactInfo() == null || user.getContactInfo().equals(userForCheck.getContactInfo());
+        boolean isBuysAmount = user.getBuysAmount() == 0 || user.getBuysAmount() == userForCheck.getBuysAmount();
+
+        return isRole && isName && isPassword && isContact && isBuysAmount;
     }
 }

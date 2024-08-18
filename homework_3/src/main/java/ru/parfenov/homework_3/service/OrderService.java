@@ -1,11 +1,12 @@
 package ru.parfenov.homework_3.service;
 
-import ru.parfenov.homework_3.enums.OrderStatus;
-import ru.parfenov.homework_3.enums.OrderType;
 import ru.parfenov.homework_3.model.Order;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
- * Класс данного слоя служит прослойкой между голым хранилищем с его строгими методами и фронтом-страницами,
+ * Класс данного слоя служит прослойкой между голым хранилищем с его строгими методами и сервлетами,
  * добавляя и изменяя некоторую логику-функционал
  */
 public interface OrderService {
@@ -13,35 +14,35 @@ public interface OrderService {
     /**
      * Метод задействован при создании карточки заказа пользователем
      */
-    Order create(int authorId, int carId, OrderType type);
+    Optional<Order> create(int authorId, int carId, String type);
 
     /**
      * Поиск заказа по его ID
      */
-    Order findById(int id);
+    Optional<Order> findById(String id);
 
     /**
      * Закрытие заказа
      */
-    void close(Order order);
+    boolean close(String orderId);
 
     /**
      * Удаление заказа
      */
-    Order delete(Order order);
+    boolean delete(String orderId);
 
     /**
      * Вывод всех заказов
      */
-    void findAll();
+    List<Order> findAll();
 
     /**
      * Вывод заказов по их создателю
      */
-    void findByAuthor(int authorId);
+    List<Order> findByAuthor(int authorId);
 
     /**
      * Вывод заказов, соответствующих заданным параметрам
      */
-    void findByParameter(int authorId, int carId, OrderType type, OrderStatus status);
+    List<Order> findByParameter(String authorId, String carId, String type, String status);
 }

@@ -27,12 +27,12 @@ public interface CarStore {
     /**
      * Метод предлагает обновление автомобиля.
      */
-    Car update(Car car);
+    boolean update(Car car);
 
     /**
      * Удаление карточки машины
      */
-    void delete(Car car);
+    boolean delete(int carId);
 
     /**
      * Вывод списка всех машин

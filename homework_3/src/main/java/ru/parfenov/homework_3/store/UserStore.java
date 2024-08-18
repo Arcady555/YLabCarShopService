@@ -22,12 +22,12 @@ public interface UserStore {
     /**
      * Метод предлагает обновление юзера.
      */
-    User update(User user);
+    boolean update(User user);
 
     /**
      * Удаление карточки юзера
      */
-    User delete(User user);
+    boolean delete(int userId);
 
     /**
      * Вывод списка всех юзеров

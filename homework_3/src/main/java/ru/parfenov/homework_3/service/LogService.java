@@ -1,5 +1,6 @@
 package ru.parfenov.homework_3.service;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.model.LineInLog;
 import ru.parfenov.homework_3.store.LogStore;
@@ -13,17 +14,13 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
- * Класс данного слоя служит прослойкой между голым хранилищем с его строгими методами и фронтом-страницами,
+ * Класс данного слоя служит прослойкой между голым хранилищем с его строгими методами и сервлетами,
  * добавляя и изменяя некоторую логику-функционал
  */
-
 @Slf4j
+@AllArgsConstructor
 public class LogService {
     private final LogStore store;
-
-    public LogService(LogStore store) {
-        this.store = store;
-    }
 
     /**
      * Метод принимает информацию(время события, ID юзера и название его действия) и отправляет

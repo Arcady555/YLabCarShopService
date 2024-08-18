@@ -1,24 +1,24 @@
 package ru.parfenov.homework_3.service;
 
-import ru.parfenov.homework_3.enums.CarCondition;
 import ru.parfenov.homework_3.model.Car;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
- * Класс данного слоя служит прослойкой между голым хранилищем с его строгими методами и фронтом-страницами,
+ * Класс данного слоя служит прослойкой между голым хранилищем с его строгими методами и сервлетами,
  * добавляя и изменяя некоторую логику-функционал
  */
 public interface CarService {
     /**
      * Метод задействован при создании карточки машины пользователем
      */
-    Car create(int ownerId, String brand, String model, int yearOfProd, int price, CarCondition condition);
+    Optional<Car> create(int ownerId, String brand, String model, int yearOfProd, int price, String condition);
 
     /**
      * Поиск машины по её ID
      */
-    Car findById(int id);
+    Optional<Car> findById(String id);
 
     /**
      * Поиск машины по её собственнику
@@ -28,26 +28,26 @@ public interface CarService {
     /**
      * Изменение данных о машине
      */
-    void update(
+    boolean update(
             int carId, int ownerId, String brand, String model,
-            int yearOfProd, int price, CarCondition condition
+            int yearOfProd, int price, String condition
     );
 
     /**
      * Удаление карточки машины
      */
-    void delete(Car car);
+    boolean delete(String carId);
 
     /**
      * Вывод списка всех машин
      */
-    void findAll();
+    List<Car> findAll();
 
     /**
      * Поиск машин подпадающих под заданные параметры
      */
-    void findByParameter(
-            int ownerId, String brand, String model, int yearOfProd,
-            int priceFrom, int priceTo, CarCondition condition
+    List<Car> findByParameter(
+            String ownerId, String brand, String model, String yearOfProd,
+            String priceFrom, String priceTo, String condition
     );
 }

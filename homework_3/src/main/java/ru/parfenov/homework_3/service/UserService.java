@@ -1,10 +1,12 @@
 package ru.parfenov.homework_3.service;
 
-import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.User;
 
+import java.util.List;
+import java.util.Optional;
+
 /**
- * Класс данного слоя служит прослойкой между голым хранилищем с его строгими методами и фронтом-страницами,
+ * Класс данного слоя служит прослойкой между голым хранилищем с его строгими методами и сервлетами,
  * добавляя и изменяя некоторую логику-функционал
  */
 public interface UserService {
@@ -12,40 +14,35 @@ public interface UserService {
     /**
      * Метод задействован при создании карточки юзера админом
      */
-    User createByAdmin(int id, UserRole role, String name, String password, String contactInfo, int buysAmount);
+    Optional<User> createByAdmin(int id, String userRole, String name, String password, String contactInfo, int buysAmount);
 
     /**
      * Метод задействован при самостоятельно регистрации юзера
      */
-    User createByReg(String name, String password, String contactInfo);
+    Optional<User> createByReg(String name, String password, String contactInfo);
 
     /**
      * Поиск юзера по его ID
      */
-    User findById(int id);
-
-    /**
-     * В отличие от обычного поиска юзера по ID тут еще выводится на дисплей пароль юзера
-     */
-    User findByIdForAdmin(int id);
+    Optional<User> findById(String userId);
 
     /**
      * Обновление данных о юзере
      */
-    void update(int userId, UserRole userRole, String name, String password, String contactInfo, int buysAmount);
+    boolean update(int userId, String userRole, String name, String password, String contactInfo, int buysAmount);
 
     /**
      * Удаление карточки юзера
      */
-    User delete(int userId);
+    boolean delete(String userId);
 
     /**
      * Вывод списка всех юзеров
      */
-    void findAll();
+    List<User> findAll();
 
     /**
      * Поиск юзера по заданным параметрам
      */
-    void findByParameters(UserRole role, String name, String contactInfo, int buysAmount);
+    List<User> findByParameters(String role, String name, String contactInfo, String buysAmount);
 }

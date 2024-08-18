@@ -42,7 +42,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
         } catch (Exception e) {
             log.error("Exception in OrderStoreJdbcImpl.create(). ", e);
         }
-        return order;
+        return findById(order.getId());
     }
 
     @Override
@@ -62,25 +62,25 @@ public class OrderStoreJdbcImpl implements OrderStore {
     }
 
     @Override
-    public Order update(Order order) {
+    public boolean update(int orderId) {
         try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.updateOrder)) {
-            statement.setInt(1, order.getId());
+            statement.setInt(1, orderId);
             statement.execute();
         } catch (Exception e) {
             log.error("Exception in OrderStoreJdbcImpl.update(). ", e);
         }
-        return order;
+        return findById(orderId) != null && findById(orderId).getStatus() == OrderStatus.CLOSED;
     }
 
     @Override
-    public Order delete(Order order) {
+    public boolean delete(int orderId) {
         try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.deleteOrder)) {
-            statement.setInt(1, order.getId());
+            statement.setInt(1, orderId);
             statement.execute();
         } catch (Exception e) {
             log.error("Exception in OrderStoreJdbcImpl.delete(). ", e);
         }
-        return order;
+        return findById(orderId) == null;
     }
 
     @Override
