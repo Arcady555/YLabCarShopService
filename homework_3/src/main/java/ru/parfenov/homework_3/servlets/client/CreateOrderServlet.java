@@ -41,6 +41,7 @@ public class CreateOrderServlet extends HttpServlet {
         String orderJsonString = orderOptional.isPresent() ?
                 new Gson().toJson(orderOptional.get()) :
                 "order is not created!";
+        response.setStatus("order is not created!".equals(orderJsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

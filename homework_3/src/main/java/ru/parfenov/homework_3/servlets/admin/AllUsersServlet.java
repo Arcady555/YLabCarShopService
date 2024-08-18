@@ -29,6 +29,7 @@ public class AllUsersServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<User> userList = userService.findAll();
         String userListJsonString = !userList.isEmpty() ? new Gson().toJson(userList) : "no users!";
+        response.setStatus("no users!".equals(userListJsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

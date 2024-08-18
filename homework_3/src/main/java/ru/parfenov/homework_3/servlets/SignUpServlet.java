@@ -38,6 +38,7 @@ public class SignUpServlet extends HttpServlet {
         String userJsonString = userOptional.isPresent() ?
                 new Gson().toJson(userOptional.get()) :
                 "user is not created!";
+        response.setStatus("user is not created!".equals(userJsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

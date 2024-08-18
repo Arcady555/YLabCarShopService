@@ -41,7 +41,8 @@ public class UpdateUserServlet extends HttpServlet {
                 user.getContactInfo(),
                 user.getBuysAmount()
         );
-        String jsonString = updateUser ? "car is updated" : "car is not updated!";
+        String jsonString = updateUser ? "user is updated" : "user is not updated!";
+        response.setStatus("user is not updated!".equals(jsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

@@ -23,6 +23,7 @@ public class DeleteOrderServlet extends HttpServlet {
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String orderIdStr = request.getParameter("id");
         String jsonString = orderService.delete(orderIdStr) ? "order is deleted" : "order is not deleted!";
+        response.setStatus("order is not deleted!".equals(jsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

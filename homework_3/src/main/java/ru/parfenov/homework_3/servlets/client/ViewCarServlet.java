@@ -30,6 +30,7 @@ public class ViewCarServlet extends HttpServlet {
         String carIdStr = request.getParameter("id");
         Optional<Car> carOptional = carService.findById(carIdStr);
         String carJsonString = carOptional.isPresent() ? new Gson().toJson(carOptional.get()) : "car not found!";
+        response.setStatus("car not found!".equals(carJsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

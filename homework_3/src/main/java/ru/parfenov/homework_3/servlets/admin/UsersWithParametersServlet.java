@@ -33,7 +33,8 @@ public class UsersWithParametersServlet extends HttpServlet {
         String contactInfo = request.getParameter("contactInfo");
         String buysAmount = request.getParameter("buysAmount");
         List<User> userList = userService.findByParameters(role, name, contactInfo, buysAmount);
-        String userJsonString = !userList.isEmpty() ? new Gson().toJson(userList) : "no users with these parameters";
+        String userJsonString = !userList.isEmpty() ? new Gson().toJson(userList) : "no users with these parameters!";
+        response.setStatus("no users with these parameters!".equals(userJsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

@@ -25,6 +25,7 @@ public class CloseOrderServlet extends HttpServlet {
         String orderIdStr = request.getParameter("id");
         orderService.close(orderIdStr);
         String jsonString = orderService.close(orderIdStr) ? "order is closed" : "order is not closed!";
+        response.setStatus("order is not closed!".equals(jsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

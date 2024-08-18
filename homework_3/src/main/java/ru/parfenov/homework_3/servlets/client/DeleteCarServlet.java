@@ -23,6 +23,7 @@ public class DeleteCarServlet extends HttpServlet {
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String carIdStr = request.getParameter("id");
         String jsonString = carService.delete(carIdStr) ? "the car is deleted" : "the car is not deleted!";
+        response.setStatus("the car is not deleted!".equals(jsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

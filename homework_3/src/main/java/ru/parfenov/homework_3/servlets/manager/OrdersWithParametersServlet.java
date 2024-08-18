@@ -30,6 +30,7 @@ public class OrdersWithParametersServlet extends HttpServlet {
         String statusStr = request.getParameter("status");
         List<Order> orderList = orderService.findByParameter(authorIdStr, carIdStr, typeStr, statusStr);
         String orderJsonString = !orderList.isEmpty() ? new Gson().toJson(orderList) : "no orders with these parameters";
+        response.setStatus("no orders with these parameters".equals(orderJsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

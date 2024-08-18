@@ -47,6 +47,7 @@ public class CreateCarServlet extends HttpServlet {
         String carJsonString = carOptional.isPresent() ?
                 new Gson().toJson(carOptional.get()) :
                 "car is not created!";
+        response.setStatus("car is not created!".equals(carJsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

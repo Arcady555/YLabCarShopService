@@ -26,6 +26,7 @@ public class ViewUserServlet extends HttpServlet {
         String userIdStr = request.getParameter("id");
         Optional<User> userOptional = userService.findById(userIdStr);
         String userJsonString = userOptional.isPresent() ? new Gson().toJson(userOptional.get()) : "user not found!";
+        response.setStatus("user not found!".equals(userIdStr) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

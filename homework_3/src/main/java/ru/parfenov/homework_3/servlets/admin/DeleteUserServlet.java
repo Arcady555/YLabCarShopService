@@ -23,6 +23,7 @@ public class DeleteUserServlet extends HttpServlet {
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String userIdStr = request.getParameter("id");
         String jsonString = userService.delete(userIdStr) ? "the user is deleted" : "the user is not deleted!";
+        response.setStatus("the user is not deleted!".equals(jsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

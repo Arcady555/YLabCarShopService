@@ -38,6 +38,7 @@ public class CarsWithParametersServlet extends HttpServlet {
                 ownerId, brand, model, yearOfProd, priceFrom, priceTo, condition
         );
         String carJsonString = !carList.isEmpty() ? new Gson().toJson(carList) : "no cars!";
+        response.setStatus("no cars!".equals(carJsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

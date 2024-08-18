@@ -29,6 +29,7 @@ public class AllCarsServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Car> carList = carService.findAll();
         String carListJsonString = !carList.isEmpty() ? new Gson().toJson(carList) : "no cars!";
+        response.setStatus("no cars!".equals(carListJsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

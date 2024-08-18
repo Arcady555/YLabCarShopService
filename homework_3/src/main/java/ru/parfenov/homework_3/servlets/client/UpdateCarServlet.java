@@ -40,6 +40,7 @@ public class UpdateCarServlet extends HttpServlet {
                 car.getCondition()
         );
         String jsonString = updateCar ? "car is updated" : "car is not updated!";
+        response.setStatus("car is not updated!".equals(jsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

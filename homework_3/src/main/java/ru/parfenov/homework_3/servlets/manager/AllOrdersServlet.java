@@ -25,7 +25,8 @@ public class AllOrdersServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Order> orderList = orderService.findAll();
-        String orderJsonString = !orderList.isEmpty() ? new Gson().toJson(orderList) : "no orders";
+        String orderJsonString = !orderList.isEmpty() ? new Gson().toJson(orderList) : "no orders!";
+        response.setStatus("no orders!".equals(orderJsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

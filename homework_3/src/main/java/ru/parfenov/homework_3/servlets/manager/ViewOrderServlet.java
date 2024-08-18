@@ -27,7 +27,9 @@ public class ViewOrderServlet extends HttpServlet {
         String orderIdStr = request.getParameter("id");
         Optional<Order> orderOptional = orderService.findById(orderIdStr);
         String orderJsonString = orderOptional.isPresent() ? new Gson().toJson(orderOptional.get()) : "order not found!";
+        response.setStatus("order not found!".equals(orderJsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();
+        response.setStatus(orderOptional.isPresent() ? 200 : 404);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         out.print(orderJsonString);
