@@ -1,7 +1,6 @@
 package ru.parfenov.homework_3.servlets.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -55,7 +54,7 @@ public class CreateUserServlet extends HttpServlet {
                     userDTO.getBuysAmount()
             );
             userJsonString = userOptional.isPresent() ?
-                    new Gson().toJson(userOptional.get()) :
+                    objectMapper.writeValueAsString(userOptional.get()) :
                     "user is not created!";
             responseStatus = "user is not created!".equals(userJsonString) ? 404 : 200;
         }

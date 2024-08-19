@@ -1,6 +1,6 @@
 package ru.parfenov.homework_3.servlets.client;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,6 +37,7 @@ public class CarsWithParametersServlet extends HttpServlet {
             carJsonString = "no registration!";
             responseStatus = 401;
         } else {
+            ObjectMapper objectMapper = new ObjectMapper();
             String ownerId = request.getParameter("ownerId");
             String brand = request.getParameter("brand");
             String model = request.getParameter("model");
@@ -47,7 +48,7 @@ public class CarsWithParametersServlet extends HttpServlet {
             List<Car> carList = carService.findByParameter(
                     ownerId, brand, model, yearOfProd, priceFrom, priceTo, condition
             );
-            carJsonString = !carList.isEmpty() ? new Gson().toJson(carList) : "no cars!";
+            carJsonString = !carList.isEmpty() ? objectMapper.writeValueAsString(carList) : "no cars!";
             responseStatus = "no cars!".equals(carJsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);

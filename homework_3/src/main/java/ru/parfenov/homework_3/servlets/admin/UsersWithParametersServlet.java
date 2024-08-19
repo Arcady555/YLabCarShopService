@@ -1,6 +1,6 @@
 package ru.parfenov.homework_3.servlets.admin;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,12 +38,13 @@ public class UsersWithParametersServlet extends HttpServlet {
             userJsonString = "no rights or registration!";
             responseStatus = user == null ? 401 : 403;
         } else {
+            ObjectMapper objectMapper = new ObjectMapper();
             String role = request.getParameter("role");
             String name = request.getParameter("name");
             String contactInfo = request.getParameter("contactInfo");
             String buysAmount = request.getParameter("buysAmount");
             List<User> userList = userService.findByParameters(role, name, contactInfo, buysAmount);
-            userJsonString = !userList.isEmpty() ? new Gson().toJson(userList) : "no users with these parameters!";
+            userJsonString = !userList.isEmpty() ? objectMapper.writeValueAsString(userList) : "no users with these parameters!";
             responseStatus = "no users with these parameters!".equals(userJsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);

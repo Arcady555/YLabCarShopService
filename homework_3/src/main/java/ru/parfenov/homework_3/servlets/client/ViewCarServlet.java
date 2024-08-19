@@ -1,6 +1,6 @@
 package ru.parfenov.homework_3.servlets.client;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,9 +37,10 @@ public class ViewCarServlet extends HttpServlet {
             carJsonString = "no registration!";
             responseStatus = 401;
         } else {
+            ObjectMapper objectMapper = new ObjectMapper();
             String carIdStr = request.getParameter("id");
             Optional<Car> carOptional = carService.findById(carIdStr);
-            carJsonString = carOptional.isPresent() ? new Gson().toJson(carOptional.get()) : "car not found!";
+            carJsonString = carOptional.isPresent() ? objectMapper.writeValueAsString(carOptional.get()) : "car not found!";
             responseStatus = "car not found!".equals(carJsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);

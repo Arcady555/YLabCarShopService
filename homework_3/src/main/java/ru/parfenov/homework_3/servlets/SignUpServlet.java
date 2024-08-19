@@ -1,7 +1,6 @@
 package ru.parfenov.homework_3.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -36,7 +35,7 @@ public class SignUpServlet extends HttpServlet {
         Optional<User> userOptional =
                 userService.createByReg(userDIO.getName(), userDIO.getPassword(), userDIO.getContactInfo());
         String userJsonString = userOptional.isPresent() ?
-                new Gson().toJson(userOptional.get()) :
+                objectMapper.writeValueAsString(userOptional.get()) :
                 "user is not created!";
         response.setStatus("user is not created!".equals(userJsonString) ? 404 : 200);
         PrintWriter out = response.getWriter();

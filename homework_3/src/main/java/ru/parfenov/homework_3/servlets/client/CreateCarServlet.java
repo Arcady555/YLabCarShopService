@@ -1,7 +1,6 @@
 package ru.parfenov.homework_3.servlets.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -55,7 +54,7 @@ public class CreateCarServlet extends HttpServlet {
                     carDTO.getCondition()
             );
             carJsonString = carOptional.isPresent() ?
-                    new Gson().toJson(carOptional.get()) :
+                    objectMapper.writeValueAsString(carOptional.get()) :
                     "car is not created!";
             responseStatus = "car is not created!".equals(carJsonString) ? 404 : 200;
         }

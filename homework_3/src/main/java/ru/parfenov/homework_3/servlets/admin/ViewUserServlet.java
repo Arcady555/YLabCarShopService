@@ -1,6 +1,6 @@
 package ru.parfenov.homework_3.servlets.admin;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,9 +33,10 @@ public class ViewUserServlet extends HttpServlet {
             userJsonString = "no rights or registration!";
             responseStatus = user == null ? 401 : 403;
         } else {
+            ObjectMapper objectMapper = new ObjectMapper();
             String userIdStr = request.getParameter("id");
             Optional<User> userOptional = userService.findById(userIdStr);
-            userJsonString = userOptional.isPresent() ? new Gson().toJson(userOptional.get()) : "user not found!";
+            userJsonString = userOptional.isPresent() ? objectMapper.writeValueAsString(userOptional.get()) : "user not found!";
             responseStatus = "user not found!".equals(userIdStr) ? 404 : 200;
         }
         response.setStatus(responseStatus);

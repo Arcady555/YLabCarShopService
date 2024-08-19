@@ -1,6 +1,6 @@
 package ru.parfenov.homework_3.servlets.manager;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,9 +35,10 @@ public class ViewOrderServlet extends HttpServlet {
             orderJsonString = "no rights or registration!";
             responseStatus = user == null ? 401 : 403;
         } else {
+            ObjectMapper objectMapper = new ObjectMapper();
             String orderIdStr = request.getParameter("id");
             Optional<Order> orderOptional = orderService.findById(orderIdStr);
-            orderJsonString = orderOptional.isPresent() ? new Gson().toJson(orderOptional.get()) : "order not found!";
+            orderJsonString = orderOptional.isPresent() ? objectMapper.writeValueAsString(orderOptional.get()) : "order not found!";
             responseStatus = "order not found!".equals(orderJsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);

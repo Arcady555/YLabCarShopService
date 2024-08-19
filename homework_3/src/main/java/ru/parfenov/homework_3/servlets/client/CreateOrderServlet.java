@@ -1,7 +1,6 @@
 package ru.parfenov.homework_3.servlets.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -49,7 +48,7 @@ public class CreateOrderServlet extends HttpServlet {
                     orderDTO.getType()
             );
             orderJsonString = orderOptional.isPresent() ?
-                    new Gson().toJson(orderOptional.get()) :
+                    objectMapper.writeValueAsString(orderOptional.get()) :
                     "order is not created!";
             responseStatus = "order is not created!".equals(orderJsonString) ? 404 : 200;
         }

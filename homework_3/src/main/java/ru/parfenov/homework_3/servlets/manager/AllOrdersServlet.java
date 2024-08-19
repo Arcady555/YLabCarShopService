@@ -1,6 +1,6 @@
 package ru.parfenov.homework_3.servlets.manager;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,8 +35,9 @@ public class AllOrdersServlet extends HttpServlet {
             orderListJsonString = "no rights or registration!";
             responseStatus = user == null ? 401 : 403;
         } else {
+            ObjectMapper objectMapper = new ObjectMapper();
             List<Order> orderList = orderService.findAll();
-            orderListJsonString = !orderList.isEmpty() ? new Gson().toJson(orderList) : "no orders!";
+            orderListJsonString = !orderList.isEmpty() ? objectMapper.writeValueAsString(orderList) : "no orders!";
             responseStatus = "no orders!".equals(orderListJsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);

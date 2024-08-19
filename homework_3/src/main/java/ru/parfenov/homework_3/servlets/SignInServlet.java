@@ -1,7 +1,6 @@
 package ru.parfenov.homework_3.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -42,7 +41,7 @@ public class SignInServlet extends HttpServlet {
         String userJsonString;
         int responseStatus;
         if (userOptional.isPresent()) {
-            userJsonString = new Gson().toJson(mapper.toUserIdNameRoleDTO(userOptional.get()));
+            userJsonString = objectMapper.writeValueAsString(mapper.toUserIdNameRoleDTO(userOptional.get()));
             responseStatus = 200;
             var session = request.getSession();
             session.setAttribute("user", userOptional.get());

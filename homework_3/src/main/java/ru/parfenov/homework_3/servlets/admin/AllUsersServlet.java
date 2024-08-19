@@ -1,6 +1,6 @@
 package ru.parfenov.homework_3.servlets.admin;
 
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,8 +37,9 @@ public class AllUsersServlet extends HttpServlet {
             userListJsonString = "no rights or registration!";
             responseStatus = user == null ? 401 : 403;
         } else {
+            ObjectMapper objectMapper = new ObjectMapper();
             List<User> userList = userService.findAll();
-            userListJsonString = !userList.isEmpty() ? new Gson().toJson(userList) : "no users!";
+            userListJsonString = !userList.isEmpty() ? objectMapper.writeValueAsString(userList) : "no users!";
             responseStatus = "no users!".equals(userListJsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);
