@@ -21,7 +21,6 @@ import java.util.Scanner;
 
 @Slf4j
 @WebServlet(name = "SignInServlet", urlPatterns = "/sign-in")
-
 public class SignInServlet extends HttpServlet {
     private final UserService userService = Utility.loadUserservice();
 
