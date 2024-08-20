@@ -183,7 +183,7 @@ public class UserStoreJdbcImpl implements UserStore {
                                             String contactInfo,
                                             int buysAmount) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(role != null ? " user_role = ?" : "").
+        stringBuilder.append(role != null ? " user_role = ? and" : "").
                 append(!name.isEmpty() ? " name = ? and" : "").
                 append(!contactInfo.isEmpty() ? " contact_info LIKE %?% and" : "").
                 append(buysAmount != 0 ? " buys_amount = ?" : "");

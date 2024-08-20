@@ -34,75 +34,69 @@ public class LogStore {
         }
     }
 
-    public List<LineInLog> findAll() {
-        List<LineInLog> logList = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findAllLinesInLog)) {
+    public List<LineInLog> findByParameters(int userId, String action, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo) {
+        String request = getRequestForFindByParam(userId, action, dateTimeFrom, dateTimeTo);
+        List<LineInLog> logs = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM cs_schema.log_records WHERE " + request)
+        ) {
+            generateStatementSets(statement, userId, action, dateTimeFrom, dateTimeTo);
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    LineInLog lineInLog = returnLogRecord(resultSet);
-                    logList.add(lineInLog);
+                    LineInLog lineInLog = returnLineInLog(resultSet);
+                    logs.add(lineInLog);
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in LogStore.findAll()!", e);
+            log.error("Exception in UserStoreJdbcImpl.findByParameters(). ", e);
         }
-        return logList;
+        return logs;
     }
 
-    public List<LineInLog> findByDateTimeTo(LocalDateTime dateTime) {
-        List<LineInLog> logList = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findLinesInLogByDateTimeTo)) {
-            statement.setTimestamp(1, Timestamp.valueOf(dateTime));
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    LineInLog lineInLog = returnLogRecord(resultSet);
-                    logList.add(lineInLog);
-                }
-            }
-        } catch (Exception e) {
-            log.error("Exception in LogStore.findByDateTimeTo()!", e);
-        }
-        return logList;
-    }
-
-    public List<LineInLog> findByDateTimeFrom(LocalDateTime dateTime) {
-        List<LineInLog> logList = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findLinesInLogByDateTimeFrom)) {
-            statement.setTimestamp(1, Timestamp.valueOf(dateTime));
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    LineInLog lineInLog = returnLogRecord(resultSet);
-                    logList.add(lineInLog);
-                }
-            }
-        } catch (Exception e) {
-            log.error("Exception in LogStore.findByDateTimeFrom()!", e);
-        }
-        return logList;
-    }
-
-    public List<LineInLog> findByUserId(String userId) {
-        List<LineInLog> logList = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.findLinesInLogByUserId)) {
-            statement.setString(1, userId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    LineInLog lineInLog = returnLogRecord(resultSet);
-                    logList.add(lineInLog);
-                }
-            }
-        } catch (Exception e) {
-            log.error("Exception in LogStore.findByUserId()!", e);
-        }
-        return logList;
-    }
-
-    private LineInLog returnLogRecord(ResultSet resultSet) throws SQLException {
+    private LineInLog returnLineInLog(ResultSet resultSet) throws SQLException {
         return new LineInLog(
                 resultSet.getLong("id"),
                 resultSet.getTimestamp("date_time").toLocalDateTime().truncatedTo(ChronoUnit.MINUTES),
                 resultSet.getString("user_id"),
                 resultSet.getString("action")
         );
+    }
+
+    private String getRequestForFindByParam(int userId,
+                                            String action,
+                                            LocalDateTime dateTimeFrom,
+                                            LocalDateTime dateTimeTo) {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(userId != 0 ? " user_id = ? and" : "").
+                append(!action.isEmpty() ? " action = ? and" : "").
+                append(dateTimeFrom != null ? " date_time > ? and" : "").
+                append(dateTimeTo != null ? " date_time < ?" : "");
+        if (stringBuilder.toString().endsWith("and")) stringBuilder.setLength(stringBuilder.length() - 3);
+
+        return stringBuilder.toString();
+    }
+
+    private void generateStatementSets(PreparedStatement statement,
+                                       int userId,
+                                       String action,
+                                       LocalDateTime dateTimeFrom,
+                                       LocalDateTime dateTimeTo) throws SQLException {
+        int index = 0;
+        if (userId != 0) {
+            index++;
+            statement.setInt(index, userId);
+        }
+        if (!action.isEmpty()) {
+            index++;
+            statement.setString(index, action);
+        }
+        if (dateTimeFrom != null) {
+            index++;
+            statement.setTimestamp(index, Timestamp.valueOf(dateTimeFrom));
+        }
+        if (dateTimeTo != null) {
+            index++;
+            statement.setTimestamp(index, Timestamp.valueOf(dateTimeTo));
+        }
     }
 }

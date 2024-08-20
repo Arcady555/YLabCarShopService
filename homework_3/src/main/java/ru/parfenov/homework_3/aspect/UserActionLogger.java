@@ -9,7 +9,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import ru.parfenov.homework_3.model.LineInLog;
 import ru.parfenov.homework_3.model.User;
+import ru.parfenov.homework_3.service.LogService;
 import ru.parfenov.homework_3.store.LogStore;
+import ru.parfenov.homework_3.utility.Utility;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -17,7 +19,7 @@ import java.time.temporal.ChronoUnit;
 @Aspect
 @Slf4j
 public class UserActionLogger {
-    private final LogStore logStore = new LogStore();
+    private final LogService service = Utility.loadLogService();
 
     public UserActionLogger() throws Exception {
     }
@@ -33,13 +35,7 @@ public class UserActionLogger {
             int userId = ((User) request.getSession().getAttribute("user")).getId();
             String action = joinPoint.getSourceLocation().getWithinType().getName();
             log.info("date time : {}, user id : {}, action : {}", dateTime, userId, action);
-            LineInLog lineInLog = new LineInLog(
-                    0L,
-                    dateTime.truncatedTo(ChronoUnit.MINUTES),
-                    Integer.toString(userId),
-                    action
-            );
-            logStore.create(lineInLog);
+            service.saveLineInLog(dateTime, userId, action);
         }
     }
 }
