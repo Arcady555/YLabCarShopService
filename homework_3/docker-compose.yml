@@ -13,7 +13,7 @@ services:
     restart: always
   lb:
     build:
-      context: .
+      context: ..
       dockerfile: DockerfileLB
     environment:
       - JDBC_URL=jdbc:postgresql://db:5432/y_lab_car_service
@@ -25,7 +25,7 @@ services:
       - db
   y_lab_car_service:
     build:
-      context: .
+      context: ..
       dockerfile: Dockerfile
     environment:
       - JDBC_URL=jdbc:postgresql://db:5432/y_lab_car_service
