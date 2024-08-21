@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.enums.CarCondition;
 import ru.parfenov.homework_3.model.Car;
+import ru.parfenov.homework_3.model.Order;
 import ru.parfenov.homework_3.store.CarStore;
 
 import java.util.List;
@@ -29,6 +30,18 @@ public class CarServiceServletImpl implements CarService, GettingIntFromString {
     @Override
     public List<Car> findByOwner(int ownerId) {
         return store.findByOwner(ownerId);
+    }
+
+    @Override
+    public boolean isOwnCar(int ownerId, int carId) {
+        Car car = store.findById(carId);
+        return car != null && car.getId() == ownerId;
+    }
+
+    @Override
+    public boolean isOwnCar(int ownerId, String carId) {
+        int id = getIntFromString(carId);
+        return isOwnCar(ownerId, id);
     }
 
     @Override

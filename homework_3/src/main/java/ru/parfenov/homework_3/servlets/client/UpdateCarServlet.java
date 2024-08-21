@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.dto.CarDTO;
+import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.CarService;
 import ru.parfenov.homework_3.utility.Utility;
@@ -42,17 +43,20 @@ public class UpdateCarServlet extends HttpServlet {
             scanner.close();
             ObjectMapper objectMapper = new ObjectMapper();
             CarDTO car = objectMapper.readValue(orderJson, CarDTO.class);
-            boolean updateCar = carService.update(
-                    car.getId(),
-                    car.getOwnerId(),
-                    car.getBrand(),
-                    car.getModel(),
-                    car.getYearOfProd(),
-                    car.getPrice(),
-                    car.getCondition()
-            );
-            jsonString = updateCar ? "car is updated" : "car is not updated!";
-            responseStatus = "car is not updated!".equals(jsonString) ? 404 : 200;
+            if (carService.isOwnCar(user.getId(), car.getId()) ||
+                    user.getRole() == UserRole.ADMIN || user.getRole() == UserRole.MANAGER) {
+                boolean updateCar = carService.update(
+                        car.getId(),
+                        car.getOwnerId(),
+                        car.getBrand(),
+                        car.getModel(),
+                        car.getYearOfProd(),
+                        car.getPrice(),
+                        car.getCondition()
+                );
+                jsonString = updateCar ? "car is updated" : "car is not updated!";
+                responseStatus = "car is not updated!".equals(jsonString) ? 404 : 200;
+            }
         }
         response.setStatus(responseStatus);
         PrintWriter out = response.getWriter();

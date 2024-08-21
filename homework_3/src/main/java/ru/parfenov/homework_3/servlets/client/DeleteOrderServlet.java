@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.OrderService;
 import ru.parfenov.homework_3.utility.Utility;
@@ -34,8 +35,11 @@ public class DeleteOrderServlet extends HttpServlet {
         String jsonString = "no rights or registration!";
         if (user != null && (user.getRole() != null)) {
             String orderIdStr = request.getParameter("id");
-            jsonString = orderService.delete(orderIdStr) ? "order is deleted" : "order is not deleted!";
-            responseStatus = "order is not deleted!".equals(jsonString) ? 404 : 200;
+            if (orderService.isOwnOrder(user.getId(), orderIdStr) ||
+                    user.getRole() == UserRole.ADMIN || user.getRole() == UserRole.MANAGER) {
+                jsonString = orderService.delete(orderIdStr) ? "order is deleted" : "order is not deleted!";
+                responseStatus = "order is not deleted!".equals(jsonString) ? 404 : 200;
+            }
         }
         response.setStatus(responseStatus);
         PrintWriter out = response.getWriter();

@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.CarService;
 import ru.parfenov.homework_3.utility.Utility;
@@ -34,8 +35,11 @@ public class DeleteCarServlet extends HttpServlet {
         String jsonString = "no rights or registration!";
         if (user != null && (user.getRole() != null)) {
             String carIdStr = request.getParameter("id");
-            jsonString = carService.delete(carIdStr) ? "the car is deleted" : "the car is not deleted!";
-            responseStatus = "the car is not deleted!".equals(jsonString) ? 404 : 200;
+            if (carService.isOwnCar(user.getId(), carIdStr) ||
+                    user.getRole() == UserRole.ADMIN || user.getRole() == UserRole.MANAGER) {
+                jsonString = carService.delete(carIdStr) ? "the car is deleted" : "the car is not deleted!";
+                responseStatus = "the car is not deleted!".equals(jsonString) ? 404 : 200;
+            }
         }
         response.setStatus(responseStatus);
         PrintWriter out = response.getWriter();

@@ -26,6 +26,12 @@ public interface CarService {
     List<Car> findByOwner(int ownerId);
 
     /**
+     * Является ли машина собственностью юзера
+     */
+    boolean isOwnCar(int ownerId, int carId);
+    boolean isOwnCar(int ownerId, String carId);
+
+    /**
      * Изменение данных о машине
      */
     boolean update(

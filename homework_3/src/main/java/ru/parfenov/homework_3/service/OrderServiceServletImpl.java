@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.enums.OrderStatus;
 import ru.parfenov.homework_3.enums.OrderType;
+import ru.parfenov.homework_3.model.Car;
 import ru.parfenov.homework_3.model.Order;
 import ru.parfenov.homework_3.store.OrderStore;
 
@@ -25,6 +26,18 @@ public class OrderServiceServletImpl implements OrderService, GettingIntFromStri
     public Optional<Order> findById(String idStr) {
         int orderId = getIntFromString(idStr);
         return Optional.ofNullable(store.findById(orderId));
+    }
+
+    @Override
+    public boolean isOwnOrder(int ownerId, String orderId) {
+        int id = getIntFromString(orderId);
+        return isOwnOrder(ownerId, id);
+    }
+
+    @Override
+    public boolean isOwnOrder(int ownerId, int orderId) {
+        Order order = store.findById(orderId);
+        return order != null && order.getId() == ownerId;
     }
 
     @Override

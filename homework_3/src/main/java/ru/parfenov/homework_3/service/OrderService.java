@@ -22,6 +22,12 @@ public interface OrderService {
     Optional<Order> findById(String id);
 
     /**
+     * Является ли юзер автором заказа
+     */
+    boolean isOwnOrder(int ownerId, String orderId);
+    boolean isOwnOrder(int ownerId, int orderId);
+
+    /**
      * Закрытие заказа
      */
     boolean close(String orderId);
