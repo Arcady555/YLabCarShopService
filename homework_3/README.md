@@ -24,26 +24,22 @@ mvn clean install
 
 Отправляйте запросы, например через PostMan. (номер порта localhost зависит от настроек Вашего TomCat!)
 * Зарегистрируйтесь (http://localhost:7070/sign-up):
-![image](images/3.png)
+![image](images/1.png) Запомните ID в ответе сервера! Под ним и под паролем Вы будете заходить в систему.
 * Теперь можете войти под своим ID и паролем(http://localhost:7070/sign-in):
-![image](images/4.png)
+![image](images/2.png)
+
 Как обычный клиент, вы можете:
 * Посмотреть любую машину, введя её ID, (http://localhost:7070/car?id=) + ID:
-![image](images/6.png)
+![image](images/3.png)
 * Обновить данные по своей машине, введя ID вашей машины и новые данные в форме JSON (http://localhost:7070//update-car):
-![image](images/7.png) 
-* Удалить свой заказ на машину (http://localhost:7070/delete-order):
-![image](images/8.png) 
-* Удалить свою машину из БД (http://localhost:7070/delete-car):
-    ![image](images/8.png)
+![image](images/4.png) 
+* Удалить свой заказ на машину (http://localhost:7070/delete-order?id=) + ID.
+* Удалить свою машину из БД (http://localhost:7070/delete-car?id=) + ID.
 * Создать заказ на машину(сервис - если машина Ваша, покупка - если машина ещё не Ваша) (http://localhost:7070/create-order):
-    ![image](images/8.png)
 * Создать карточку машины для записи в БД (http://localhost:7070/create-car):
   ![image](images/8.png)
 * Есть поиск машины по интересующим Вас параметрам (http://localhost:7070/cars-with-parameters?ownerId=X&brand=X&model=X&yearOfProd=X&priceFrom=X&priceTo=X&condition=X) где вместо X впишите интересующие Вас параметры. Или пробел:
-  ![image](images/8.png)
 * Посмотреть список всех доступных машин (http://localhost:7070/all-cars):
-  ![image](images/8.png)
 
 Следующие запросы доступны только админу или менеджеру
 * Посмотреть любой заказ (http://localhost:7070/order?id=) + ID:

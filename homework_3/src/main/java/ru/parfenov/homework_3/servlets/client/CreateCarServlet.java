@@ -48,7 +48,7 @@ public class CreateCarServlet extends HttpServlet {
             ObjectMapper objectMapper = new ObjectMapper();
             CarDTO carDTO = objectMapper.readValue(userJson, CarDTO.class);
             Optional<Car> carOptional = carService.create(
-                    carDTO.getOwnerId(),
+                    user.getId(),
                     carDTO.getBrand(),
                     carDTO.getModel(),
                     carDTO.getYearOfProd(),
