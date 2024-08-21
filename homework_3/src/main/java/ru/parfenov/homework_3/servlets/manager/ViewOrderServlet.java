@@ -20,9 +20,14 @@ import java.util.Optional;
 @Slf4j
 @WebServlet(name = "ViewOrderServlet", urlPatterns = "/order")
 public class ViewOrderServlet extends HttpServlet {
-    private final OrderService orderService = Utility.loadOrderService();
+    private final OrderService orderService;
 
     public ViewOrderServlet() throws Exception {
+        orderService = Utility.loadOrderService();
+    }
+
+    public ViewOrderServlet(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     @Override

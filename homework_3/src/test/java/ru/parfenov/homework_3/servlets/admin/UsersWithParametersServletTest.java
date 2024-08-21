@@ -20,7 +20,7 @@ public class UsersWithParametersServletTest {
     HttpServletResponse response = mock(HttpServletResponse.class);
     HttpSession session = mock(HttpSession.class);
     UserService userService = mock(UserService.class);
-    UsersWithParametersServlet servlet = new UsersWithParametersServlet();
+    UsersWithParametersServlet servlet = new UsersWithParametersServlet(userService);
 
     public UsersWithParametersServletTest() throws Exception {
     }

@@ -20,9 +20,14 @@ import java.util.List;
  */
 
 public class LogWithParametersServlet extends HttpServlet {
-    private final LogService service = Utility.loadLogService();
+    private final LogService service;
 
     public LogWithParametersServlet() throws Exception {
+        service = Utility.loadLogService();
+    }
+
+    public LogWithParametersServlet(LogService service) {
+        this.service = service;
     }
 
     @Override

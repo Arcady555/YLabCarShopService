@@ -24,6 +24,11 @@ public class AllCarsServletTest {
     HttpServletResponse response = mock(HttpServletResponse.class);
     HttpSession session = mock(HttpSession.class);
     PrintWriter writer = new PrintWriter(new StringWriter());
+    CarService carService = mock(CarService.class);
+    AllCarsServlet servlet = new AllCarsServlet(carService);
+
+    public AllCarsServletTest() throws Exception {
+    }
 
     @Test
     @DisplayName("Вывод списка для зарегистрированного юзера")
@@ -35,10 +40,8 @@ public class AllCarsServletTest {
         when(session.getAttribute("user")).thenReturn(user);
         when(response.getWriter()).thenReturn(writer);
 
-        CarService carService = mock(CarService.class);
         when(carService.findAll()).thenReturn(carList);
 
-        AllCarsServlet servlet = new AllCarsServlet();
         servlet.doGet(request, response);
 
         verify(response).setStatus(200);
@@ -53,7 +56,7 @@ public class AllCarsServletTest {
         when(session.getAttribute("user")).thenReturn(null);
         when(response.getWriter()).thenReturn(writer);
 
-        AllCarsServlet servlet = new AllCarsServlet();
+
         servlet.doGet(request, response);
 
         verify(response).setStatus(401);
@@ -66,7 +69,6 @@ public class AllCarsServletTest {
         when(session.getAttribute("user")).thenReturn(null);
         when(response.getWriter()).thenReturn(writer);
 
-        AllCarsServlet servlet = new AllCarsServlet();
         servlet.doGet(request, response);
 
         verify(response).setStatus(401);
@@ -82,7 +84,6 @@ public class AllCarsServletTest {
 
         doThrow(new IOException()).when(response).getWriter();
 
-        AllCarsServlet servlet = new AllCarsServlet();
 
         assertThrows(IOException.class, () -> {
             servlet.doGet(request, response);

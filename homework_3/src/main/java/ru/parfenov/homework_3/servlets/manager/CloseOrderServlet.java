@@ -18,9 +18,14 @@ import java.io.PrintWriter;
 @Slf4j
 @WebServlet(name = "CloseOrderServlet", urlPatterns = "/close-order")
 public class CloseOrderServlet extends HttpServlet {
-    private final OrderService orderService = Utility.loadOrderService();
+    private final OrderService orderService;
 
     public CloseOrderServlet() throws Exception {
+        orderService = Utility.loadOrderService();
+    }
+
+    public CloseOrderServlet(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     @Override

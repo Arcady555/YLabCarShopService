@@ -1,5 +1,6 @@
 package ru.parfenov.homework_3.servlets;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.Test;
@@ -9,53 +10,75 @@ import ru.parfenov.homework_3.service.UserService;
 
 import java.io.ByteArrayInputStream;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Optional;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class SignUpServletTest {
+    UserService userService = mock(UserService.class);
+    SignUpServlet signUpServlet = new SignUpServlet(userService);
     HttpServletRequest request = mock(HttpServletRequest.class);
     HttpServletResponse response = mock(HttpServletResponse.class);
-    String jsonInput = "{\"name\":\"John\",\"password\":\"1234\",\"contactInfo\":\"john@example.com\"}";
-    StringWriter stringWriter = new StringWriter();
-    PrintWriter writer = new PrintWriter(stringWriter);
+    PrintWriter writer = mock(PrintWriter.class);
 
     public SignUpServletTest() throws Exception {
     }
 
     @Test
-    @DisplayName("Запуск сервлета и наличие полей на выходе")
-    public void testServlet() throws Exception {
-        when(response.getWriter()).thenReturn(writer);
-
+    @DisplayName("Статус 200 если успех")
+    public void test_status_code_success() throws Exception {
+        String jsonInput = "{\"name\":\"John\",\"password\":\"password123\",\"contactInfo\":\"john@example.com\"}";
         when(request.getInputStream())
                 .thenReturn(new DelegatingServletInputStream(new ByteArrayInputStream(jsonInput.getBytes())));
+        when(response.getWriter()).thenReturn(writer);
+        when(userService.createByReg("John", "password123", "john@example.com")).thenReturn(Optional.of(new User("John", "password123")));
 
-        new SignUpServlet().doPost(request, response);
+        signUpServlet.doPost(request, response);
 
-        writer.flush();
-        assertTrue(stringWriter.toString().contains("John"));
-        assertTrue(stringWriter.toString().contains("1234"));
-        assertTrue(stringWriter.toString().contains("john@example.com"));
+        verify(response).setStatus(200);
     }
 
     @Test
-    @DisplayName("Запуск сервлета и наличие методов на выходе")
-    public void test_json_response_with_user_details() throws Exception {
-        UserService userService = mock(UserService.class);
-
+    @DisplayName("Корректный json")
+    public void test_return_user_details_json() throws Exception {
+        String jsonInput = "{\"name\":\"John\",\"password\":\"password123\",\"contactInfo\":\"john@example.com\"}";
+        User createdUser = new User("John", "password123");
         when(request.getInputStream())
                 .thenReturn(new DelegatingServletInputStream(new ByteArrayInputStream(jsonInput.getBytes())));
-        when(userService.createByReg("John", "1234", "john@example.com"))
-                .thenReturn(Optional.of(new User("John", "1234")));
+        when(response.getWriter()).thenReturn(writer);
+        when(userService.createByReg("John", "password123", "john@example.com")).thenReturn(Optional.of(createdUser));
 
+        signUpServlet.doPost(request, response);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String expectedJson = objectMapper.writeValueAsString(createdUser);
+        verify(writer).print(expectedJson);
+    }
+
+    @Test
+    @DisplayName("Вывод кода 404")
+    public void test_status_code_failure() throws Exception {
+        String jsonInput = "{\"name\":\"John\",\"password\":\"password123\",\"contactInfo\":\"john@example.com\"}";
+        when(request.getInputStream())
+                .thenReturn(new DelegatingServletInputStream(new ByteArrayInputStream(jsonInput.getBytes())));
+        when(response.getWriter()).thenReturn(writer);
+        when(userService.createByReg("John", "password123", "john@example.com")).thenReturn(Optional.empty());
+
+        signUpServlet.doPost(request, response);
+
+        verify(response).setStatus(404);
+    }
+
+    @Test
+    @DisplayName("404 если пропущены поля")
+    public void test_missing_required_fields() throws Exception {
+        String jsonInput = "{\"name\":\"John\"}";
+        when(request.getInputStream())
+                .thenReturn(new DelegatingServletInputStream(new ByteArrayInputStream(jsonInput.getBytes())));
         when(response.getWriter()).thenReturn(writer);
 
-        new SignUpServlet().doPost(request, response);
+        signUpServlet.doPost(request, response);
 
-        verify(response).setContentType("application/json");
-        verify(response).setCharacterEncoding("UTF-8");
+        verify(response).setStatus(404);
     }
 }

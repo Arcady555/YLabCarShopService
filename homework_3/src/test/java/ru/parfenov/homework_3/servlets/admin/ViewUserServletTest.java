@@ -17,14 +17,11 @@ import static org.mockito.Mockito.*;
 
 public class ViewUserServletTest {
     UserService userService = mock(UserService.class);
-    ViewUserServlet servlet = new ViewUserServlet();
+    ViewUserServlet servlet = new ViewUserServlet(userService);
     HttpServletRequest request = mock(HttpServletRequest.class);
     HttpServletResponse response = mock(HttpServletResponse.class);
     HttpSession session = mock(HttpSession.class);
     PrintWriter writer = new PrintWriter(new StringWriter());
-
-    public ViewUserServletTest() throws Exception {
-    }
 
     @Test
     @DisplayName("ADMIN успешно посмотрел страницу юзера")

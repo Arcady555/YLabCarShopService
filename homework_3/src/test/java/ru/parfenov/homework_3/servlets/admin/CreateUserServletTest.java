@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 
 public class CreateUserServletTest {
     UserService userService = Mockito.mock(UserService.class);
-    CreateUserServlet servlet = new CreateUserServlet();
+    CreateUserServlet servlet = new CreateUserServlet(userService);
     HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
     HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
     HttpSession session = Mockito.mock(HttpSession.class);

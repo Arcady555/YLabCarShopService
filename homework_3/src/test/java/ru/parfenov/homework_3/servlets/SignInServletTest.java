@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 
 public class SignInServletTest {
     UserService userService = mock(UserService.class);
-    SignInServlet servlet = new SignInServlet();
+    SignInServlet servlet = new SignInServlet(userService);
     HttpServletRequest request = mock(HttpServletRequest.class);
     HttpServletResponse response = mock(HttpServletResponse.class);
     PrintWriter writer = new PrintWriter(new StringWriter());

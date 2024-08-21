@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import ru.parfenov.homework_3.dto.CarDTO;
 import ru.parfenov.homework_3.model.User;
+import ru.parfenov.homework_3.service.CarService;
 import ru.parfenov.homework_3.servlets.DelegatingServletInputStream;
 
 import java.io.ByteArrayInputStream;
@@ -19,7 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class UpdateCarServletTest {
-    UpdateCarServlet servlet = new UpdateCarServlet();
+    CarService carService = mock(CarService.class);
+    UpdateCarServlet servlet = new UpdateCarServlet(carService);
     HttpServletRequest request = mock(HttpServletRequest.class);
     HttpServletResponse response = mock(HttpServletResponse.class);
     HttpSession session = mock(HttpSession.class);

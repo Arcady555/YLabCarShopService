@@ -22,9 +22,14 @@ import java.util.Optional;
 @Slf4j
 @WebServlet(name = "ViewCarServlet", urlPatterns = "/car")
 public class ViewCarServlet extends HttpServlet {
-    private final CarService carService = Utility.loadCarService();
+    private final CarService carService;
 
     public ViewCarServlet() throws Exception {
+        carService = Utility.loadCarService();
+    }
+
+    public ViewCarServlet(CarService carService) {
+        this.carService = carService;
     }
 
     @Override

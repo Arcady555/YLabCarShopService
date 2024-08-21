@@ -22,9 +22,14 @@ import java.util.List;
 @Slf4j
 @WebServlet(name = "AllUsersServlet", urlPatterns = "/all-users")
 public class AllUsersServlet extends HttpServlet {
-    private final UserService userService = Utility.loadUserservice();
+    private final UserService userService;
 
     public AllUsersServlet() throws Exception {
+        userService = Utility.loadUserservice();
+    }
+
+    public AllUsersServlet(UserService userService) {
+        this.userService = userService;
     }
 
     @Override

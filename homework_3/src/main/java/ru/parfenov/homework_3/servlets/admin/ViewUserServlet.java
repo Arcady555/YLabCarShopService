@@ -18,9 +18,14 @@ import java.util.Optional;
  * Страница вывода юзера по введённому id
  */
 public class ViewUserServlet extends HttpServlet {
-    private final UserService userService = Utility.loadUserservice();
+    private final UserService userService;
 
     public ViewUserServlet() throws Exception {
+        userService = Utility.loadUserservice();
+    }
+
+    public ViewUserServlet(UserService userService) {
+        this.userService = userService;
     }
 
     @Override

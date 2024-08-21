@@ -15,7 +15,6 @@ import java.io.PrintWriter;
 @Slf4j
 @WebServlet(name = "SignOutServlet", urlPatterns = "/sign-out")
 public class SignOutServlet extends HttpServlet {
-    private final UserService userService = Utility.loadUserservice();
 
     public SignOutServlet() throws Exception {
     }

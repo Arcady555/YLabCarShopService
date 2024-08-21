@@ -19,6 +19,8 @@ public class DeleteOrderServletTest {
     HttpServletRequest request = mock(HttpServletRequest.class);
     HttpServletResponse response = mock(HttpServletResponse.class);
     HttpSession session = mock(HttpSession.class);
+    OrderService orderService = mock(OrderService.class);
+    DeleteOrderServlet servlet = new DeleteOrderServlet(orderService);
 
     @Test
     @DisplayName("Проверка сессии, выдача аттрибута")
@@ -27,8 +29,6 @@ public class DeleteOrderServletTest {
 
         when(request.getSession()).thenReturn(session);
         when(session.getAttribute("user")).thenReturn(user);
-
-        DeleteOrderServlet servlet = new DeleteOrderServlet();
 
         assertEquals(user, session.getAttribute("user"));
     }
@@ -47,8 +47,6 @@ public class DeleteOrderServletTest {
 
         PrintWriter writer = new PrintWriter(new StringWriter());
         when(response.getWriter()).thenReturn(writer);
-
-        DeleteOrderServlet servlet = new DeleteOrderServlet();
         servlet.doDelete(request, response);
 
         verify(request).getSession();

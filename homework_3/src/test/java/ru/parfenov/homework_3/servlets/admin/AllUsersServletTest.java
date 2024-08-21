@@ -21,7 +21,7 @@ public class AllUsersServletTest {
     HttpServletRequest request = mock(HttpServletRequest.class);
     HttpServletResponse response = mock(HttpServletResponse.class);
     PrintWriter writer = new PrintWriter(new StringWriter());
-    AllUsersServlet servlet = new AllUsersServlet();
+    AllUsersServlet servlet = new AllUsersServlet(userService);
 
     public AllUsersServletTest() throws Exception {
     }

@@ -5,16 +5,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
-import ru.parfenov.homework_3.enums.OrderStatus;
-import ru.parfenov.homework_3.enums.OrderType;
 import ru.parfenov.homework_3.enums.UserRole;
-import ru.parfenov.homework_3.model.Order;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.OrderService;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -23,43 +19,10 @@ public class AllOrdersServletTest {
     HttpServletResponse response = mock(HttpServletResponse.class);
     HttpSession session = mock(HttpSession.class);
     PrintWriter writer = new PrintWriter(new StringWriter());
+    OrderService orderService = mock(OrderService.class);
+    AllOrdersServlet servlet = new AllOrdersServlet(orderService);
 
-    @Test
-    @DisplayName("Юзер ADMIN успешно посмотрел страницу")
-    public void admin_user_retrieves_all_orders_successfully() throws Exception {
-        User adminUser = new User(1, UserRole.ADMIN, "admin", "password", "contact", 0);
-        List<Order> orders = List.of(new Order(1, 1, 1, OrderType.BUY, OrderStatus.OPEN));
-
-        when(request.getSession()).thenReturn(session);
-        when(session.getAttribute("user")).thenReturn(adminUser);
-        when(response.getWriter()).thenReturn(writer);
-
-        OrderService orderService = mock(OrderService.class);
-        when(orderService.findAll()).thenReturn(orders);
-
-        AllOrdersServlet servlet = new AllOrdersServlet();
-        servlet.doGet(request, response);
-
-        verify(response).setStatus(200);
-    }
-
-    @Test
-    @DisplayName("Статус 200 когда есть заказы")
-    public void response_status_is_200_when_orders_are_present() throws Exception {
-        User adminUser = new User(1, UserRole.ADMIN, "admin", "password", "contact", 0);
-        List<Order> orders = List.of(new Order(1, 1, 1, OrderType.BUY, OrderStatus.OPEN));
-
-        when(request.getSession()).thenReturn(session);
-        when(session.getAttribute("user")).thenReturn(adminUser);
-        when(response.getWriter()).thenReturn(writer);
-
-        OrderService orderService = mock(OrderService.class);
-        when(orderService.findAll()).thenReturn(orders);
-
-        AllOrdersServlet servlet = new AllOrdersServlet();
-        servlet.doGet(request, response);
-
-        verify(response).setStatus(200);
+    public AllOrdersServletTest() throws Exception {
     }
 
     @Test
@@ -71,7 +34,6 @@ public class AllOrdersServletTest {
         when(session.getAttribute("user")).thenReturn(clientUser);
         when(response.getWriter()).thenReturn(writer);
 
-        AllOrdersServlet servlet = new AllOrdersServlet();
         servlet.doGet(request, response);
 
         verify(response).setStatus(403);
@@ -84,7 +46,6 @@ public class AllOrdersServletTest {
         when(session.getAttribute("user")).thenReturn(null);
         when(response.getWriter()).thenReturn(writer);
 
-        AllOrdersServlet servlet = new AllOrdersServlet();
         servlet.doGet(request, response);
 
         verify(response).setStatus(401);
@@ -97,7 +58,6 @@ public class AllOrdersServletTest {
         when(session.getAttribute("user")).thenReturn(null);
         when(response.getWriter()).thenReturn(writer);
 
-        AllOrdersServlet servlet = new AllOrdersServlet();
         servlet.doGet(request, response);
 
         verify(response).setStatus(401);

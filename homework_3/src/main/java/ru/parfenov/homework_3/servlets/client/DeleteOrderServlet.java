@@ -16,9 +16,14 @@ import java.io.PrintWriter;
 @Slf4j
 @WebServlet(name = "DeleteOrderServlet", urlPatterns = "/delete-order")
 public class DeleteOrderServlet extends HttpServlet {
-    private final OrderService orderService = Utility.loadOrderService();
+    private final OrderService orderService;
 
     public DeleteOrderServlet() throws Exception {
+        orderService = Utility.loadOrderService();
+    }
+
+    public DeleteOrderServlet(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     @Override

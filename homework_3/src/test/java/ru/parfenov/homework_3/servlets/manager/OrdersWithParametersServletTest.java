@@ -19,7 +19,7 @@ public class OrdersWithParametersServletTest {
     HttpServletResponse response = mock(HttpServletResponse.class);
     HttpSession session = mock(HttpSession.class);
     OrderService orderService = mock(OrderService.class);
-    OrdersWithParametersServlet servlet = new OrdersWithParametersServlet();
+    OrdersWithParametersServlet servlet = new OrdersWithParametersServlet(orderService);
 
     public OrdersWithParametersServletTest() throws Exception {
     }

@@ -17,9 +17,14 @@ import java.io.PrintWriter;
 @Slf4j
 @WebServlet(name = "DeleteUserServlet", urlPatterns = "/delete-user")
 public class DeleteUserServlet extends HttpServlet {
-    private final UserService userService = Utility.loadUserservice();
+    private final UserService userService;
 
     public DeleteUserServlet() throws Exception {
+        userService = Utility.loadUserservice();
+    }
+
+    public DeleteUserServlet(UserService userService) {
+        this.userService = userService;
     }
 
     @Override

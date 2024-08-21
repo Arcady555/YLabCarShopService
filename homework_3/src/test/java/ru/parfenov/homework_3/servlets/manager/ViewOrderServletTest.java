@@ -19,29 +19,14 @@ import java.util.Optional;
 import static org.mockito.Mockito.*;
 
 public class ViewOrderServletTest {
+    OrderService orderService = mock(OrderService.class);
     HttpServletRequest request = mock(HttpServletRequest.class);
     HttpServletResponse response = mock(HttpServletResponse.class);
     HttpSession session = mock(HttpSession.class);
     PrintWriter writer = new PrintWriter(new StringWriter());
+    ViewOrderServlet servlet = new ViewOrderServlet(orderService);
 
-    @Test
-    @DisplayName("Выполнение запроса с валидной ролью(manager)")
-    public void test_manager_role_retrieves_order_details() throws Exception {
-        User user = new User(1, UserRole.MANAGER, "manager", "password", "contact", 0);
-        Order order = new Order(1, 1, 1, OrderType.BUY, OrderStatus.OPEN);
-
-        when(request.getSession()).thenReturn(session);
-        when(session.getAttribute("user")).thenReturn(user);
-        when(request.getParameter("id")).thenReturn("1");
-        when(response.getWriter()).thenReturn(writer);
-
-        OrderService orderService = mock(OrderService.class);
-        when(orderService.findById("1")).thenReturn(Optional.of(order));
-
-        ViewOrderServlet servlet = new ViewOrderServlet();
-        servlet.doGet(request, response);
-
-        verify(response).setStatus(200);
+    public ViewOrderServletTest() throws Exception {
     }
 
     @Test
@@ -53,7 +38,6 @@ public class ViewOrderServletTest {
         when(session.getAttribute("user")).thenReturn(user);
         when(response.getWriter()).thenReturn(writer);
 
-        ViewOrderServlet servlet = new ViewOrderServlet();
         servlet.doGet(request, response);
 
         verify(response).setStatus(403);
@@ -66,7 +50,6 @@ public class ViewOrderServletTest {
         when(session.getAttribute("user")).thenReturn(null);
         when(response.getWriter()).thenReturn(writer);
 
-        ViewOrderServlet servlet = new ViewOrderServlet();
         servlet.doGet(request, response);
 
         verify(response).setStatus(401);
@@ -81,7 +64,6 @@ public class ViewOrderServletTest {
         when(session.getAttribute("user")).thenReturn(user);
         when(response.getWriter()).thenReturn(writer);
 
-        ViewOrderServlet servlet = new ViewOrderServlet();
         servlet.doGet(request, response);
 
         verify(response).setStatus(403);

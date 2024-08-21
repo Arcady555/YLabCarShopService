@@ -22,9 +22,14 @@ import java.util.Scanner;
 @Slf4j
 @WebServlet(name = "CreateOrderServlet", urlPatterns = "/create-order")
 public class CreateOrderServlet extends HttpServlet {
-    private final OrderService orderService = Utility.loadOrderService();
+    private final OrderService orderService;
 
     public CreateOrderServlet() throws Exception {
+        orderService = Utility.loadOrderService();
+    }
+
+    public CreateOrderServlet(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     @Override

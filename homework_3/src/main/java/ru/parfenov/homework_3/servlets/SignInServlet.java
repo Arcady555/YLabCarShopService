@@ -22,9 +22,14 @@ import java.util.Scanner;
 @Slf4j
 @WebServlet(name = "SignInServlet", urlPatterns = "/sign-in")
 public class SignInServlet extends HttpServlet {
-    private final UserService userService = Utility.loadUserservice();
+    private final UserService userService;
 
     public SignInServlet() throws Exception {
+        userService = Utility.loadUserservice();
+    }
+
+    public SignInServlet(UserService userService) {
+        this.userService = userService;
     }
 
     @Override

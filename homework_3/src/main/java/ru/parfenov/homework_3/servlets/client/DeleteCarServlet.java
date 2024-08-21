@@ -16,9 +16,14 @@ import java.io.PrintWriter;
 @Slf4j
 @WebServlet(name = "DeleteCarServlet", urlPatterns = "/delete-car")
 public class DeleteCarServlet extends HttpServlet {
-    private final CarService carService = Utility.loadCarService();
+    private final CarService carService;
 
     public DeleteCarServlet() throws Exception {
+        carService = Utility.loadCarService();
+    }
+
+    public DeleteCarServlet(CarService carService) {
+        this.carService = carService;
     }
 
     @Override

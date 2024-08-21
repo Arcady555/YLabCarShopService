@@ -22,9 +22,14 @@ import java.util.List;
 @Slf4j
 @WebServlet(name = "CarsWithParametersServlet", urlPatterns = "/cars-with-parameters")
 public class CarsWithParametersServlet extends HttpServlet {
-    private final CarService carService = Utility.loadCarService();
+    private final CarService carService;
 
     public CarsWithParametersServlet() throws Exception {
+        carService = Utility.loadCarService();
+    }
+
+    public CarsWithParametersServlet(CarService carService) {
+        this.carService = carService;
     }
 
     @Override

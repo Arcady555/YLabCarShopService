@@ -24,9 +24,14 @@ import java.util.Scanner;
 @Slf4j
 @WebServlet(name = "UpdateUserServlet", urlPatterns = "/update-user")
 public class UpdateUserServlet extends HttpServlet {
-    private final UserService userService = Utility.loadUserservice();
+    private final UserService userService;
 
     public UpdateUserServlet() throws Exception {
+        userService = Utility.loadUserservice();
+    }
+
+    public UpdateUserServlet(UserService userService) {
+        this.userService = userService;
     }
 
     @Override

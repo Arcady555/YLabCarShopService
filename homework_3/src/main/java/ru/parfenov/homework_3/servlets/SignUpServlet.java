@@ -13,16 +13,23 @@ import ru.parfenov.homework_3.service.UserService;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.util.Optional;
 import java.util.Scanner;
 
 @Slf4j
 @WebServlet(name = "SignUpServlet", urlPatterns = "/sign-up")
 public class SignUpServlet extends HttpServlet {
-    private final UserService userService = Utility.loadUserservice();
+    private final UserService userService;
 
     public SignUpServlet() throws Exception {
+        this.userService = Utility.loadUserservice();
+    }
+
+    public SignUpServlet(UserService userService) throws Exception {
+        this.userService = userService;
     }
 
     @Override

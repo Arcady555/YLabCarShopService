@@ -20,9 +20,14 @@ import java.util.List;
 @Slf4j
 @WebServlet(name = "AllOrdersServlet", urlPatterns = "/all-orders")
 public class AllOrdersServlet extends HttpServlet {
-    private final OrderService orderService = Utility.loadOrderService();
+    private final OrderService orderService;
 
     public AllOrdersServlet() throws Exception {
+        orderService = Utility.loadOrderService();
+    }
+
+    public AllOrdersServlet(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     @Override

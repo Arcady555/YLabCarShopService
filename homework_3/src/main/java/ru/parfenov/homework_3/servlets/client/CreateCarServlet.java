@@ -25,9 +25,14 @@ import java.util.Scanner;
 @Slf4j
 @WebServlet(name = "CreateCarServlet", urlPatterns = "/create-car")
 public class CreateCarServlet extends HttpServlet {
-    private final CarService carService = Utility.loadCarService();
+    private final CarService carService;
 
     public CreateCarServlet() throws Exception {
+        carService = Utility.loadCarService();
+    }
+
+    public CreateCarServlet(CarService carService) {
+        this.carService = carService;
     }
 
     @Override

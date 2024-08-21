@@ -23,9 +23,14 @@ import java.util.List;
 @Slf4j
 @WebServlet(name = "UserWithParametersServlet", urlPatterns = "/users-with-parameters")
 public class UsersWithParametersServlet extends HttpServlet {
-    private final UserService userService = Utility.loadUserservice();
+    private final UserService userService;
 
     public UsersWithParametersServlet() throws Exception {
+        userService = Utility.loadUserservice();
+    }
+
+    public UsersWithParametersServlet(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
