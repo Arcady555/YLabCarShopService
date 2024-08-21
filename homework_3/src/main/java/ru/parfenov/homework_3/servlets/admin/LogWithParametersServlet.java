@@ -1,10 +1,12 @@
 package ru.parfenov.homework_3.servlets.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.LineInLog;
 import ru.parfenov.homework_3.model.User;
@@ -18,7 +20,8 @@ import java.util.List;
 /**
  * Страница, где админ может найти в логе инф по клиенту, по дате и по виду операции
  */
-
+@Slf4j
+@WebServlet(name = "LogWithParametersServlet", urlPatterns = "/log-with-parameters")
 public class LogWithParametersServlet extends HttpServlet {
     private final LogService service;
 

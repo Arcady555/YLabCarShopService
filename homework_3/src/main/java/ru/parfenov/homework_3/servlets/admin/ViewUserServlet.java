@@ -1,10 +1,12 @@
 package ru.parfenov.homework_3.servlets.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.UserService;
@@ -17,6 +19,8 @@ import java.util.Optional;
 /**
  * Страница вывода юзера по введённому id
  */
+@Slf4j
+@WebServlet(name = "ViewUserServlet", urlPatterns = "/user")
 public class ViewUserServlet extends HttpServlet {
     private final UserService userService;
 
