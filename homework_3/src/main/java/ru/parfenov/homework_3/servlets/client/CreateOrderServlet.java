@@ -35,13 +35,10 @@ public class CreateOrderServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
-        int responseStatus;
         var user = (User) session.getAttribute("user");
-        String orderJsonString;
-        if (user == null) {
-            orderJsonString = "no registration!";
-            responseStatus = 401;
-        } else {
+        int responseStatus = user == null ? 401 : 403;
+        String orderJsonString = "no rights or registration!";
+        if (user != null && (user.getRole() != null)) {
             Scanner scanner = new Scanner(request.getInputStream());
             String orderJson = scanner.useDelimiter("\\A").next();
             scanner.close();

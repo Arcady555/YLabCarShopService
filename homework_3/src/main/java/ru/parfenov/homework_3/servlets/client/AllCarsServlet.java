@@ -35,13 +35,10 @@ public class AllCarsServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        int responseStatus;
         var user = (User) session.getAttribute("user");
-        String carListJsonString;
-        if (user == null) {
-            carListJsonString = "no registration!";
-            responseStatus = 401;
-        } else {
+        int responseStatus = user == null ? 401 : 403;
+        String carListJsonString = "no rights or registration!";
+        if (user != null && (user.getRole() != null)) {
             ObjectMapper objectMapper = new ObjectMapper();
             List<Car> carList = carService.findAll();
             carListJsonString = !carList.isEmpty() ? objectMapper.writeValueAsString(carList) : "no cars!";

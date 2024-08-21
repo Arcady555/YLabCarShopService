@@ -13,9 +13,7 @@ import ru.parfenov.homework_3.service.UserService;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintWriter;
-import java.sql.Connection;
 import java.util.Optional;
 import java.util.Scanner;
 

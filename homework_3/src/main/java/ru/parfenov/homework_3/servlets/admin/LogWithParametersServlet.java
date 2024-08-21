@@ -33,13 +33,10 @@ public class LogWithParametersServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        int responseStatus;
         var user = (User) session.getAttribute("user");
-        String logJsonString;
-        if (user == null || user.getRole() != UserRole.ADMIN) {
-            logJsonString = "no rights or registration!";
-            responseStatus = user == null ? 401 : 403;
-        } else {
+        int responseStatus = user == null ? 401 : 403;
+        String logJsonString = "no rights or registration!";
+        if (user != null && user.getRole() == UserRole.ADMIN) {
             ObjectMapper objectMapper = new ObjectMapper();
             String userId = request.getParameter("userId");
             String action = request.getParameter("action");

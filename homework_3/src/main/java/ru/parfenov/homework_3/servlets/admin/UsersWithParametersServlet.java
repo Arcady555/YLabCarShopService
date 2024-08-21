@@ -36,13 +36,10 @@ public class UsersWithParametersServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        int responseStatus;
         var user = (User) session.getAttribute("user");
-        String userJsonString;
-        if (user == null || user.getRole() != UserRole.ADMIN) {
-            userJsonString = "no rights or registration!";
-            responseStatus = user == null ? 401 : 403;
-        } else {
+        int responseStatus = user == null ? 401 : 403;
+        String userJsonString = "no rights or registration!";
+        if (user != null && user.getRole() == UserRole.ADMIN) {
             ObjectMapper objectMapper = new ObjectMapper();
             String role = request.getParameter("role");
             String name = request.getParameter("name");

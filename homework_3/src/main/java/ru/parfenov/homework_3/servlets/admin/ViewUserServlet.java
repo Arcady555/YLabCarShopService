@@ -31,18 +31,15 @@ public class ViewUserServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        int responseStatus;
         var user = (User) session.getAttribute("user");
-        String userJsonString;
-        if (user == null || user.getRole() != UserRole.ADMIN) {
-            userJsonString = "no rights or registration!";
-            responseStatus = user == null ? 401 : 403;
-        } else {
+        int responseStatus = user == null ? 401 : 403;
+        String userJsonString = "no rights or registration!";
+        if (user != null && user.getRole() == UserRole.ADMIN) {
             ObjectMapper objectMapper = new ObjectMapper();
             String userIdStr = request.getParameter("id");
             Optional<User> userOptional = userService.findById(userIdStr);
             userJsonString = userOptional.isPresent() ? objectMapper.writeValueAsString(userOptional.get()) : "user not found!";
-            responseStatus = "user not found!".equals(userIdStr) ? 404 : 200;
+            responseStatus = "user not found!".equals(userJsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);
         PrintWriter out = response.getWriter();

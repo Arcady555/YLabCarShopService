@@ -33,13 +33,10 @@ public class UpdateCarServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
-        int responseStatus;
         var user = (User) session.getAttribute("user");
-        String jsonString;
-        if (user == null) {
-            jsonString = "no registration!";
-            responseStatus = 401;
-        } else {
+        int responseStatus = user == null ? 401 : 403;
+        String jsonString = "no rights or registration!";
+        if (user != null && (user.getRole() != null)) {
             Scanner scanner = new Scanner(request.getInputStream());
             String orderJson = scanner.useDelimiter("\\A").next();
             scanner.close();

@@ -33,13 +33,10 @@ public class OrdersWithParametersServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        int responseStatus;
         var user = (User) session.getAttribute("user");
-        String orderJsonString;
-        if (user == null || user.getRole() != UserRole.MANAGER) {
-            orderJsonString = "no rights or registration!";
-            responseStatus = user == null ? 401 : 403;
-        } else {
+        int responseStatus = user == null ? 401 : 403;
+        String orderJsonString = "no rights or registration!";
+        if (user != null && (user.getRole() == UserRole.MANAGER || user.getRole() == UserRole.ADMIN)) {
             ObjectMapper objectMapper = new ObjectMapper();
             String authorIdStr = request.getParameter("authorId");
             String carIdStr = request.getParameter("carId");

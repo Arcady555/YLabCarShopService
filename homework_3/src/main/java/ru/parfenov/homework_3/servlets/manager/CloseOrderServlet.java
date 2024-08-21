@@ -31,13 +31,10 @@ public class CloseOrderServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
-        int responseStatus;
         var user = (User) session.getAttribute("user");
-        String jsonString;
-        if (user == null || user.getRole() != UserRole.MANAGER) {
-            jsonString = "no rights or registration!";
-            responseStatus = user == null ? 401 : 403;
-        } else {
+        int responseStatus = user == null ? 401 : 403;
+        String jsonString = "no rights or registration!";
+        if (user != null && (user.getRole() == UserRole.MANAGER || user.getRole() == UserRole.ADMIN)) {
             String orderIdStr = request.getParameter("id");
             orderService.close(orderIdStr);
             jsonString = orderService.close(orderIdStr) ? "order is closed" : "order is not closed!";

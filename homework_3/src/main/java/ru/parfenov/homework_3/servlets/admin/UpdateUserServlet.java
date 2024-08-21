@@ -37,13 +37,10 @@ public class UpdateUserServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
-        int responseStatus;
         var user = (User) session.getAttribute("user");
-        String jsonString;
-        if (user == null || user.getRole() != UserRole.ADMIN) {
-            jsonString = "no rights or registration!";
-            responseStatus = user == null ? 401 : 403;
-        } else {
+        int responseStatus = user == null ? 401 : 403;
+        String jsonString = "no rights or registration!";
+        if (user != null && user.getRole() == UserRole.ADMIN) {
             Scanner scanner = new Scanner(request.getInputStream());
             String userJson = scanner.useDelimiter("\\A").next();
             scanner.close();

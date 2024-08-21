@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 @Getter
 public class InitContainer {
-    private final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:13")
+/*    private final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:13")
             .withDatabaseName("y_lab_car_service")
             .withUsername("user")
             .withPassword("pass")
@@ -26,5 +26,5 @@ public class InitContainer {
 
 
     public InitContainer() throws SQLException {
-    }
+    } */
 }

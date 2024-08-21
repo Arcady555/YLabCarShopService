@@ -35,13 +35,10 @@ public class AllUsersServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        int responseStatus;
         var user = (User) session.getAttribute("user");
-        String userListJsonString;
-        if (user == null || user.getRole() != UserRole.ADMIN) {
-            userListJsonString = "no rights or registration!";
-            responseStatus = user == null ? 401 : 403;
-        } else {
+        int responseStatus = user == null ? 401 : 403;
+        String userListJsonString = "no rights or registration!";
+        if (user != null && user.getRole() == UserRole.ADMIN) {
             ObjectMapper objectMapper = new ObjectMapper();
             List<User> userList = userService.findAll();
             userListJsonString = !userList.isEmpty() ? objectMapper.writeValueAsString(userList) : "no users!";

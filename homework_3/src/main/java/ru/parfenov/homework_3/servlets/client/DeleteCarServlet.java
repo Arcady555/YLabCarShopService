@@ -29,13 +29,10 @@ public class DeleteCarServlet extends HttpServlet {
     @Override
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
-        int responseStatus;
         var user = (User) session.getAttribute("user");
-        String jsonString;
-        if (user == null) {
-            jsonString = "no registration!";
-            responseStatus = 401;
-        } else {
+        int responseStatus = user == null ? 401 : 403;
+        String jsonString = "no rights or registration!";
+        if (user != null && (user.getRole() != null)) {
             String carIdStr = request.getParameter("id");
             jsonString = carService.delete(carIdStr) ? "the car is deleted" : "the car is not deleted!";
             responseStatus = "the car is not deleted!".equals(jsonString) ? 404 : 200;
