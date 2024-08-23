@@ -32,6 +32,16 @@ public class AllUsersServlet extends HttpServlet {
         this.userService = userService;
     }
 
+    /**
+     * Метод обработает HTTP запрос Get
+     * Есть проверки:
+     *     что юзер открыл сессию,
+     *     что зарегистрирован
+     *     что обладает правами админа
+     * @param request запрос клиента
+     * @param response ответ сервера
+     * @throws IOException исключение при вводе-выводе
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();

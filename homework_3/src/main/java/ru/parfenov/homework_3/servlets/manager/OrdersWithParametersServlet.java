@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+/**
+ * Страница вывода списка заказов по параметрам
+ */
 @Slf4j
 @WebServlet(name = "OrdersWithParametersServlet", urlPatterns = "/orders-with-parameters")
 public class OrdersWithParametersServlet extends HttpServlet {
@@ -29,7 +32,16 @@ public class OrdersWithParametersServlet extends HttpServlet {
     public OrdersWithParametersServlet(OrderService orderService) {
         this.orderService = orderService;
     }
-
+    /**
+     * Метод обработает HTTP запрос Get.
+     * Есть проверки:
+     *     что юзер открыл сессию,
+     *     что зарегистрирован,
+     *     что он менеджер или админ
+     * @param request запрос клиента
+     * @param response ответ сервера
+     * @throws IOException исключение при вводе-выводе
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();

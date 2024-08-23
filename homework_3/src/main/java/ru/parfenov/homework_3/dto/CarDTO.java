@@ -1,10 +1,11 @@
 package ru.parfenov.homework_3.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+/**
+ * DTO для удобной подачи в json. Enum заменили на String
+ */
+@Data
 public class CarDTO {
     private int id;
     private int ownerId;

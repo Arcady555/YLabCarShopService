@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+/**
+ * Страница обновления данных по машине
+ */
 @Slf4j
 @WebServlet(name = "UpdateCarServlet", urlPatterns = "/update-car")
 public class UpdateCarServlet extends HttpServlet {
@@ -31,6 +34,16 @@ public class UpdateCarServlet extends HttpServlet {
         this.carService = carService;
     }
 
+    /**
+     * Метод обработает HTTP запрос Post.
+     * Есть проверки:
+     *     что юзер открыл сессию,
+     *     что зарегистрирован.
+     * Если юзер не админ и не менеджер, то он может обновить только свою машину
+     * @param request запрос клиента
+     * @param response ответ сервера
+     * @throws IOException исключение при вводе-выводе
+     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();

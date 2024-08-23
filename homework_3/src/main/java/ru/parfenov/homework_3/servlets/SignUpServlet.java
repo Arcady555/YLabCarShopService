@@ -17,6 +17,9 @@ import java.io.PrintWriter;
 import java.util.Optional;
 import java.util.Scanner;
 
+/**
+ * Страница регистрации
+ */
 @Slf4j
 @WebServlet(name = "SignUpServlet", urlPatterns = "/sign-up")
 public class SignUpServlet extends HttpServlet {
@@ -29,9 +32,15 @@ public class SignUpServlet extends HttpServlet {
     public SignUpServlet(UserService userService) throws Exception {
         this.userService = userService;
     }
-
+    /**
+     * Метод обработает HTTP запрос Post.
+     * Пользователь вводит свои данные и регистрируется в БД
+     * @param request запрос клиента
+     * @param response ответ сервера
+     * @throws IOException исключение при вводе-выводе
+     */
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Scanner scanner = new Scanner(request.getInputStream());
         String userJson = scanner.useDelimiter("\\A").next();
         scanner.close();

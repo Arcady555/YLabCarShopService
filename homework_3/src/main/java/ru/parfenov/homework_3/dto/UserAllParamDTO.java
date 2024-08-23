@@ -1,10 +1,13 @@
 package ru.parfenov.homework_3.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import org.mapstruct.Mapper;
 
-@Getter
-@Setter
+/**
+ * DTO для удобной подачи в json. Enum заменили на String
+ */
+@Mapper
+@Data
 public class UserAllParamDTO {
     private int id;
     private String role;

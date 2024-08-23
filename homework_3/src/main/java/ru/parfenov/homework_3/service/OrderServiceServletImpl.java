@@ -29,15 +29,15 @@ public class OrderServiceServletImpl implements OrderService, GettingIntFromStri
     }
 
     @Override
-    public boolean isOwnOrder(int ownerId, String orderId) {
+    public boolean isOwnOrder(int authorId, String orderId) {
         int id = getIntFromString(orderId);
-        return isOwnOrder(ownerId, id);
+        return isOwnOrder(authorId, id);
     }
 
     @Override
-    public boolean isOwnOrder(int ownerId, int orderId) {
+    public boolean isOwnOrder(int authorId, int orderId) {
         Order order = store.findById(orderId);
-        return order != null && order.getId() == ownerId;
+        return order != null && order.getId() == authorId;
     }
 
     @Override

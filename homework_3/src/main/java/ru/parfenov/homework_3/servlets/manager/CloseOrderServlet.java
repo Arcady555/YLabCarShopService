@@ -15,6 +15,9 @@ import ru.parfenov.homework_3.utility.Utility;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Страница перевода заказа в статус "закрыт"
+ */
 @Slf4j
 @WebServlet(name = "CloseOrderServlet", urlPatterns = "/close-order")
 public class CloseOrderServlet extends HttpServlet {
@@ -28,8 +31,18 @@ public class CloseOrderServlet extends HttpServlet {
         this.orderService = orderService;
     }
 
+    /**
+     * Метод обработает HTTP запрос Get.
+     * Есть проверки:
+     *     что юзер открыл сессию,
+     *     что зарегистрирован,
+     *     что он менеджер или админ
+     * @param request запрос клиента
+     * @param response ответ сервера
+     * @throws IOException исключение при вводе-выводе
+     */
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         var user = (User) session.getAttribute("user");
         int responseStatus = user == null ? 401 : 403;

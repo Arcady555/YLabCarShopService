@@ -35,6 +35,15 @@ public class CreateCarServlet extends HttpServlet {
         this.carService = carService;
     }
 
+    /**
+     * Метод обработает HTTP запрос Post.
+     * Есть проверки:
+     *     что юзер открыл сессию,
+     *     что зарегистрирован,
+     * @param request запрос клиента
+     * @param response ответ сервера
+     * @throws IOException исключение при вводе-выводе
+     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();

@@ -19,6 +19,9 @@ import java.io.PrintWriter;
 import java.util.Optional;
 import java.util.Scanner;
 
+/**
+ * Страница входа в систему через id b пароль
+ */
 @Slf4j
 @WebServlet(name = "SignInServlet", urlPatterns = "/sign-in")
 public class SignInServlet extends HttpServlet {
@@ -32,8 +35,15 @@ public class SignInServlet extends HttpServlet {
         this.userService = userService;
     }
 
+    /**
+     * Метод обработает HTTP запрос Post.
+     * Проверяется, что юзер с таким ID и паролем есть в БД
+     * @param request запрос клиента
+     * @param response ответ сервера
+     * @throws IOException исключение при вводе-выводе
+     */
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         UserDTOMapper mapper = new UserDTOMapperImpl();
         Scanner scanner = new Scanner(request.getInputStream());
         String userJson = scanner.useDelimiter("\\A").next();

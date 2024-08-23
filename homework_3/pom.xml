@@ -53,7 +53,7 @@
         <testcontainers.version>1.19.4</testcontainers.version>
         <testcontainers.jupiter.version>1.19.4</testcontainers.jupiter.version>
         <testcontainers.postgresql.version>1.17.6</testcontainers.postgresql.version>
-        <javax.servlet.version>4.0.1</javax.servlet.version>
+    <!--    <javax.servlet.version>4.0.1</javax.servlet.version> -->
         <jacarta.version>6.1.0-M1</jacarta.version>
         <jackson.version>2.15.1</jackson.version>
         <mapstruct.version>1.6.0.Beta1</mapstruct.version>

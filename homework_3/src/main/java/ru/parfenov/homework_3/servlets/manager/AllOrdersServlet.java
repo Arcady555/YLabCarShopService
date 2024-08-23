@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+/**
+ * Страница вывода всех заказов
+ */
 @Slf4j
 @WebServlet(name = "AllOrdersServlet", urlPatterns = "/all-orders")
 public class AllOrdersServlet extends HttpServlet {
@@ -30,6 +33,16 @@ public class AllOrdersServlet extends HttpServlet {
         this.orderService = orderService;
     }
 
+    /**
+     * Метод обработает HTTP запрос Get.
+     * Есть проверки:
+     *     что юзер открыл сессию,
+     *     что зарегистрирован,
+     *     что он менеджер или админ
+     * @param request запрос клиента
+     * @param response ответ сервера
+     * @throws IOException исключение при вводе-выводе
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();

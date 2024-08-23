@@ -14,6 +14,9 @@ import ru.parfenov.homework_3.utility.Utility;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Страница, где админ может удалить любого юзера
+ */
 @Slf4j
 @WebServlet(name = "DeleteUserServlet", urlPatterns = "/delete-user")
 public class DeleteUserServlet extends HttpServlet {
@@ -27,6 +30,16 @@ public class DeleteUserServlet extends HttpServlet {
         this.userService = userService;
     }
 
+    /**
+     * Метод обработает HTTP запрос Delete.
+     * Есть проверки:
+     *     что юзер открыл сессию,
+     *     что зарегистрирован,
+     *     что обладает правами админа
+     * @param request запрос клиента
+     * @param response ответ сервера
+     * @throws IOException исключение при вводе-выводе
+     */
     @Override
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();

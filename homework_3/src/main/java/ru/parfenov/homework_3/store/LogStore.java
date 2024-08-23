@@ -11,6 +11,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс передаёт запросы в хранилище логов о действиях юзеров
+ */
 @Slf4j
 public class LogStore {
     private final Connection connection;
@@ -23,6 +26,10 @@ public class LogStore {
         this.connection = connection;
     }
 
+    /**
+     * Создание записи строки лога в БД
+     * @param lineInLog LineInLog сущность из блока ru/parfenov/homework_3/model
+     */
     public void create(LineInLog lineInLog) {
         try (PreparedStatement statement = connection.prepareStatement(JdbcRequests.createLineInLog)) {
             statement.setTimestamp(1, Timestamp.valueOf(lineInLog.time()));
@@ -34,6 +41,14 @@ public class LogStore {
         }
     }
 
+    /**
+     * Вывод записей лога, которые ушли в базу данных, по параметрам
+     * @param userId ID юзера
+     * @param action действие юзера
+     * @param dateTimeFrom с какой даты-времени искать логи
+     * @param dateTimeTo по какую дату-время искать логи
+     * @return список строк-записей логов
+     */
     public List<LineInLog> findByParameters(int userId, String action, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo) {
         String request = getRequestForFindByParam(userId, action, dateTimeFrom, dateTimeTo);
         List<LineInLog> logs = new ArrayList<>();

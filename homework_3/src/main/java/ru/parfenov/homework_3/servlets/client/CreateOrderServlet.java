@@ -22,6 +22,9 @@ import java.io.PrintWriter;
 import java.util.Optional;
 import java.util.Scanner;
 
+/**
+ * Страница создания заказа на покупку или сервис машины.
+ */
 @Slf4j
 @WebServlet(name = "CreateOrderServlet", urlPatterns = "/create-order")
 public class CreateOrderServlet extends HttpServlet {
@@ -41,13 +44,25 @@ public class CreateOrderServlet extends HttpServlet {
         this.userService = userService;
     }
 
+    /**
+     * Метод обработает HTTP запрос Post.
+     * Есть проверки:
+     *     что юзер открыл сессию,
+     *     что зарегистрирован.
+     * Заказ на покупку юзер может создать только если машина не его
+     * А заказ на сервис - если машина его
+     * После покупки машины его buysAmount++
+     * @param request запрос клиента
+     * @param response ответ сервера
+     * @throws IOException исключение при вводе-выводе
+     */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         HttpSession session = request.getSession();
         var user = (User) session.getAttribute("user");
         int responseStatus = user == null ? 401 : 403;
         String orderJsonString = "no rights or registration!";
-        if (user != null && (user.getRole() != null)) {
+        if (user != null) {
             Scanner scanner = new Scanner(request.getInputStream());
             String orderJson = scanner.useDelimiter("\\A").next();
             scanner.close();

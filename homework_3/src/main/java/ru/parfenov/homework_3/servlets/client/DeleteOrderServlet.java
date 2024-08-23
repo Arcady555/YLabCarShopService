@@ -14,6 +14,9 @@ import ru.parfenov.homework_3.utility.Utility;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/**
+ * Страница удаления заказа
+ */
 @Slf4j
 @WebServlet(name = "DeleteOrderServlet", urlPatterns = "/delete-order")
 public class DeleteOrderServlet extends HttpServlet {
@@ -27,6 +30,16 @@ public class DeleteOrderServlet extends HttpServlet {
         this.orderService = orderService;
     }
 
+    /**
+     * Метод обработает HTTP запрос Delete.
+     * Есть проверки:
+     *     что юзер открыл сессию,
+     *     что зарегистрирован.
+     * Если юзер не админ и не менеджер, то он может удалить только свой заказ
+     * @param request запрос клиента
+     * @param response ответ сервера
+     * @throws IOException исключение при вводе-выводе
+     */
     @Override
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();

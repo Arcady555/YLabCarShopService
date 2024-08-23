@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Optional;
 
+/**
+ * Страница просмотра карточки заказа
+ */
 @Slf4j
 @WebServlet(name = "ViewOrderServlet", urlPatterns = "/order")
 public class ViewOrderServlet extends HttpServlet {
@@ -30,18 +33,34 @@ public class ViewOrderServlet extends HttpServlet {
         this.orderService = orderService;
     }
 
+    /**
+     * Метод обработает HTTP запрос Get.
+     * Есть проверки:
+     *     что юзер открыл сессию,
+     *     что зарегистрирован,
+     *     что он менеджер или админ
+     *     если он клиент, то может смотреть только если заказ его
+     * @param request запрос клиента
+     * @param response ответ сервера
+     * @throws IOException исключение при вводе-выводе
+     */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         HttpSession session = request.getSession();
         var user = (User) session.getAttribute("user");
         int responseStatus = user == null ? 401 : 403;
         String orderJsonString = "no rights or registration!";
-        if (user != null && (user.getRole() == UserRole.MANAGER || user.getRole() == UserRole.ADMIN)) {
+        if (user != null) {
             ObjectMapper objectMapper = new ObjectMapper();
             String orderIdStr = request.getParameter("id");
             Optional<Order> orderOptional = orderService.findById(orderIdStr);
-            orderJsonString = orderOptional.isPresent() ? objectMapper.writeValueAsString(orderOptional.get()) : "order not found!";
-            responseStatus = "order not found!".equals(orderJsonString) ? 404 : 200;
+            if (orderOptional.isPresent() && checkCorrelation(user, orderOptional.get())) {
+                orderJsonString = objectMapper.writeValueAsString(orderOptional.get());
+                responseStatus = 200;
+            } else {
+                orderJsonString = "order not found!";
+                responseStatus = 404;
+            }
         }
         response.setStatus(responseStatus);
         PrintWriter out = response.getWriter();
@@ -49,5 +68,11 @@ public class ViewOrderServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         out.print(orderJsonString);
         out.flush();
+    }
+
+    private boolean checkCorrelation(User user, Order order) {
+        boolean roleCheck = user.getRole() == UserRole.MANAGER || user.getRole() == UserRole.ADMIN;
+        boolean authorCheck = orderService.isOwnOrder(user.getId(), order.getId());
+        return roleCheck || authorCheck;
     }
 }

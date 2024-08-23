@@ -7,14 +7,11 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import ru.parfenov.homework_3.model.LineInLog;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.LogService;
-import ru.parfenov.homework_3.store.LogStore;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 @Aspect
 @Slf4j
@@ -25,7 +22,7 @@ public class UserActionLogger {
     }
 
     @Pointcut("execution(* ru.parfenov.homework_3.servlets..*")
-    public void closeOrderServletDoGet() {
+    public void pickMethods() {
     }
 
     @After("execution(* *(..)) && args(request, response)")
