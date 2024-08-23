@@ -10,10 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.model.Car;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.CarService;
+import ru.parfenov.homework_3.servlets.MethodsForServlets;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 /**
@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Slf4j
 @WebServlet(name = "CarsWithParametersServlet", urlPatterns = "/cars-with-parameters")
-public class CarsWithParametersServlet extends HttpServlet {
+public class CarsWithParametersServlet extends HttpServlet implements MethodsForServlets {
     private final CarService carService;
 
     public CarsWithParametersServlet() throws Exception {
@@ -35,9 +35,10 @@ public class CarsWithParametersServlet extends HttpServlet {
     /**
      * Метод обработает HTTP запрос Get.
      * Есть проверки:
-     *     что юзер открыл сессию,
-     *     что зарегистрирован,
-     * @param request запрос клиента
+     * что юзер открыл сессию,
+     * что зарегистрирован,
+     *
+     * @param request  запрос клиента
      * @param response ответ сервера
      * @throws IOException исключение при вводе-выводе
      */
@@ -63,10 +64,6 @@ public class CarsWithParametersServlet extends HttpServlet {
             responseStatus = "no cars!".equals(carJsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(carJsonString);
-        out.flush();
+        finish(response, carJsonString);
     }
 }

@@ -11,6 +11,7 @@ import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.Order;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.OrderService;
+import ru.parfenov.homework_3.servlets.MethodsForServlets;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.util.List;
  */
 @Slf4j
 @WebServlet(name = "AllOrdersServlet", urlPatterns = "/all-orders")
-public class AllOrdersServlet extends HttpServlet {
+public class AllOrdersServlet extends HttpServlet implements MethodsForServlets {
     private final OrderService orderService;
 
     public AllOrdersServlet() throws Exception {
@@ -56,10 +57,6 @@ public class AllOrdersServlet extends HttpServlet {
             responseStatus = "no orders!".equals(orderListJsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(orderListJsonString);
-        out.flush();
+        finish(response, orderListJsonString);
     }
 }

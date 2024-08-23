@@ -1,7 +1,6 @@
 package ru.parfenov.homework_3.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,16 +12,14 @@ import ru.parfenov.homework_3.service.UserService;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Optional;
-import java.util.Scanner;
 
 /**
  * Страница регистрации
  */
 @Slf4j
 @WebServlet(name = "SignUpServlet", urlPatterns = "/sign-up")
-public class SignUpServlet extends HttpServlet {
+public class SignUpServlet extends HttpServlet implements MethodsForServlets {
     private final UserService userService;
 
     public SignUpServlet() throws Exception {
@@ -32,18 +29,18 @@ public class SignUpServlet extends HttpServlet {
     public SignUpServlet(UserService userService) throws Exception {
         this.userService = userService;
     }
+
     /**
      * Метод обработает HTTP запрос Post.
      * Пользователь вводит свои данные и регистрируется в БД
-     * @param request запрос клиента
+     *
+     * @param request  запрос клиента
      * @param response ответ сервера
      * @throws IOException исключение при вводе-выводе
      */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Scanner scanner = new Scanner(request.getInputStream());
-        String userJson = scanner.useDelimiter("\\A").next();
-        scanner.close();
+        String userJson = getStringJson(request);
         ObjectMapper objectMapper = new ObjectMapper();
         UserNamePasContDTO userDIO = objectMapper.readValue(userJson, UserNamePasContDTO.class);
         Optional<User> userOptional =
@@ -52,10 +49,6 @@ public class SignUpServlet extends HttpServlet {
                 objectMapper.writeValueAsString(userOptional.get()) :
                 "user is not created!";
         response.setStatus("user is not created!".equals(userJsonString) ? 404 : 200);
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(userJsonString);
-        out.flush();
+        finish(response, userJsonString);
     }
 }

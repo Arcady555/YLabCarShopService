@@ -10,10 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.UserService;
+import ru.parfenov.homework_3.servlets.MethodsForServlets;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Optional;
 
 /**
@@ -21,7 +21,7 @@ import java.util.Optional;
  */
 @Slf4j
 @WebServlet(name = "ViewUserServlet", urlPatterns = "/user")
-public class ViewUserServlet extends HttpServlet {
+public class ViewUserServlet extends HttpServlet implements MethodsForServlets {
     private final UserService userService;
 
     public ViewUserServlet() throws Exception {
@@ -35,10 +35,11 @@ public class ViewUserServlet extends HttpServlet {
     /**
      * Метод обработает HTTP запрос Get.
      * Есть проверки:
-     *     что юзер открыл сессию,
-     *     что зарегистрирован,
-     *     что обладает правами админа
-     * @param request запрос клиента
+     * что юзер открыл сессию,
+     * что зарегистрирован,
+     * что обладает правами админа
+     *
+     * @param request  запрос клиента
      * @param response ответ сервера
      * @throws IOException исключение при вводе-выводе
      */
@@ -56,10 +57,6 @@ public class ViewUserServlet extends HttpServlet {
             responseStatus = "user not found!".equals(userJsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(userJsonString);
-        out.flush();
+        finish(response, userJsonString);
     }
 }

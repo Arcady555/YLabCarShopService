@@ -9,17 +9,17 @@ import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.CarService;
+import ru.parfenov.homework_3.servlets.MethodsForServlets;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * Страница удаления карточки машины
  */
 @Slf4j
 @WebServlet(name = "DeleteCarServlet", urlPatterns = "/delete-car")
-public class DeleteCarServlet extends HttpServlet {
+public class DeleteCarServlet extends HttpServlet implements MethodsForServlets {
     private final CarService carService;
 
     public DeleteCarServlet() throws Exception {
@@ -33,10 +33,11 @@ public class DeleteCarServlet extends HttpServlet {
     /**
      * Метод обработает HTTP запрос Delete.
      * Есть проверки:
-     *     что юзер открыл сессию,
-     *     что зарегистрирован.
+     * что юзер открыл сессию,
+     * что зарегистрирован.
      * Если юзер не админ и не менеджер, то он может удалить только свою машину
-     * @param request запрос клиента
+     *
+     * @param request  запрос клиента
      * @param response ответ сервера
      * @throws IOException исключение при вводе-выводе
      */
@@ -55,10 +56,6 @@ public class DeleteCarServlet extends HttpServlet {
             }
         }
         response.setStatus(responseStatus);
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(jsonString);
-        out.flush();
+        finish(response, jsonString);
     }
 }

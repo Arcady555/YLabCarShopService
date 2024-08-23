@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.OrderService;
+import ru.parfenov.homework_3.servlets.MethodsForServlets;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ import java.io.PrintWriter;
  */
 @Slf4j
 @WebServlet(name = "CloseOrderServlet", urlPatterns = "/close-order")
-public class CloseOrderServlet extends HttpServlet {
+public class CloseOrderServlet extends HttpServlet implements MethodsForServlets {
     private final OrderService orderService;
 
     public CloseOrderServlet() throws Exception {
@@ -54,10 +55,6 @@ public class CloseOrderServlet extends HttpServlet {
             responseStatus = "order is not closed!".equals(jsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(jsonString);
-        out.flush();
+        finish(response, jsonString);
     }
 }

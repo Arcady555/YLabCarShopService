@@ -12,19 +12,18 @@ import ru.parfenov.homework_3.dto.CarDTO;
 import ru.parfenov.homework_3.model.Car;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.CarService;
+import ru.parfenov.homework_3.servlets.MethodsForServlets;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Optional;
-import java.util.Scanner;
 
 /**
  * Страница, где пользователь может ввести машину в базу данных
  */
 @Slf4j
 @WebServlet(name = "CreateCarServlet", urlPatterns = "/create-car")
-public class CreateCarServlet extends HttpServlet {
+public class CreateCarServlet extends HttpServlet implements MethodsForServlets {
     private final CarService carService;
 
     public CreateCarServlet() throws Exception {
@@ -38,9 +37,10 @@ public class CreateCarServlet extends HttpServlet {
     /**
      * Метод обработает HTTP запрос Post.
      * Есть проверки:
-     *     что юзер открыл сессию,
-     *     что зарегистрирован,
-     * @param request запрос клиента
+     * что юзер открыл сессию,
+     * что зарегистрирован,
+     *
+     * @param request  запрос клиента
      * @param response ответ сервера
      * @throws IOException исключение при вводе-выводе
      */
@@ -51,9 +51,7 @@ public class CreateCarServlet extends HttpServlet {
         int responseStatus = user == null ? 401 : 403;
         String carJsonString = "no rights or registration!";
         if (user != null && (user.getRole() != null)) {
-            Scanner scanner = new Scanner(request.getInputStream());
-            String userJson = scanner.useDelimiter("\\A").next();
-            scanner.close();
+            String userJson = getStringJson(request);
             ObjectMapper objectMapper = new ObjectMapper();
             CarDTO carDTO = objectMapper.readValue(userJson, CarDTO.class);
             Optional<Car> carOptional = carService.create(
@@ -70,10 +68,6 @@ public class CreateCarServlet extends HttpServlet {
             responseStatus = "car is not created!".equals(carJsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(carJsonString);
-        out.flush();
+        finish(response, carJsonString);
     }
 }

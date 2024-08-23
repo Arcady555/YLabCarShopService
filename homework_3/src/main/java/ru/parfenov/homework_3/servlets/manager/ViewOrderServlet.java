@@ -11,6 +11,7 @@ import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.Order;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.OrderService;
+import ru.parfenov.homework_3.servlets.MethodsForServlets;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.util.Optional;
  */
 @Slf4j
 @WebServlet(name = "ViewOrderServlet", urlPatterns = "/order")
-public class ViewOrderServlet extends HttpServlet {
+public class ViewOrderServlet extends HttpServlet implements MethodsForServlets {
     private final OrderService orderService;
 
     public ViewOrderServlet() throws Exception {
@@ -63,11 +64,7 @@ public class ViewOrderServlet extends HttpServlet {
             }
         }
         response.setStatus(responseStatus);
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(orderJsonString);
-        out.flush();
+        finish(response, orderJsonString);
     }
 
     private boolean checkCorrelation(User user, Order order) {

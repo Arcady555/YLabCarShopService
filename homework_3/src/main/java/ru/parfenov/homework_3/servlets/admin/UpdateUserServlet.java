@@ -1,7 +1,6 @@
 package ru.parfenov.homework_3.servlets.admin;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,18 +11,17 @@ import ru.parfenov.homework_3.dto.UserAllParamDTO;
 import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.UserService;
+import ru.parfenov.homework_3.servlets.MethodsForServlets;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Scanner;
 
 /**
  * Страница обновления информации о юзере
  */
 @Slf4j
 @WebServlet(name = "UpdateUserServlet", urlPatterns = "/update-user")
-public class UpdateUserServlet extends HttpServlet {
+public class UpdateUserServlet extends HttpServlet implements MethodsForServlets {
     private final UserService userService;
 
     public UpdateUserServlet() throws Exception {
@@ -40,9 +38,10 @@ public class UpdateUserServlet extends HttpServlet {
      * что юзер открыл сессию,
      * что зарегистрирован,
      * что обладает правами админа
+     *
      * @param request  запрос клиента
      * @param response ответ сервера
-     * @throws IOException      исключение при вводе-выводе
+     * @throws IOException исключение при вводе-выводе
      */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -51,9 +50,7 @@ public class UpdateUserServlet extends HttpServlet {
         int responseStatus = user == null ? 401 : 403;
         String jsonString = "no rights or registration!";
         if (user != null && user.getRole() == UserRole.ADMIN) {
-            Scanner scanner = new Scanner(request.getInputStream());
-            String userJson = scanner.useDelimiter("\\A").next();
-            scanner.close();
+            String userJson = getStringJson(request);
             ObjectMapper objectMapper = new ObjectMapper();
             UserAllParamDTO userDTO = objectMapper.readValue(userJson, UserAllParamDTO.class);
             boolean updateUser = userService.update(
@@ -68,10 +65,6 @@ public class UpdateUserServlet extends HttpServlet {
             responseStatus = "user is not updated!".equals(jsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(jsonString);
-        out.flush();
+        finish(response, jsonString);
     }
 }

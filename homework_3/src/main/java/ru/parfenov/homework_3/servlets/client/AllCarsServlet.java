@@ -10,10 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.model.Car;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.CarService;
+import ru.parfenov.homework_3.servlets.MethodsForServlets;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 /**
@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Slf4j
 @WebServlet(name = "AllCarsServlet", urlPatterns = "/all-cars")
-public class AllCarsServlet extends HttpServlet {
+public class AllCarsServlet extends HttpServlet implements MethodsForServlets {
     private final CarService carService;
 
     public AllCarsServlet() throws Exception {
@@ -35,9 +35,10 @@ public class AllCarsServlet extends HttpServlet {
     /**
      * Метод обработает HTTP запрос Get.
      * Есть проверки:
-     *     что юзер открыл сессию,
-     *     что зарегистрирован,
-     * @param request запрос клиента
+     * что юзер открыл сессию,
+     * что зарегистрирован,
+     *
+     * @param request  запрос клиента
      * @param response ответ сервера
      * @throws IOException исключение при вводе-выводе
      */
@@ -54,10 +55,6 @@ public class AllCarsServlet extends HttpServlet {
             responseStatus = "no cars!".equals(carListJsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(carListJsonString);
-        out.flush();
+        finish(response, carListJsonString);
     }
 }

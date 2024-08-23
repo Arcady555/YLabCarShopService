@@ -12,19 +12,18 @@ import ru.parfenov.homework_3.dto.UserAllParamDTO;
 import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.UserService;
+import ru.parfenov.homework_3.servlets.MethodsForServlets;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Optional;
-import java.util.Scanner;
 
 /**
  * Страница, где админ может сам создать любого юзера и с нужным профилем
  */
 @Slf4j
 @WebServlet(name = "CreateUserServlet", urlPatterns = "/create-user")
-public class CreateUserServlet extends HttpServlet {
+public class CreateUserServlet extends HttpServlet implements MethodsForServlets {
     private final UserService userService;
 
     public CreateUserServlet() throws Exception {
@@ -38,10 +37,11 @@ public class CreateUserServlet extends HttpServlet {
     /**
      * Метод обработает HTTP запрос Post
      * Есть проверки:
-     *     что юзер открыл сессию,
-     *     что зарегистрирован
-     *     что обладает правами админа
-     * @param request запрос клиента
+     * что юзер открыл сессию,
+     * что зарегистрирован
+     * что обладает правами админа
+     *
+     * @param request  запрос клиента
      * @param response ответ сервера
      * @throws IOException исключение при вводе-выводе
      */
@@ -52,9 +52,7 @@ public class CreateUserServlet extends HttpServlet {
         int responseStatus = user == null ? 401 : 403;
         String userJsonString = "no rights or registration!";
         if (user != null && user.getRole() == UserRole.ADMIN) {
-            Scanner scanner = new Scanner(request.getInputStream());
-            String userJson = scanner.useDelimiter("\\A").next();
-            scanner.close();
+            String userJson = getStringJson(request);
             ObjectMapper objectMapper = new ObjectMapper();
             UserAllParamDTO userDTO = objectMapper.readValue(userJson, UserAllParamDTO.class);
             Optional<User> userOptional = userService.createByAdmin(
@@ -71,10 +69,6 @@ public class CreateUserServlet extends HttpServlet {
             responseStatus = "user is not created!".equals(userJsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(userJsonString);
-        out.flush();
+        finish(response, userJsonString);
     }
 }

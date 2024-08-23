@@ -11,10 +11,10 @@ import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.LineInLog;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.LogService;
+import ru.parfenov.homework_3.servlets.MethodsForServlets;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 /**
@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Slf4j
 @WebServlet(name = "LogWithParametersServlet", urlPatterns = "/log-with-parameters")
-public class LogWithParametersServlet extends HttpServlet {
+public class LogWithParametersServlet extends HttpServlet implements MethodsForServlets {
     private final LogService service;
 
     public LogWithParametersServlet() throws Exception {
@@ -39,6 +39,7 @@ public class LogWithParametersServlet extends HttpServlet {
      * что юзер открыл сессию,
      * что зарегистрирован,
      * что обладает правами админа
+     *
      * @param request  запрос клиента
      * @param response ответ сервера
      * @throws IOException исключение при вводе-выводе
@@ -60,10 +61,6 @@ public class LogWithParametersServlet extends HttpServlet {
             responseStatus = "no log with these parameters!".equals(logJsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(logJsonString);
-        out.flush();
+        finish(response, logJsonString);
     }
 }

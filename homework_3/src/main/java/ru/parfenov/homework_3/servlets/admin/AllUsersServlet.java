@@ -10,10 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.UserService;
+import ru.parfenov.homework_3.servlets.MethodsForServlets;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 /**
@@ -21,7 +21,7 @@ import java.util.List;
  */
 @Slf4j
 @WebServlet(name = "AllUsersServlet", urlPatterns = "/all-users")
-public class AllUsersServlet extends HttpServlet {
+public class AllUsersServlet extends HttpServlet implements MethodsForServlets {
     private final UserService userService;
 
     public AllUsersServlet() throws Exception {
@@ -35,10 +35,11 @@ public class AllUsersServlet extends HttpServlet {
     /**
      * Метод обработает HTTP запрос Get
      * Есть проверки:
-     *     что юзер открыл сессию,
-     *     что зарегистрирован
-     *     что обладает правами админа
-     * @param request запрос клиента
+     * что юзер открыл сессию,
+     * что зарегистрирован
+     * что обладает правами админа
+     *
+     * @param request  запрос клиента
      * @param response ответ сервера
      * @throws IOException исключение при вводе-выводе
      */
@@ -55,10 +56,6 @@ public class AllUsersServlet extends HttpServlet {
             responseStatus = "no users!".equals(userListJsonString) ? 404 : 200;
         }
         response.setStatus(responseStatus);
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(userListJsonString);
-        out.flush();
+        finish(response, userListJsonString);
     }
 }

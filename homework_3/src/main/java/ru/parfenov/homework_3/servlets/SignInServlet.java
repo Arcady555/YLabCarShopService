@@ -1,7 +1,6 @@
 package ru.parfenov.homework_3.servlets;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,16 +14,14 @@ import ru.parfenov.homework_3.service.UserService;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Optional;
-import java.util.Scanner;
 
 /**
  * Страница входа в систему через id b пароль
  */
 @Slf4j
 @WebServlet(name = "SignInServlet", urlPatterns = "/sign-in")
-public class SignInServlet extends HttpServlet {
+public class SignInServlet extends HttpServlet implements MethodsForServlets {
     private final UserService userService;
 
     public SignInServlet() throws Exception {
@@ -38,16 +35,15 @@ public class SignInServlet extends HttpServlet {
     /**
      * Метод обработает HTTP запрос Post.
      * Проверяется, что юзер с таким ID и паролем есть в БД
-     * @param request запрос клиента
+     *
+     * @param request  запрос клиента
      * @param response ответ сервера
      * @throws IOException исключение при вводе-выводе
      */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        UserDTOMapper mapper = new UserDTOMapperImpl();
-        Scanner scanner = new Scanner(request.getInputStream());
-        String userJson = scanner.useDelimiter("\\A").next();
-        scanner.close();
+        UserDTOMapper mapper = new UserDTOMapperImpl(); ////////
+        String userJson = getStringJson(request);
         ObjectMapper objectMapper = new ObjectMapper();
         UserIdPassDTO userDTO = objectMapper.readValue(userJson, UserIdPassDTO.class);
         Optional<User> userOptional =
@@ -64,10 +60,6 @@ public class SignInServlet extends HttpServlet {
             responseStatus = 404;
         }
         response.setStatus(responseStatus);
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(userJsonString);
-        out.flush();
+        finish(response, userJsonString);
     }
 }

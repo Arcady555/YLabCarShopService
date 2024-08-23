@@ -15,19 +15,18 @@ import ru.parfenov.homework_3.model.User;
 import ru.parfenov.homework_3.service.CarService;
 import ru.parfenov.homework_3.service.OrderService;
 import ru.parfenov.homework_3.service.UserService;
+import ru.parfenov.homework_3.servlets.MethodsForServlets;
 import ru.parfenov.homework_3.utility.Utility;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Optional;
-import java.util.Scanner;
 
 /**
  * Страница создания заказа на покупку или сервис машины.
  */
 @Slf4j
 @WebServlet(name = "CreateOrderServlet", urlPatterns = "/create-order")
-public class CreateOrderServlet extends HttpServlet {
+public class CreateOrderServlet extends HttpServlet implements MethodsForServlets {
     private final OrderService orderService;
     private final CarService carService;
     private final UserService userService;
@@ -47,12 +46,13 @@ public class CreateOrderServlet extends HttpServlet {
     /**
      * Метод обработает HTTP запрос Post.
      * Есть проверки:
-     *     что юзер открыл сессию,
-     *     что зарегистрирован.
+     * что юзер открыл сессию,
+     * что зарегистрирован.
      * Заказ на покупку юзер может создать только если машина не его
      * А заказ на сервис - если машина его
      * После покупки машины его buysAmount++
-     * @param request запрос клиента
+     *
+     * @param request  запрос клиента
      * @param response ответ сервера
      * @throws IOException исключение при вводе-выводе
      */
@@ -63,12 +63,10 @@ public class CreateOrderServlet extends HttpServlet {
         int responseStatus = user == null ? 401 : 403;
         String orderJsonString = "no rights or registration!";
         if (user != null) {
-            Scanner scanner = new Scanner(request.getInputStream());
-            String orderJson = scanner.useDelimiter("\\A").next();
-            scanner.close();
+            String orderJson = getStringJson(request);
             ObjectMapper objectMapper = new ObjectMapper();
             OrderDTO orderDTO = objectMapper.readValue(orderJson, OrderDTO.class);
-            if (checkCorrelation(user, orderDTO) ) {
+            if (checkCorrelation(user, orderDTO)) {
                 Optional<Order> orderOptional = orderService.create(
                         orderDTO.getAuthorId(),
                         orderDTO.getCarId(),
@@ -81,18 +79,14 @@ public class CreateOrderServlet extends HttpServlet {
             }
         }
         response.setStatus(responseStatus);
-        PrintWriter out = response.getWriter();
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        out.print(orderJsonString);
-        out.flush();
+        finish(response, orderJsonString);
     }
 
     private boolean checkCorrelation(User user, OrderDTO order) {
         boolean firstCheck = carService.isOwnCar(user.getId(), order.getCarId()) &&
                 order.getType().equals("SERVICE");
         boolean secondCheck = !carService.isOwnCar(user.getId(), order.getCarId())
-                        && order.getType().equals("BUY");
+                && order.getType().equals("BUY");
         return firstCheck || secondCheck;
     }
 

@@ -1,6 +1,5 @@
 package ru.parfenov.homework_3.servlets;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +22,8 @@ public class SignOutServlet extends HttpServlet {
     /**
      * Метод обработает HTTP запрос Get.
      * Юзер выходит, сессия закрывается.
-     * @param request запрос клиента
+     *
+     * @param request  запрос клиента
      * @param response ответ сервера
      * @throws IOException исключение при вводе-выводе
      */
