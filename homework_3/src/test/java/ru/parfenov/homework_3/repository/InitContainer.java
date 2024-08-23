@@ -1,4 +1,4 @@
-package ru.parfenov.homework_3.store;
+package ru.parfenov.homework_3.repository;
 
 import lombok.Getter;
 import org.testcontainers.containers.PostgreSQLContainer;

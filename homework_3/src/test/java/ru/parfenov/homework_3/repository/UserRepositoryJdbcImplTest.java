@@ -1,18 +1,20 @@
-package ru.parfenov.homework_3.store;
+package ru.parfenov.homework_3.repository;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.User;
+import org.junit.jupiter.api.*;
 
 import java.sql.SQLException;
 
 @Testcontainers
-class UserStoreJdbcImplTest {
+class UserRepositoryJdbcImplTest {
     @Container
     public static InitContainer initContainer;
-    private static UserStoreJdbcImpl userStore;
+    private static UserRepositoryJdbcImpl userStore;
 
     @BeforeAll
     static void beforeAll() {
@@ -26,7 +28,7 @@ class UserStoreJdbcImplTest {
 
     @BeforeAll
     public static void initConnection() throws Exception {
-        userStore = new UserStoreJdbcImpl(initContainer.getConnection());
+        userStore = new UserRepositoryJdbcImpl(initContainer.getConnection());
         User user = new User(0, UserRole.CLIENT, "Arcady", "password", "contact info", 0);
         userStore.create(user);
     }

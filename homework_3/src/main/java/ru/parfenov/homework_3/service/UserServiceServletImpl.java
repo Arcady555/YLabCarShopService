@@ -1,16 +1,18 @@
 package ru.parfenov.homework_3.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.User;
-import ru.parfenov.homework_3.store.UserStore;
+import ru.parfenov.homework_3.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+@Slf4j
+@RequiredArgsConstructor
 public class UserServiceServletImpl implements UserService, GettingIntFromString {
-    private final UserStore store;
+    private final UserRepository store;
 
     @Override
     public Optional<User> createByAdmin(

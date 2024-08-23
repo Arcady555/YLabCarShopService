@@ -1,20 +1,19 @@
 package ru.parfenov.homework_3.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.enums.OrderStatus;
 import ru.parfenov.homework_3.enums.OrderType;
-import ru.parfenov.homework_3.model.Car;
 import ru.parfenov.homework_3.model.Order;
-import ru.parfenov.homework_3.store.OrderStore;
+import ru.parfenov.homework_3.repository.OrderRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrderServiceServletImpl implements OrderService, GettingIntFromString {
-    private final OrderStore store;
+    private final OrderRepository store;
 
     @Override
     public Optional<Order> create(int authorId, int carId, String typeStr) {

@@ -1,4 +1,4 @@
-package ru.parfenov.homework_3.store;
+package ru.parfenov.homework_3.repository;
 
 import ru.parfenov.homework_3.enums.CarCondition;
 import ru.parfenov.homework_3.model.Car;
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Класс передаёт запросы в хранилище данных о машинах
  */
-public interface CarStore {
+public interface CarRepository {
     /**
      * Создание карточки машины
      * @param car Car - сущность из блока ru/parfenov/homework_3/model

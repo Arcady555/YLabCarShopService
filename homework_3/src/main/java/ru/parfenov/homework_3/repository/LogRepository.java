@@ -1,4 +1,4 @@
-package ru.parfenov.homework_3.store;
+package ru.parfenov.homework_3.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.model.LineInLog;
@@ -15,14 +15,14 @@ import java.util.List;
  * Класс передаёт запросы в хранилище логов о действиях юзеров
  */
 @Slf4j
-public class LogStore {
+public class LogRepository {
     private final Connection connection;
 
-    public LogStore() throws Exception {
+    public LogRepository() throws Exception {
         this.connection = Utility.loadConnection();
     }
 
-    public LogStore(Connection connection) throws Exception {
+    public LogRepository(Connection connection) throws Exception {
         this.connection = connection;
     }
 
@@ -37,7 +37,7 @@ public class LogStore {
             statement.setString(3, lineInLog.action());
             statement.execute();
         } catch (Exception e) {
-            log.error("Exception in LogStore.create()!", e);
+            log.error("Exception in LogRepository.create()!", e);
         }
     }
 
@@ -63,7 +63,7 @@ public class LogStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in UserStoreJdbcImpl.findByParameters(). ", e);
+            log.error("Exception in UserRepositoryJdbcImpl.findByParameters(). ", e);
         }
         return logs;
     }

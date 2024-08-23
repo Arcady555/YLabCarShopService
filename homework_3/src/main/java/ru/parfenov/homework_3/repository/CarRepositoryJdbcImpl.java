@@ -1,4 +1,4 @@
-package ru.parfenov.homework_3.store;
+package ru.parfenov.homework_3.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.enums.CarCondition;
@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class CarStoreJdbcImpl implements CarStore {
+public class CarRepositoryJdbcImpl implements CarRepository {
     private final Connection connection;
 
-    public CarStoreJdbcImpl() throws Exception {
+    public CarRepositoryJdbcImpl() throws Exception {
         this.connection = Utility.loadConnection();
     }
 
-    public CarStoreJdbcImpl(Connection connection) throws Exception {
+    public CarRepositoryJdbcImpl(Connection connection) throws Exception {
         this.connection = connection;
     }
 
@@ -41,7 +41,7 @@ public class CarStoreJdbcImpl implements CarStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in CarStoreJdbcImpl.create(). ", e);
+            log.error("Exception in CarRepositoryJdbcImpl.create(). ", e);
         }
         return findById(car.getId());
     }
@@ -57,7 +57,7 @@ public class CarStoreJdbcImpl implements CarStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in CarStoreJdbcImpl.findById(). ", e);
+            log.error("Exception in CarRepositoryJdbcImpl.findById(). ", e);
         }
         return car;
     }
@@ -74,7 +74,7 @@ public class CarStoreJdbcImpl implements CarStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in CarStoreJdbcImpl.findByOwner(). ", e);
+            log.error("Exception in CarRepositoryJdbcImpl.findByOwner(). ", e);
         }
         return cars;
     }
@@ -104,7 +104,7 @@ public class CarStoreJdbcImpl implements CarStore {
             statement.setInt(i, carId);
             statement.execute();
         } catch (Exception e) {
-            log.error("Exception in CarStoreJdbcImpl.update(). ", e);
+            log.error("Exception in CarRepositoryJdbcImpl.update(). ", e);
         }
         return findById(carId) != null && checkUpdate(car);
     }
@@ -115,7 +115,7 @@ public class CarStoreJdbcImpl implements CarStore {
             statement.setInt(1, carId);
             statement.execute();
         } catch (Exception e) {
-            log.error("Exception in CarStoreJdbcImpl.delete(). ", e);
+            log.error("Exception in CarRepositoryJdbcImpl.delete(). ", e);
         }
         return findById(carId) == null;
     }
@@ -131,7 +131,7 @@ public class CarStoreJdbcImpl implements CarStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in CarStoreJdbcImpl.findAll(). ", e);
+            log.error("Exception in CarRepositoryJdbcImpl.findAll(). ", e);
         }
         return cars;
     }
@@ -164,7 +164,7 @@ public class CarStoreJdbcImpl implements CarStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in CarStoreJdbcImpl.findByParameter(). ", e);
+            log.error("Exception in CarRepositoryJdbcImpl.findByParameter(). ", e);
         }
         return cars;
     }

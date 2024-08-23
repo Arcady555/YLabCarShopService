@@ -1,19 +1,18 @@
 package ru.parfenov.homework_3.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.enums.CarCondition;
 import ru.parfenov.homework_3.model.Car;
-import ru.parfenov.homework_3.model.Order;
-import ru.parfenov.homework_3.store.CarStore;
+import ru.parfenov.homework_3.repository.CarRepository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CarServiceServletImpl implements CarService, GettingIntFromString {
-    private final CarStore store;
+    private final CarRepository store;
 
     @Override
     public Optional<Car> create(int ownerId, String brand, String model, int yearOfProd, int price, String conditionStr) {

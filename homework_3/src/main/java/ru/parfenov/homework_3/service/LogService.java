@@ -1,9 +1,9 @@
 package ru.parfenov.homework_3.service;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.model.LineInLog;
-import ru.parfenov.homework_3.store.LogStore;
+import ru.parfenov.homework_3.repository.LogRepository;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -14,16 +14,17 @@ import java.util.List;
  * добавляя и изменяя некоторую логику-функционал
  */
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class LogService implements GettingIntFromString {
-    private final LogStore store;
+    private final LogRepository store;
 
     /**
      * Метод принимает информацию(время события, ID юзера и название его действия) и отправляет
      * её по 2м каналам - в журнал логов и в БД
+     *
      * @param dateTime Время данного события, которое пошло в лог
-     * @param userId ID юзера
-     * @param action наименование события
+     * @param userId   ID юзера
+     * @param action   наименование события
      */
     public void saveLineInLog(LocalDateTime dateTime, int userId, String action) {
         log.info("date time : {}, user id : {}, action : {}", dateTime, userId, action);
@@ -38,10 +39,11 @@ public class LogService implements GettingIntFromString {
 
     /**
      * Вывод записей лога, которые ушли в базу данных, по параметрам
-     * @param userIdStr ID юзера
-     * @param action действие юзера
+     *
+     * @param userIdStr      ID юзера
+     * @param action         действие юзера
      * @param dateTimeFomStr с какой даты-времени искать логи
-     * @param dateTimeToStr по какую дату-время искать логи
+     * @param dateTimeToStr  по какую дату-время искать логи
      * @return список строк-записей логов
      */
     public List<LineInLog> findByParameters(String userIdStr, String action, String dateTimeFomStr, String dateTimeToStr) {

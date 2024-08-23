@@ -1,4 +1,4 @@
-package ru.parfenov.homework_3.store;
+package ru.parfenov.homework_3.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.enums.UserRole;
@@ -11,14 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class UserStoreJdbcImpl implements UserStore {
+public class UserRepositoryJdbcImpl implements UserRepository {
     private final Connection connection;
 
-    public UserStoreJdbcImpl() throws Exception {
+    public UserRepositoryJdbcImpl() throws Exception {
         this.connection = Utility.loadConnection();
     }
 
-    public UserStoreJdbcImpl(Connection connection) throws Exception {
+    public UserRepositoryJdbcImpl(Connection connection) throws Exception {
         this.connection = connection;
     }
 
@@ -40,7 +40,7 @@ public class UserStoreJdbcImpl implements UserStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in UserStoreJdbcImpl.create(). ", e);
+            log.error("Exception in UserRepositoryJdbcImpl.create(). ", e);
         }
         return findById(user.getId());
     }
@@ -56,7 +56,7 @@ public class UserStoreJdbcImpl implements UserStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in UserStoreJdbcImpl.findById(). ", e);
+            log.error("Exception in UserRepositoryJdbcImpl.findById(). ", e);
         }
         return user;
     }
@@ -73,7 +73,7 @@ public class UserStoreJdbcImpl implements UserStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in UserStoreJdbcImpl.findByIdAndPassword(). ", e);
+            log.error("Exception in UserRepositoryJdbcImpl.findByIdAndPassword(). ", e);
         }
         return user;
     }
@@ -101,7 +101,7 @@ public class UserStoreJdbcImpl implements UserStore {
             statement.setInt(i, id);
             statement.execute();
         } catch (Exception e) {
-            log.error("Exception in UserStoreJdbcImpl.update(). ", e);
+            log.error("Exception in UserRepositoryJdbcImpl.update(). ", e);
         }
         return findById(user.getId()) != null && checkUpdate(user);
     }
@@ -112,7 +112,7 @@ public class UserStoreJdbcImpl implements UserStore {
             statement.setInt(1, userId);
             statement.execute();
         } catch (Exception e) {
-            log.error("Exception in UserStoreJdbcImpl.delete(). ", e);
+            log.error("Exception in UserRepositoryJdbcImpl.delete(). ", e);
         }
         return findById(userId) == null;
     }
@@ -128,7 +128,7 @@ public class UserStoreJdbcImpl implements UserStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in UserStoreJdbcImpl.findAll(). ", e);
+            log.error("Exception in UserRepositoryJdbcImpl.findAll(). ", e);
         }
         return users;
     }
@@ -151,7 +151,7 @@ public class UserStoreJdbcImpl implements UserStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in UserStoreJdbcImpl.findByParameters(). ", e);
+            log.error("Exception in UserRepositoryJdbcImpl.findByParameters(). ", e);
         }
         return users;
     }

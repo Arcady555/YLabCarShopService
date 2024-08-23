@@ -1,4 +1,4 @@
-package ru.parfenov.homework_3.store;
+package ru.parfenov.homework_3.repository;
 
 import ru.parfenov.homework_3.enums.OrderStatus;
 import ru.parfenov.homework_3.enums.OrderType;
@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Класс передаёт запросы в хранилище данных о заказах
  */
-public interface OrderStore {
+public interface OrderRepository {
     /**
      * Создание карточки заказа
      * @param order Order сущность из блока ru/parfenov/homework_3/model. Обёрнут в Optional

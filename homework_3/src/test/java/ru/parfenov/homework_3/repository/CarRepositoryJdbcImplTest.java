@@ -1,4 +1,4 @@
-package ru.parfenov.homework_3.store;
+package ru.parfenov.homework_3.repository;
 
 import org.junit.jupiter.api.*;
 import org.testcontainers.junit.jupiter.Container;
@@ -11,11 +11,11 @@ import ru.parfenov.homework_3.model.User;
 import java.sql.SQLException;
 
 @Testcontainers
-class CarStoreJdbcImplTest {
+class CarRepositoryJdbcImplTest {
     @Container
     public static InitContainer initContainer;
 
-    private static CarStoreJdbcImpl carStore;
+    private static CarRepositoryJdbcImpl carStore;
 
     @BeforeAll
     static void beforeAll() {
@@ -29,7 +29,7 @@ class CarStoreJdbcImplTest {
 
     @BeforeAll
     public static void initConnection() throws Exception {
-        carStore = new CarStoreJdbcImpl(initContainer.getConnection());
+        carStore = new CarRepositoryJdbcImpl(initContainer.getConnection());
         User user = new User(10, UserRole.CLIENT, "Arcady", "password", "contact info", 0);
         Car car = new Car(0, user.getId(), "brand", "model", 2022, 1000000, CarCondition.NEW);
         carStore.create(car);

@@ -1,4 +1,4 @@
-package ru.parfenov.homework_3.store;
+package ru.parfenov.homework_3.repository;
 
 import lombok.extern.slf4j.Slf4j;
 import ru.parfenov.homework_3.enums.OrderStatus;
@@ -12,14 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class OrderStoreJdbcImpl implements OrderStore {
+public class OrderRepositoryJdbcImpl implements OrderRepository {
     private final Connection connection;
 
-    public OrderStoreJdbcImpl() throws Exception {
+    public OrderRepositoryJdbcImpl() throws Exception {
         this.connection = Utility.loadConnection();
     }
 
-    public OrderStoreJdbcImpl(Connection connection) throws Exception {
+    public OrderRepositoryJdbcImpl(Connection connection) throws Exception {
         this.connection = connection;
     }
 
@@ -40,7 +40,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in OrderStoreJdbcImpl.create(). ", e);
+            log.error("Exception in OrderRepositoryJdbcImpl.create(). ", e);
         }
         return findById(order.getId());
     }
@@ -56,7 +56,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in OrderStoreJdbcImpl.findById(). ", e);
+            log.error("Exception in OrderRepositoryJdbcImpl.findById(). ", e);
         }
         return order;
     }
@@ -67,7 +67,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
             statement.setInt(1, orderId);
             statement.execute();
         } catch (Exception e) {
-            log.error("Exception in OrderStoreJdbcImpl.update(). ", e);
+            log.error("Exception in OrderRepositoryJdbcImpl.update(). ", e);
         }
         return findById(orderId) != null && findById(orderId).getStatus() == OrderStatus.CLOSED;
     }
@@ -78,7 +78,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
             statement.setInt(1, orderId);
             statement.execute();
         } catch (Exception e) {
-            log.error("Exception in OrderStoreJdbcImpl.delete(). ", e);
+            log.error("Exception in OrderRepositoryJdbcImpl.delete(). ", e);
         }
         return findById(orderId) == null;
     }
@@ -94,7 +94,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in OrderStoreJdbcImpl.findAll(). ", e);
+            log.error("Exception in OrderRepositoryJdbcImpl.findAll(). ", e);
         }
         return orders;
     }
@@ -111,7 +111,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in OrderStoreJdbcImpl.findByAuthor(). ", e);
+            log.error("Exception in OrderRepositoryJdbcImpl.findByAuthor(). ", e);
         }
         return orders;
     }
@@ -134,7 +134,7 @@ public class OrderStoreJdbcImpl implements OrderStore {
                 }
             }
         } catch (Exception e) {
-            log.error("Exception in OrderStoreJdbcImpl.findByParameter(). ", e);
+            log.error("Exception in OrderRepositoryJdbcImpl.findByParameter(). ", e);
         }
         return orders;
     }

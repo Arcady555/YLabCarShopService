@@ -1,4 +1,4 @@
-package ru.parfenov.homework_3.store;
+package ru.parfenov.homework_3.repository;
 
 import ru.parfenov.homework_3.enums.UserRole;
 import ru.parfenov.homework_3.model.User;
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Класс передаёт запросы в хранилище данных о пользователях приложения
  */
-public interface UserStore {
+public interface UserRepository {
     /**
      * Создание карточки юзера
      */
