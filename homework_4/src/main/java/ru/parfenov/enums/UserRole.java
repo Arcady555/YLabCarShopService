@@ -1,0 +1,18 @@
+package ru.parfenov.enums;
+
+public enum UserRole {
+    ADMIN("admin"),
+    MANAGER("manager"),
+    CLIENT("client");
+
+    private final String name;
+
+    UserRole(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+}
