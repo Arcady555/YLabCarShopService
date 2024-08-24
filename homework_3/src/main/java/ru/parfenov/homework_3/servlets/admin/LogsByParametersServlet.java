@@ -21,15 +21,15 @@ import java.util.List;
  * Страница, где админ может найти в логе инф по клиенту, по дате и по виду операции
  */
 @Slf4j
-@WebServlet(name = "LogWithParametersServlet", urlPatterns = "/log-with-parameters")
-public class LogWithParametersServlet extends HttpServlet implements MethodsForServlets {
+@WebServlet(name = "LogsByParametersServlet", urlPatterns = "/logs-by-parameters")
+public class LogsByParametersServlet extends HttpServlet implements MethodsForServlets {
     private final LogService service;
 
-    public LogWithParametersServlet() throws Exception {
+    public LogsByParametersServlet() throws Exception {
         service = Utility.loadLogService();
     }
 
-    public LogWithParametersServlet(LogService service) {
+    public LogsByParametersServlet(LogService service) {
         this.service = service;
     }
 

@@ -21,7 +21,7 @@ import java.util.List;
  * по нужным параметрам
  */
 @Slf4j
-@WebServlet(name = "UserWithParametersServlet", urlPatterns = "/users-with-parameters")
+@WebServlet(name = "UserWithParametersServlet", urlPatterns = "/users-by-parameters")
 public class UsersWithParametersServlet extends HttpServlet implements MethodsForServlets {
     private final UserService userService;
 

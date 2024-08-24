@@ -42,7 +42,7 @@ public class SignInServlet extends HttpServlet implements MethodsForServlets {
      */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        UserDTOMapper mapper = new UserDTOMapperImpl(); ////////
+        UserDTOMapper mapper = new UserDTOMapperImpl();
         String userJson = getStringJson(request);
         ObjectMapper objectMapper = new ObjectMapper();
         UserIdPassDTO userDTO = objectMapper.readValue(userJson, UserIdPassDTO.class);

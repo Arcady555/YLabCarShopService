@@ -22,7 +22,7 @@ import java.util.List;
  * Страница вывода списка заказов по параметрам
  */
 @Slf4j
-@WebServlet(name = "OrdersWithParametersServlet", urlPatterns = "/orders-with-parameters")
+@WebServlet(name = "OrdersWithParametersServlet", urlPatterns = "/orders-by-parameters")
 public class OrdersWithParametersServlet extends HttpServlet implements MethodsForServlets {
     private final OrderService orderService;
 

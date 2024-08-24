@@ -20,7 +20,7 @@ import java.util.List;
  * Страница позволяет провести поиск по нужным параметрам, можно указывать не все
  */
 @Slf4j
-@WebServlet(name = "CarsWithParametersServlet", urlPatterns = "/cars-with-parameters")
+@WebServlet(name = "CarsWithParametersServlet", urlPatterns = "/cars-by-parameters")
 public class CarsWithParametersServlet extends HttpServlet implements MethodsForServlets {
     private final CarService carService;
 
