@@ -17,7 +17,7 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class UserController implements UserIdInController {
     private final UserService userService;
     private final UserDTOMapper dtoMapper;
 
@@ -27,6 +27,13 @@ public class UserController {
         this.dtoMapper = dtoMapper;
     }
 
+    /**
+     * Страница вывода юзера по введённому id
+     * Данный метод, доступный только админу(через фильтр сервлетов),
+     *
+     * @param userId ID юзера
+     * @return ответ сервера
+     */
     @GetMapping("/{userId}")
     public ResponseEntity<UserAllParamDTO> viewUser(@PathVariable int userId) {
         Optional<User> userOptional = userService.findById(userId);
@@ -35,6 +42,16 @@ public class UserController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    /**
+     * Страница позволяет провести поиск юзеров по нужным параметрам, можно указывать не все
+     * Данный метод, доступный только админу(через фильтр сервлетов),
+     *
+     * @param role        роль юзера
+     * @param name        имя юзера
+     * @param contactInfo контактная информация
+     * @param buysAmount  число покупок машин
+     * @return ответ сервера
+     */
     @GetMapping("/find-by_parameters")
     public ResponseEntity<List<UserAllParamDTO>> findByParam(
             @RequestParam String role,
@@ -54,6 +71,13 @@ public class UserController {
         }
     }
 
+    /**
+     * Страница обновления информации о юзере
+     * Данный метод, доступный только админу(через фильтр сервлетов),
+     *
+     * @param userDTO ID юзера
+     * @return ответ сервера
+     */
     @PostMapping("/update")
     public ResponseEntity<UserAllParamDTO> update(@RequestBody UserAllParamDTO userDTO) {
         boolean isUserUpdated = userService.update(
@@ -74,6 +98,13 @@ public class UserController {
         }
     }
 
+    /**
+     * Страница удаления карточки юзера
+     * Данный метод, доступный только админу(через фильтр сервлетов),
+     *
+     * @param userId ID юзера
+     * @return ответ сервера
+     */
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<String> delete(@PathVariable int userId) {
         boolean isUserDeleted = userService.delete(userId);
@@ -82,6 +113,13 @@ public class UserController {
                 new ResponseEntity<>("User is not deleted", HttpStatus.BAD_REQUEST);
     }
 
+    /**
+     * Страница, где админ может сам создать любого юзера и с нужным профилем
+     * Данный метод, доступный только админу(через фильтр сервлетов),
+     *
+     * @param userDTO сущность User, обвёрнутая в DTO для подачи в виде Json
+     * @return ответ сервера
+     */
     @PostMapping("create")
     public ResponseEntity<UserAllParamDTO> create(@RequestBody UserAllParamDTO userDTO) {
         Optional<User> userOptional = userService.createByAdmin(
@@ -97,6 +135,12 @@ public class UserController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.BAD_REQUEST));
     }
 
+    /**
+     * Страница вывода списка всех юзеров
+     * Данный метод, доступный только админу(через фильтр сервлетов),
+     *
+     * @return ответ сервера
+     */
     @GetMapping("all")
     public ResponseEntity<List<UserAllParamDTO>> findAll() {
         List<User> userList = userService.findAll();

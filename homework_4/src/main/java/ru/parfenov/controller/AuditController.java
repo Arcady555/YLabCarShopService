@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/audit")
-public class AuditController {
+public class AuditController implements UserIdInController {
     private final LogService logService;
 
     @Autowired
@@ -24,14 +24,23 @@ public class AuditController {
         this.logService = logService;
     }
 
+    /**
+     * Данный метод, доступный только админу(через фильтр сервлетов), позволяет посмотреть те логи,
+     * которые сохранены в БД, отсортировав их по параметрам(указывать можно не все):
+     * @param userId ID юзера
+     * @param action его действие (название метода в блоке SERVICE)
+     * @param dateTimeFrom  с какого времени
+     * @param dateTimeTo по какое время
+     * @return ответ сервера в виде требуемого списка
+     */
     @GetMapping("/find-by-parameters")
     public ResponseEntity<List<LineInLog>> findUsersByParam(
             @RequestParam String userId,
             @RequestParam String action,
-            @RequestParam String dateTimeFom,
+            @RequestParam String dateTimeFrom,
             @RequestParam String dateTimeTo
     ) {
-        List<LineInLog> logsRecords = logService.findByParameters(userId, action, dateTimeFom, dateTimeTo);
+        List<LineInLog> logsRecords = logService.findByParameters(userId, action, dateTimeFrom, dateTimeTo);
         return !logsRecords.isEmpty() ?
                 new ResponseEntity<>(logsRecords, HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);

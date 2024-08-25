@@ -2,3 +2,7 @@ Aug 05, 2024 10:54:35 PM ru.parfenov.homework_1.server.utility.Utility logging
 INFO: 2024-08-05T22:54 user:1 action:registrationAug 08Aug 08, 2024Aug 08
 Aug 15, 2024 12:08:45 PM ru.parfenov.homework_1.server.utility.Utility logging
 INFO: 2024-08-15T12:08 user:1 action:registration
+Aug 24, 2024 11:27:00 PM ru.parfenov.homework_1.server.utility.Utility logging
+INFO: 2024-08-24T23:27 user:1 action:registration
+Aug 25, 2024 12:05:21 AM ru.parfenov.homework_1.server.utility.Utility logging
+INFO: 2024-08-25T00:05 user:1 action:registration
