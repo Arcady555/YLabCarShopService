@@ -3,7 +3,7 @@ package ru.parfenov.dto;
 import org.mapstruct.Mapper;
 import ru.parfenov.model.User;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface UserDTOMapper {
     UserNamePasContDTO toUserDtoFoReg(User source);
 

@@ -53,24 +53,38 @@
         <testcontainers.version>1.19.4</testcontainers.version>
         <testcontainers.jupiter.version>1.19.4</testcontainers.jupiter.version>
         <testcontainers.postgresql.version>1.17.6</testcontainers.postgresql.version>
-        <jacarta.version>6.1.0-M1</jacarta.version>
+        <jacarta.version>6.1.0</jacarta.version>
         <jackson.version>2.15.1</jackson.version>
         <mapstruct.version>1.6.0.Beta1</mapstruct.version>
         <aspectj.version>1.9.20.1</aspectj.version>
-        <apache.httpclient.version>4.5.13</apache.httpclient.version>
-        <spring_core.version>6.0.10</spring_core.version>
-        <spring-beans.version>6.0.10</spring-beans.version>
-        <spring_context.version>6.0.10</spring_context.version>
-        <spring.web.version>6.0.11</spring.web.version>
+        <apache.httpclient.version>6.0.11</apache.httpclient.version>
+        <spring_core.version>5.0.10.RELEASE</spring_core.version>
+        <spring-beans.version>5.0.10.RELEASE</spring-beans.version>
+        <spring_context.version>5.0.10.RELEASE</spring_context.version>
+        <spring.web.version>5.0.10.RELEASE</spring.web.version>
+        <spring_jdbc.version>5.0.10.RELEASE</spring_jdbc.version>
+        <commons_dbcp2.version>2.7.0</commons_dbcp2.version>
     </properties>
 
 
     <dependencies>
 
         <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <version>${jacarta.version}</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>${spring_jdbc.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-dbcp2</artifactId>
+            <version>${commons_dbcp2.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
             <scope>provided</scope>
         </dependency>
 
@@ -96,7 +110,7 @@
             <version>${spring_context.version}</version>
         </dependency>
 
-        <dependency>
+       <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
@@ -270,6 +284,11 @@
                             <artifactId>mapstruct-processor</artifactId>
                             <version>${mapstruct.version}</version>
                         </path>
+                    <!--    <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>${lombok-mapstruct-binding.version}</version>
+                        </path> -->
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>

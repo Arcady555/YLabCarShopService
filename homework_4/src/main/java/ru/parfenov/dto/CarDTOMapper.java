@@ -3,7 +3,7 @@ package ru.parfenov.dto;
 import org.mapstruct.Mapper;
 import ru.parfenov.model.Car;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface CarDTOMapper {
     CarDTO toCarDTO(Car source);
 

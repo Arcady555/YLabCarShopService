@@ -1,28 +1,26 @@
 package ru.parfenov.aspect;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.parfenov.model.User;
 import ru.parfenov.service.LogService;
-import ru.parfenov.utility.Utility;
 
 import java.time.LocalDateTime;
 
 @Aspect
 @Slf4j
 public class UserActionLogger {
-    private final LogService service = Utility.loadLogService();
 
-    public UserActionLogger() throws Exception {
-    }
+    @Autowired
+    private final LogService service;
 
-    @Pointcut("execution(* ru.parfenov.servlets..*")
-    public void pickMethods() {
+    public UserActionLogger(LogService service) {
+        this.service = service;
     }
 
     @After("execution(* *(..)) && args(request, response)")

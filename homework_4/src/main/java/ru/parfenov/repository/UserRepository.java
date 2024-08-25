@@ -14,6 +14,7 @@ public interface UserRepository {
      */
     /**
      * Создание карточки юзера
+     *
      * @param user User - сущность из блока ru/parfenov/homework_3/model.
      * @return User - сущность из блока ru/parfenov/homework_3/model.
      */
@@ -21,6 +22,7 @@ public interface UserRepository {
 
     /**
      * Поиск юзера по его уникальному ID
+     *
      * @param id юзера
      * @return User - сущность из блока ru/parfenov/homework_3/model.
      */
@@ -28,7 +30,8 @@ public interface UserRepository {
 
     /**
      * Проверка наличия в хранилище юзера с таким ID и паролем
-     * @param userId ID юзера
+     *
+     * @param userId   ID юзера
      * @param password его пароль для входа в систему
      * @return User - сущность из блока ru/parfenov/homework_3/model.
      */
@@ -36,6 +39,7 @@ public interface UserRepository {
 
     /**
      * Метод предлагает обновление юзера.
+     *
      * @param user User - сущность из блока ru/parfenov/homework_3/model.
      * @return получилось или нет обновить карточку юзера
      */
@@ -43,6 +47,7 @@ public interface UserRepository {
 
     /**
      * Удаление карточки юзера
+     *
      * @param userId ID юзера
      * @return получилось или нет удалить карточку юзера
      */
@@ -50,16 +55,18 @@ public interface UserRepository {
 
     /**
      * Вывод списка всех юзеров
+     *
      * @return List список всех юзеров
      */
     List<User> findAll();
 
     /**
      * Метод предлагает поиск юзеров по указанным параметрам
-     * @param role роль юзера
-     * @param name имя
+     *
+     * @param role        роль юзера
+     * @param name        имя
      * @param contactInfo контактная информация
-     * @param buysAmount количество покупок
+     * @param buysAmount  количество покупок
      * @return List список таких юзеров
      */
     List<User> findByParameters(UserRole role, String name, String contactInfo, int buysAmount);

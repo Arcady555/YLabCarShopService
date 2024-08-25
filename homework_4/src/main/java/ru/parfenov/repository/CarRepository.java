@@ -11,6 +11,7 @@ import java.util.List;
 public interface CarRepository {
     /**
      * Создание карточки машины
+     *
      * @param car Car - сущность из блока ru/parfenov/homework_3/model
      * @return Car - сущность из блока ru/parfenov/homework_3/model
      */
@@ -18,6 +19,7 @@ public interface CarRepository {
 
     /**
      * Поиск машины по её уникальному ID
+     *
      * @param id машины, полученный при её создании, заведении карточки в БД
      * @return Car - сущность из блока ru/parfenov/homework_3/model.
      */
@@ -25,6 +27,7 @@ public interface CarRepository {
 
     /**
      * Поиск машины пол ID её собственника
+     *
      * @param ownerId ID юзера-собственника машины
      * @return Car - сущность из блока ru/parfenov/homework_3/model.
      */
@@ -32,6 +35,7 @@ public interface CarRepository {
 
     /**
      * Метод предлагает обновление автомобиля.
+     *
      * @param car Car - сущность из блока ru/parfenov/homework_3/model.
      * @return получилось или нет обновить
      */
@@ -39,6 +43,7 @@ public interface CarRepository {
 
     /**
      * Удаление карточки машины
+     *
      * @param carId машины, полученный при её создании, заведении карточки в БД
      * @return получилось или нет удалить
      */
@@ -46,19 +51,21 @@ public interface CarRepository {
 
     /**
      * Вывод списка всех машин
+     *
      * @return List список всех машин в БД
      */
     List<Car> findAll();
 
     /**
      * Метод предлагает поиск авто по указанным параметрам
-     * @param ownerId ID юзера-собственника машины
-     * @param brand марка машины
-     * @param model модель
+     *
+     * @param ownerId    ID юзера-собственника машины
+     * @param brand      марка машины
+     * @param model      модель
      * @param yearOfProd год выпуска
-     * @param priceFrom цена от данного числа
-     * @param priceTo цена до данного числа
-     * @param condition состояние
+     * @param priceFrom  цена от данного числа
+     * @param priceTo    цена до данного числа
+     * @param condition  состояние
      * @return List список таких машин
      */
     List<Car> findByParameter(

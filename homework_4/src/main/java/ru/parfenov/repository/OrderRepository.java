@@ -12,6 +12,7 @@ import java.util.List;
 public interface OrderRepository {
     /**
      * Создание карточки заказа
+     *
      * @param order Order сущность из блока ru/parfenov/homework_3/model. Обёрнут в Optional
      * @return Order сущность из блока ru/parfenov/homework_3/model. Обёрнут в Optional
      */
@@ -19,6 +20,7 @@ public interface OrderRepository {
 
     /**
      * Поиск заказа по его уникальному ID
+     *
      * @param id ID заказа
      * @return Order сущность из блока ru/parfenov/homework_3/model. Обёрнут в Optional
      */
@@ -26,6 +28,7 @@ public interface OrderRepository {
 
     /**
      * Метод предлагает обновление заказа.
+     *
      * @param orderId ID заказа
      * @return получилось обновить или нет
      */
@@ -33,6 +36,7 @@ public interface OrderRepository {
 
     /**
      * Удаление карточки заказа
+     *
      * @param orderId ID заказа
      * @return получилось удалить или нет
      */
@@ -40,12 +44,14 @@ public interface OrderRepository {
 
     /**
      * Вывод списка всех заказов
+     *
      * @return List список всех заказов
      */
     List<Order> findAll();
 
     /**
      * Поиск заказа по его создателю
+     *
      * @param authorId ID юзера - создателя заказов
      * @return List список таких заказов
      */
@@ -53,10 +59,11 @@ public interface OrderRepository {
 
     /**
      * Метод предлагает поиск заказа по указанным параметрам
+     *
      * @param authorId ID юзера-создателя заказа
-     * @param carId id машины, полученный при её создании, заведении карточки в БД
-     * @param type тип заказа - продажа или сервис
-     * @param status статус заказа - открыт или закрыт
+     * @param carId    id машины, полученный при её создании, заведении карточки в БД
+     * @param type     тип заказа - продажа или сервис
+     * @param status   статус заказа - открыт или закрыт
      * @return List список таких заказов
      */
     List<Order> findByParameter(int authorId, int carId, OrderType type, OrderStatus status);

@@ -1,23 +1,22 @@
 package ru.parfenov.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import ru.parfenov.enums.CarCondition;
 import ru.parfenov.model.Car;
 import ru.parfenov.utility.JdbcRequests;
-import ru.parfenov.utility.Utility;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@Repository
 public class CarRepositoryJdbcImpl implements CarRepository {
     private final Connection connection;
 
-    public CarRepositoryJdbcImpl() throws Exception {
-        this.connection = Utility.loadConnection();
-    }
-
+    @Autowired
     public CarRepositoryJdbcImpl(Connection connection) throws Exception {
         this.connection = connection;
     }

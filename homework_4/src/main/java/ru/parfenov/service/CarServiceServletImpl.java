@@ -1,7 +1,8 @@
 package ru.parfenov.service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.parfenov.enums.CarCondition;
 import ru.parfenov.model.Car;
 import ru.parfenov.repository.CarRepository;
@@ -10,9 +11,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@RequiredArgsConstructor
+@Service
 public class CarServiceServletImpl implements CarService, GettingIntFromString {
     private final CarRepository repo;
+
+    @Autowired
+    public CarServiceServletImpl(CarRepository repo) {
+        this.repo = repo;
+    }
 
     @Override
     public Optional<Car> create(int ownerId, String brand, String model, int yearOfProd, int price, String conditionStr) {
@@ -21,9 +27,8 @@ public class CarServiceServletImpl implements CarService, GettingIntFromString {
     }
 
     @Override
-    public Optional<Car> findById(String idStr) {
-        int carId = getIntFromString(idStr);
-        return Optional.ofNullable(repo.findById(carId));
+    public Optional<Car> findById(int id) {
+        return Optional.ofNullable(repo.findById(id));
     }
 
     @Override
@@ -51,8 +56,7 @@ public class CarServiceServletImpl implements CarService, GettingIntFromString {
     }
 
     @Override
-    public boolean delete(String idStr) {
-        int id = getIntFromString(idStr);
+    public boolean delete(int id) {
         return repo.delete(id);
     }
 

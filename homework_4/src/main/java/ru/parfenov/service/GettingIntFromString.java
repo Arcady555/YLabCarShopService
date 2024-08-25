@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Данный интерфейс добавляет дефолтный метод - парсинг числа из строки)
+ * Данный интерфейс добавляет своим имплементациям метод - парсинг числа из строки)
  */
 public interface GettingIntFromString {
     default int getIntFromString(String str) {

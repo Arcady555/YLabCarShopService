@@ -1,7 +1,8 @@
 package ru.parfenov.service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.parfenov.enums.OrderStatus;
 import ru.parfenov.enums.OrderType;
 import ru.parfenov.model.Order;
@@ -11,9 +12,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@RequiredArgsConstructor
+@Service
 public class OrderServiceServletImpl implements OrderService, GettingIntFromString {
     private final OrderRepository repo;
+
+    @Autowired
+    public OrderServiceServletImpl(OrderRepository repo) {
+        this.repo = repo;
+    }
 
     @Override
     public Optional<Order> create(int authorId, int carId, String typeStr) {
@@ -22,9 +28,8 @@ public class OrderServiceServletImpl implements OrderService, GettingIntFromStri
     }
 
     @Override
-    public Optional<Order> findById(String idStr) {
-        int orderId = getIntFromString(idStr);
-        return Optional.ofNullable(repo.findById(orderId));
+    public Optional<Order> findById(int id) {
+        return Optional.ofNullable(repo.findById(id));
     }
 
     @Override
@@ -40,14 +45,12 @@ public class OrderServiceServletImpl implements OrderService, GettingIntFromStri
     }
 
     @Override
-    public boolean close(String orderIdStr) {
-        int orderId = getIntFromString(orderIdStr);
+    public boolean close(int orderId) {
         return repo.update(orderId);
     }
 
     @Override
-    public boolean delete(String idStr) {
-        int id = getIntFromString(idStr);
+    public boolean delete(int id) {
         return repo.delete(id);
     }
 

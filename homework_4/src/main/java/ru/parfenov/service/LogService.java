@@ -2,6 +2,8 @@ package ru.parfenov.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.parfenov.model.LineInLog;
 import ru.parfenov.repository.LogRepository;
 
@@ -14,9 +16,14 @@ import java.util.List;
  * добавляя и изменяя некоторую логику-функционал
  */
 @Slf4j
-@RequiredArgsConstructor
+@Service
 public class LogService implements GettingIntFromString {
     private final LogRepository repo;
+
+    @Autowired
+    public LogService(LogRepository repo) {
+        this.repo = repo;
+    }
 
     /**
      * Метод принимает информацию(время события, ID юзера и название его действия) и отправляет

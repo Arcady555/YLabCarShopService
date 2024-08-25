@@ -1,5 +1,6 @@
 package ru.parfenov.service;
 
+import org.springframework.stereotype.Service;
 import ru.parfenov.model.Order;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public interface OrderService {
      * @param id ID заказа
      * @return Order сущность из блока ru/parfenov/homework_3/model. Обёрнут в Optional
      */
-    Optional<Order> findById(String id);
+    Optional<Order> findById(int id);
 
     /**
      * Является ли юзер автором заказа
@@ -42,14 +43,14 @@ public interface OrderService {
      * @param orderId ID заказа
      * @return получилось закрыть заказ или нет
      */
-    boolean close(String orderId);
+    boolean close(int orderId);
 
     /**
      * Удаление заказа
      * @param orderId ID заказа
      * @return получилось удалить заказ или нет
      */
-    boolean delete(String orderId);
+    boolean delete(int orderId);
 
     /**
      * Вывод всех заказов

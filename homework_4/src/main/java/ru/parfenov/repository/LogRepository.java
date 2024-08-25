@@ -1,9 +1,10 @@
 package ru.parfenov.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import ru.parfenov.model.LineInLog;
 import ru.parfenov.utility.JdbcRequests;
-import ru.parfenov.utility.Utility;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -15,19 +16,18 @@ import java.util.List;
  * Класс передаёт запросы в хранилище логов о действиях юзеров
  */
 @Slf4j
+@Repository
 public class LogRepository {
     private final Connection connection;
 
-    public LogRepository() throws Exception {
-        this.connection = Utility.loadConnection();
-    }
-
+    @Autowired
     public LogRepository(Connection connection) throws Exception {
         this.connection = connection;
     }
 
     /**
      * Создание записи строки лога в БД
+     *
      * @param lineInLog LineInLog сущность из блока ru/parfenov/homework_3/model
      */
     public void create(LineInLog lineInLog) {
@@ -43,10 +43,11 @@ public class LogRepository {
 
     /**
      * Вывод записей лога, которые ушли в базу данных, по параметрам
-     * @param userId ID юзера
-     * @param action действие юзера
+     *
+     * @param userId       ID юзера
+     * @param action       действие юзера
      * @param dateTimeFrom с какой даты-времени искать логи
-     * @param dateTimeTo по какую дату-время искать логи
+     * @param dateTimeTo   по какую дату-время искать логи
      * @return список строк-записей логов
      */
     public List<LineInLog> findByParameters(int userId, String action, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo) {

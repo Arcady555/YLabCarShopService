@@ -1,24 +1,23 @@
 package ru.parfenov.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import ru.parfenov.enums.OrderStatus;
 import ru.parfenov.enums.OrderType;
 import ru.parfenov.model.Order;
 import ru.parfenov.utility.JdbcRequests;
-import ru.parfenov.utility.Utility;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@Repository
 public class OrderRepositoryJdbcImpl implements OrderRepository {
     private final Connection connection;
 
-    public OrderRepositoryJdbcImpl() throws Exception {
-        this.connection = Utility.loadConnection();
-    }
-
+    @Autowired
     public OrderRepositoryJdbcImpl(Connection connection) throws Exception {
         this.connection = connection;
     }

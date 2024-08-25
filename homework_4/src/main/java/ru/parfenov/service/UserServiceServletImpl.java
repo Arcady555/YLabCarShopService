@@ -1,7 +1,8 @@
 package ru.parfenov.service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.parfenov.enums.UserRole;
 import ru.parfenov.model.User;
 import ru.parfenov.repository.UserRepository;
@@ -10,9 +11,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@RequiredArgsConstructor
+@Service
 public class UserServiceServletImpl implements UserService, GettingIntFromString {
     private final UserRepository repo;
+
+    @Autowired
+    public UserServiceServletImpl(UserRepository repo) {
+        this.repo = repo;
+    }
 
     @Override
     public Optional<User> createByAdmin(
@@ -30,8 +36,7 @@ public class UserServiceServletImpl implements UserService, GettingIntFromString
     }
 
     @Override
-    public Optional<User> findById(String userIdStr) {
-        int userId = getIntFromString(userIdStr);
+    public Optional<User> findById(int userId) {
         return Optional.ofNullable(repo.findById(userId));
     }
 
@@ -48,8 +53,7 @@ public class UserServiceServletImpl implements UserService, GettingIntFromString
     }
 
     @Override
-    public boolean delete(String userIdStr) {
-        int userId = getIntFromString(userIdStr);
+    public boolean delete(int userId) {
         return repo.delete(userId);
     }
 
