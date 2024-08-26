@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+logging:
+  file:
+  name: y_lab_car_service.log
+
+
+    #spring:
+    #  datasource:
+    #  changeLogFile: src/main/resources/db/changelog.xml
+    #  driver-class-name: org.postgresql.Driver
+    #  url: jdbc:postgresql://localhost:5432/y_lab_car_service
+    #  username: postgres
+    #  password: password
+
+    # jpa:
+    #  hibernate:
+    #   ddl-auto: update

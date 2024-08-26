@@ -64,10 +64,17 @@
         <spring.web.version>5.0.10.RELEASE</spring.web.version>
         <spring_jdbc.version>5.0.10.RELEASE</spring_jdbc.version>
         <commons_dbcp2.version>2.7.0</commons_dbcp2.version>
+        <springdoc.version>1.6.15</springdoc.version>
     </properties>
 
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>

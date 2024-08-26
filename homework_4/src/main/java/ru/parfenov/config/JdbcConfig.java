@@ -11,7 +11,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 @Configuration
-@PropertySource("classpath:liquibase.properties")
+@PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 public class JdbcConfig {
     @Bean
