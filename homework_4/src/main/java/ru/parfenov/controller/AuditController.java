@@ -1,6 +1,5 @@
 package ru.parfenov.controller;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.parfenov.model.LineInLog;
-import ru.parfenov.service.impl.LogServiceServletImpl;
+import ru.parfenov.service.LogService;
 
 import java.util.List;
 
@@ -18,11 +17,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/audit")
 public class AuditController {
-    private final LogServiceServletImpl logServiceServletImpl;
+    private final LogService logService;
 
     @Autowired
-    public AuditController(LogServiceServletImpl logServiceServletImpl) {
-        this.logServiceServletImpl = logServiceServletImpl;
+    public AuditController(LogService logService) {
+        this.logService = logService;
     }
 
     /**
@@ -41,7 +40,7 @@ public class AuditController {
             @RequestParam String dateTimeFrom,
             @RequestParam String dateTimeTo
     ) {
-        List<LineInLog> logsRecords = logServiceServletImpl.findByParameters(userId, action, dateTimeFrom, dateTimeTo);
+        List<LineInLog> logsRecords = logService.findByParameters(userId, action, dateTimeFrom, dateTimeTo);
         return !logsRecords.isEmpty() ?
                 new ResponseEntity<>(logsRecords, HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);

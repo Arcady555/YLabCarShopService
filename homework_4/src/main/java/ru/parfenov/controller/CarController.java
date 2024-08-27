@@ -148,10 +148,7 @@ public class CarController {
     ) {
         List<Car> carList = carService.findByParameter(ownerId, brand, model, yearOfProd, priceFrom, priceTo, condition);
         if (!carList.isEmpty()) {
-            List<CarDTO> carListDTO = new ArrayList<>();
-            for (Car car : carList) {
-                carListDTO.add(dtoMapper.toCarDTO(car));
-            }
+            List<CarDTO> carListDTO = dtoMapper.toListCarDTO(carList);
             return new ResponseEntity<>(carListDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -168,10 +165,7 @@ public class CarController {
     public ResponseEntity<List<CarDTO>> findAll() {
         List<Car> carList = carService.findAll();
         if (!carList.isEmpty()) {
-            List<CarDTO> carListDTO = new ArrayList<>();
-            for (Car car : carList) {
-                carListDTO.add(dtoMapper.toCarDTO(car));
-            }
+            List<CarDTO> carListDTO = dtoMapper.toListCarDTO(carList);
             return new ResponseEntity<>(carListDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -6,9 +6,13 @@ import org.springframework.stereotype.Service;
 import ru.parfenov.model.LineInLog;
 import ru.parfenov.repository.impl.LogRepositoryJdbcImpl;
 import ru.parfenov.service.LogService;
+import ru.parfenov.utility.Utility;
 
 import static ru.parfenov.utility.Utility.getIntFromString;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -35,11 +39,53 @@ public class LogServiceServletImpl implements LogService {
         repo.create(lineInLog);
     }
 
+    /**
+     * Метод выводит список по заданным параметрам
+     *
+     *
+     * и сохраняет его в файл.
+     * Таким образом, в приложении, помимо файла со всеми записями лога,
+     * есть ещё файлы для аудита  --  с записями частично выбранных записей лога.
+     *
+     *
+     * @param userIdStr      ID юзера
+     * @param action         действие юзера
+     * @param dateTimeFomStr с какой даты-времени искать логи
+     * @param dateTimeToStr  по какую дату-время искать логи
+     * @return список строк-записей логов
+     */
+
     @Override
     public List<LineInLog> findByParameters(String userIdStr, String action, String dateTimeFomStr, String dateTimeToStr) {
         int userId = getIntFromString(userIdStr);
         LocalDateTime dateTimeFrom = LocalDateTime.parse(dateTimeFomStr);
         LocalDateTime dateTimeTo = LocalDateTime.parse(dateTimeToStr);
-        return repo.findByParameters(userId, action, dateTimeFrom, dateTimeTo);
+        List<LineInLog> result = repo.findByParameters(userId, action, dateTimeFrom, dateTimeTo);
+        saveList(result);
+        return result;
+    }
+
+    private void saveList(List<LineInLog> list) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Utility.saveLogPath))) {
+            String data = listToString(list);
+            writer.write(data);
+        } catch (IOException e) {
+            log.error("Exception in saveList!", e);
+        }
+    }
+
+    private String listToString(List<LineInLog> list) {
+        StringBuilder builder = new StringBuilder();
+        for (LineInLog element : list) {
+            builder
+                    .append("INFO: ")
+                    .append(element.time())
+                    .append(" user: ")
+                    .append(element.userId())
+                    .append(" action: ")
+                    .append(element.action())
+                    .append(System.lineSeparator());
+        }
+        return builder.toString();
     }
 }

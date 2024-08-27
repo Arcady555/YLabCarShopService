@@ -32,7 +32,12 @@ public class OrderController {
     private final OrderDTOMapper dtoMapper;
 
     @Autowired
-    public OrderController(OrderService orderService, UserService userService, CarService carService, OrderDTOMapper dtoMapper) {
+    public OrderController(
+            OrderService orderService,
+            UserService userService,
+            CarService carService,
+            OrderDTOMapper dtoMapper
+    ) {
         this.orderService = orderService;
         this.userService = userService;
         this.carService = carService;
@@ -137,7 +142,7 @@ public class OrderController {
      * @param status   статус заказа
      * @return ответ сервера
      */
-    @GetMapping("/find-by_parameters")
+    @GetMapping("/find-by-parameters")
     public ResponseEntity<List<OrderDTO>> findByParam(
             @RequestParam String authorId,
             @RequestParam String carId,
@@ -146,10 +151,7 @@ public class OrderController {
     ) {
         List<Order> orderList = orderService.findByParameter(authorId, carId, type, status);
         if (!orderList.isEmpty()) {
-            List<OrderDTO> orderListDTO = new ArrayList<>();
-            for (Order order : orderList) {
-                orderListDTO.add(dtoMapper.toOrderDTO(order));
-            }
+            List<OrderDTO> orderListDTO = dtoMapper.toOrderListDTO(orderList);
             return new ResponseEntity<>(orderListDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -167,10 +169,7 @@ public class OrderController {
     public ResponseEntity<List<OrderDTO>> findAll() {
         List<Order> orderList = orderService.findAll();
         if (!orderList.isEmpty()) {
-            List<OrderDTO> orderListDTO = new ArrayList<>();
-            for (Order order : orderList) {
-                orderListDTO.add(dtoMapper.toOrderDTO(order));
-            }
+            List<OrderDTO> orderListDTO = dtoMapper.toOrderListDTO(orderList);
             return new ResponseEntity<>(orderListDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

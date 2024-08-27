@@ -3,8 +3,9 @@ package ru.parfenov.dto;
 import lombok.Data;
 
 /**
- * DTO для удобной подачи в json. Enum заменили на String
- * И оставлены только поля, нужные для ввода при sign-up
+ * DTO для удобной подачи в json.
+ * Enum заменили на String
+ * Оставлены только поля, нужные для ввода при sign-up
  */
 @Data
 public class UserNamePasContDTO {

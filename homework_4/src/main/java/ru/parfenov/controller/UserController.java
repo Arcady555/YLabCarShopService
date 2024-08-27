@@ -10,7 +10,6 @@ import ru.parfenov.dto.UserDTOMapper;
 import ru.parfenov.model.User;
 import ru.parfenov.service.UserService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -61,10 +60,7 @@ public class UserController {
     ) {
         List<User> userList = userService.findByParameters(role, name, contactInfo, buysAmount);
         if (!userList.isEmpty()) {
-            List<UserAllParamDTO> userListDTO = new ArrayList<>();
-            for (User user : userList) {
-                userListDTO.add(dtoMapper.toUserAllParamDTO(user));
-            }
+            List<UserAllParamDTO> userListDTO = dtoMapper.toUserAllParamListDTO(userList);
             return new ResponseEntity<>(userListDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -75,21 +71,21 @@ public class UserController {
      * Страница обновления информации о юзере
      * Данный метод, доступный только админу(через фильтр сервлетов),
      *
-     * @param userDTO ID юзера
+     * @param userAllParamDTO ID юзера
      * @return ответ сервера
      */
     @PostMapping("/update")
-    public ResponseEntity<UserAllParamDTO> update(@RequestBody UserAllParamDTO userDTO) {
+    public ResponseEntity<UserAllParamDTO> update(@RequestBody UserAllParamDTO userAllParamDTO) {
         boolean isUserUpdated = userService.update(
-                userDTO.getId(),
-                userDTO.getRole(),
-                userDTO.getName(),
-                userDTO.getPassword(),
-                userDTO.getContactInfo(),
-                userDTO.getBuysAmount()
+                userAllParamDTO.getId(),
+                userAllParamDTO.getRole(),
+                userAllParamDTO.getName(),
+                userAllParamDTO.getPassword(),
+                userAllParamDTO.getContactInfo(),
+                userAllParamDTO.getBuysAmount()
         );
         if (isUserUpdated) {
-            Optional<User> userOptional = userService.findById(userDTO.getId());
+            Optional<User> userOptional = userService.findById(userAllParamDTO.getId());
             return userOptional
                     .map(user -> new ResponseEntity<>(dtoMapper.toUserAllParamDTO(user), HttpStatus.OK))
                     .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -117,18 +113,18 @@ public class UserController {
      * Страница, где админ может сам создать любого юзера и с нужным профилем
      * Данный метод, доступный только админу(через фильтр сервлетов),
      *
-     * @param userDTO сущность User, обвёрнутая в DTO для подачи в виде Json
+     * @param userAllParamDTO сущность User, обвёрнутая в DTO для подачи в виде Json
      * @return ответ сервера
      */
     @PostMapping("/create")
-    public ResponseEntity<UserAllParamDTO> create(@RequestBody UserAllParamDTO userDTO) {
+    public ResponseEntity<UserAllParamDTO> create(@RequestBody UserAllParamDTO userAllParamDTO) {
         Optional<User> userOptional = userService.createByAdmin(
-                userDTO.getId(),
-                userDTO.getRole(),
-                userDTO.getName(),
-                userDTO.getPassword(),
-                userDTO.getContactInfo(),
-                userDTO.getBuysAmount()
+                userAllParamDTO.getId(),
+                userAllParamDTO.getRole(),
+                userAllParamDTO.getName(),
+                userAllParamDTO.getPassword(),
+                userAllParamDTO.getContactInfo(),
+                userAllParamDTO.getBuysAmount()
         );
         return userOptional
                 .map(user -> new ResponseEntity<>(dtoMapper.toUserAllParamDTO(user), HttpStatus.OK))
@@ -145,10 +141,7 @@ public class UserController {
     public ResponseEntity<List<UserAllParamDTO>> findAll() {
         List<User> userList = userService.findAll();
         if (!userList.isEmpty()) {
-            List<UserAllParamDTO> userListDTO = new ArrayList<>();
-            for (User user : userList) {
-                userListDTO.add(dtoMapper.toUserAllParamDTO(user));
-            }
+            List<UserAllParamDTO> userListDTO = dtoMapper.toUserAllParamListDTO(userList);
             return new ResponseEntity<>(userListDTO, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
