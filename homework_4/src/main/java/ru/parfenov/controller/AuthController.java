@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-public class AuthController implements UserIdInController {
+public class AuthController {
     private final UserService userService;
     private final UserDTOMapper dtoMapper;
 

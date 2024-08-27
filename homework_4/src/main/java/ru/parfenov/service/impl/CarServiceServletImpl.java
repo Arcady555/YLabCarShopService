@@ -1,4 +1,4 @@
-package ru.parfenov.service;
+package ru.parfenov.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,13 +6,16 @@ import org.springframework.stereotype.Service;
 import ru.parfenov.enums.CarCondition;
 import ru.parfenov.model.Car;
 import ru.parfenov.repository.CarRepository;
+import ru.parfenov.service.CarService;
+
+import static ru.parfenov.utility.Utility.getIntFromString;
 
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Service
-public class CarServiceServletImpl implements CarService, GettingIntFromString {
+public class CarServiceServletImpl implements CarService {
     private final CarRepository repo;
 
     @Autowired

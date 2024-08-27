@@ -17,7 +17,7 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("/users")
-public class UserController implements UserIdInController {
+public class UserController {
     private final UserService userService;
     private final UserDTOMapper dtoMapper;
 
@@ -34,7 +34,7 @@ public class UserController implements UserIdInController {
      * @param userId ID юзера
      * @return ответ сервера
      */
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<UserAllParamDTO> viewUser(@PathVariable int userId) {
         Optional<User> userOptional = userService.findById(userId);
         return userOptional
@@ -120,7 +120,7 @@ public class UserController implements UserIdInController {
      * @param userDTO сущность User, обвёрнутая в DTO для подачи в виде Json
      * @return ответ сервера
      */
-    @PostMapping("create")
+    @PostMapping("/create")
     public ResponseEntity<UserAllParamDTO> create(@RequestBody UserAllParamDTO userDTO) {
         Optional<User> userOptional = userService.createByAdmin(
                 userDTO.getId(),
@@ -141,7 +141,7 @@ public class UserController implements UserIdInController {
      *
      * @return ответ сервера
      */
-    @GetMapping("all")
+    @GetMapping("/all")
     public ResponseEntity<List<UserAllParamDTO>> findAll() {
         List<User> userList = userService.findAll();
         if (!userList.isEmpty()) {

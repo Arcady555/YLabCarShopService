@@ -1,4 +1,4 @@
-package ru.parfenov.service;
+package ru.parfenov.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,13 +7,16 @@ import ru.parfenov.enums.OrderStatus;
 import ru.parfenov.enums.OrderType;
 import ru.parfenov.model.Order;
 import ru.parfenov.repository.OrderRepository;
+import ru.parfenov.service.OrderService;
+
+import static ru.parfenov.utility.Utility.getIntFromString;
 
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Service
-public class OrderServiceServletImpl implements OrderService, GettingIntFromString {
+public class OrderServiceServletImpl implements OrderService {
     private final OrderRepository repo;
 
     @Autowired

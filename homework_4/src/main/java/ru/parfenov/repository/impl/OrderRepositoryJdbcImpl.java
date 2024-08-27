@@ -1,4 +1,4 @@
-package ru.parfenov.repository;
+package ru.parfenov.repository.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import ru.parfenov.enums.OrderStatus;
 import ru.parfenov.enums.OrderType;
 import ru.parfenov.model.Order;
+import ru.parfenov.repository.OrderRepository;
 import ru.parfenov.utility.JdbcRequests;
 
 import java.sql.*;

@@ -1,8 +1,7 @@
 package ru.parfenov.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,8 +17,8 @@ import java.util.HashMap;
  * которые могут быть выкинуты в любом месте приложения
  */
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
-    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class.getSimpleName());
     private final ObjectMapper objectMapper;
 
     public GlobalExceptionHandler(ObjectMapper objectMapper) {
@@ -42,6 +41,6 @@ public class GlobalExceptionHandler {
                 put("details", e.getMessage());
             }
         }));
-        LOGGER.error(e.getMessage());
+        log.error(e.getMessage());
     }
 }

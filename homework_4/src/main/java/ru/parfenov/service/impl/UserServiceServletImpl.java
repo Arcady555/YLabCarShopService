@@ -1,4 +1,4 @@
-package ru.parfenov.service;
+package ru.parfenov.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,13 +6,16 @@ import org.springframework.stereotype.Service;
 import ru.parfenov.enums.UserRole;
 import ru.parfenov.model.User;
 import ru.parfenov.repository.UserRepository;
+import ru.parfenov.service.UserService;
+
+import static ru.parfenov.utility.Utility.getIntFromString;
 
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Service
-public class UserServiceServletImpl implements UserService, GettingIntFromString {
+public class UserServiceServletImpl implements UserService {
     private final UserRepository repo;
 
     @Autowired

@@ -15,6 +15,8 @@ import ru.parfenov.service.CarService;
 import ru.parfenov.service.OrderService;
 import ru.parfenov.service.UserService;
 
+import static ru.parfenov.utility.Utility.getUserId;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +25,7 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("/orders")
-public class OrderController implements UserIdInController {
+public class OrderController {
     private final OrderService orderService;
     private final UserService userService;
     private final CarService carService;
@@ -63,7 +65,7 @@ public class OrderController implements UserIdInController {
      * @param orderDTO ID заказа
      * @return ответ сервера
      */
-    @PostMapping("create")
+    @PostMapping("/create")
     public ResponseEntity<OrderDTO> create(HttpServletRequest request, @RequestBody OrderDTO orderDTO) {
         Optional<Order> orderOptional = Optional.empty();
         if (checkCorrelationForCreate(request, orderDTO)) {
@@ -161,7 +163,7 @@ public class OrderController implements UserIdInController {
      *
      * @return ответ сервера
      */
-    @GetMapping("all")
+    @GetMapping("/all")
     public ResponseEntity<List<OrderDTO>> findAll() {
         List<Order> orderList = orderService.findAll();
         if (!orderList.isEmpty()) {

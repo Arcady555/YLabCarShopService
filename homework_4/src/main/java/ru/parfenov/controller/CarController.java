@@ -13,6 +13,8 @@ import ru.parfenov.model.User;
 import ru.parfenov.service.CarService;
 import ru.parfenov.service.UserService;
 
+import static ru.parfenov.utility.Utility.getUserId;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("/cars")
-public class CarController implements UserIdInController {
+public class CarController {
     private final CarService carService;
     private final UserService userService;
     private final CarDTOMapper dtoMapper;
@@ -39,7 +41,7 @@ public class CarController implements UserIdInController {
      * @param carId ID машины
      * @return ответ сервера
      */
-    @GetMapping("/{carId}")
+    @GetMapping("/car/{carId}")
     public ResponseEntity<CarDTO> viewCar(@PathVariable int carId) {
         Optional<Car> carOptional = carService.findById(carId);
         return carOptional
@@ -107,7 +109,7 @@ public class CarController implements UserIdInController {
      * @param carDTO сущность Car, обвёрнутая в DTO для подачи в виде Json
      * @return ответ сервера
      */
-    @PostMapping("create")
+    @PostMapping("/create")
     public ResponseEntity<CarDTO> create(@RequestBody CarDTO carDTO) {
         Optional<Car> carOptional = carService.create(
                 carDTO.getOwnerId(),
@@ -162,7 +164,7 @@ public class CarController implements UserIdInController {
      *
      * @return ответ сервера
      */
-    @GetMapping("all")
+    @GetMapping("/all")
     public ResponseEntity<List<CarDTO>> findAll() {
         List<Car> carList = carService.findAll();
         if (!carList.isEmpty()) {

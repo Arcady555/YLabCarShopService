@@ -2,25 +2,31 @@ package ru.parfenov.aspect;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.parfenov.model.User;
 import ru.parfenov.service.LogService;
+import ru.parfenov.service.impl.LogServiceServletImpl;
 
 import java.time.LocalDateTime;
 
+/**
+ * Класс записывает в лог действия юзеров (вызванные с их подачи методы классов блока CONTROLLER)
+ */
 @Aspect
 @Slf4j
+@RequiredArgsConstructor
 public class UserActionLogger {
-
-    @Autowired
     private final LogService service;
 
-    public UserActionLogger(LogService service) {
-        this.service = service;
+    @Pointcut("execution(public ru.parfenov.controller..*")
+    public void pickMethods() {
     }
 
     @After("execution(* *(..)) && args(request, response)")

@@ -65,6 +65,7 @@
         <spring_jdbc.version>5.0.10.RELEASE</spring_jdbc.version>
         <commons_dbcp2.version>2.7.0</commons_dbcp2.version>
         <springdoc.version>1.6.15</springdoc.version>
+        <spring_test.version>5.0.10.RELEASE</spring_test.version>
     </properties>
 
 
@@ -128,6 +129,12 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.jupiter.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -205,6 +212,19 @@
             <version>${slf4j.version}</version>
         </dependency>
 
+        <!--JUnit Test
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency> -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring_test.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <finalName>cs</finalName>

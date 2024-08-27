@@ -1,30 +1,15 @@
 package ru.parfenov.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import ru.parfenov.model.LineInLog;
-import ru.parfenov.repository.LogRepository;
 
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 /**
  * Класс данного слоя служит прослойкой между голым хранилищем с его строгими методами и сервлетами,
  * добавляя и изменяя некоторую логику-функционал
  */
-@Slf4j
-@Service
-public class LogService implements GettingIntFromString {
-    private final LogRepository repo;
-
-    @Autowired
-    public LogService(LogRepository repo) {
-        this.repo = repo;
-    }
-
+public interface LogService {
     /**
      * Метод принимает информацию(время события, ID юзера и название его действия) и отправляет
      * её по 2м каналам - в журнал логов и в БД
@@ -33,16 +18,7 @@ public class LogService implements GettingIntFromString {
      * @param userId   ID юзера
      * @param action   наименование события
      */
-    public void saveLineInLog(LocalDateTime dateTime, int userId, String action) {
-        log.info("date time : {}, user id : {}, action : {}", dateTime, userId, action);
-        LineInLog lineInLog = new LineInLog(
-                0L,
-                dateTime.truncatedTo(ChronoUnit.MINUTES),
-                Integer.toString(userId),
-                action
-        );
-        repo.create(lineInLog);
-    }
+    public void saveLineInLog(LocalDateTime dateTime, int userId, String action);
 
     /**
      * Вывод записей лога, которые ушли в базу данных, по параметрам
@@ -53,10 +29,10 @@ public class LogService implements GettingIntFromString {
      * @param dateTimeToStr  по какую дату-время искать логи
      * @return список строк-записей логов
      */
-    public List<LineInLog> findByParameters(String userIdStr, String action, String dateTimeFomStr, String dateTimeToStr) {
-        int userId = getIntFromString(userIdStr);
-        LocalDateTime dateTimeFrom = LocalDateTime.parse(dateTimeFomStr);
-        LocalDateTime dateTimeTo = LocalDateTime.parse(dateTimeToStr);
-        return repo.findByParameters(userId, action, dateTimeFrom, dateTimeTo);
-    }
+    public List<LineInLog> findByParameters(
+            String userIdStr,
+            String action,
+            String dateTimeFomStr,
+            String dateTimeToStr
+    );
 }

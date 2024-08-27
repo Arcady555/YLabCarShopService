@@ -1,10 +1,11 @@
-package ru.parfenov.repository;
+package ru.parfenov.repository.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.parfenov.enums.UserRole;
 import ru.parfenov.model.User;
+import ru.parfenov.repository.UserRepository;
 import ru.parfenov.utility.JdbcRequests;
 
 import java.sql.*;

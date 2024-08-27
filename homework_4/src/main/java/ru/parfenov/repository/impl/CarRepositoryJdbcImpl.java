@@ -1,10 +1,11 @@
-package ru.parfenov.repository;
+package ru.parfenov.repository.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.parfenov.enums.CarCondition;
 import ru.parfenov.model.Car;
+import ru.parfenov.repository.CarRepository;
 import ru.parfenov.utility.JdbcRequests;
 
 import java.sql.*;
