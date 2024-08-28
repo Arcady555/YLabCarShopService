@@ -16,10 +16,10 @@ import java.sql.SQLException;
 public class JdbcConfig {
     @Bean
     public Connection getConnection(
-            @Value("${jdbc.driver}") String driver,
-            @Value("${jdbc.url}") String url,
-            @Value("${jdbc.username}") String username,
-            @Value("${jdbc.password}") String password
+            @Value("${driver-class-name}") String driver,
+            @Value("${url}") String url,
+            @Value("${username}") String username,
+            @Value("${password}") String password
     ) throws SQLException, ClassNotFoundException {
         Class.forName(driver);
         return DriverManager.getConnection(url, username, password);

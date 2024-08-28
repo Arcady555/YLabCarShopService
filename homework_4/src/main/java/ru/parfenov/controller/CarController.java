@@ -16,7 +16,6 @@ import ru.parfenov.service.UserService;
 import static ru.parfenov.utility.Utility.getUserId;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

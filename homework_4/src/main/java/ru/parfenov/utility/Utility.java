@@ -28,7 +28,7 @@ public class Utility {
         int result = 0;
         String authHead = req.getHeader("Authorization");
         if (authHead != null) {
-            byte[] e = Base64.decode(authHead.substring(4));
+            byte[] e = Base64.decode(authHead.substring(6));
             String idNPass = new String(e);
             String idStr = idNPass.substring(0, idNPass.indexOf(":"));
             result = Integer.parseInt(idStr);
