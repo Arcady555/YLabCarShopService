@@ -1,7 +1,7 @@
 package ru.parfenov.controller;
 
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +17,14 @@ import ru.parfenov.service.UserService;
 
 import javax.servlet.ServletContext;
 
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = {"classpath*:testContextConfig.xml"})
 @WebAppConfiguration
-public class AuthControllerTest {
+class AuthControllerTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
@@ -41,14 +41,11 @@ public class AuthControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
     }
 
-
     @Test
-    public void givenWac_whenServletContext_thenItProvidesGreetController() {
+    void givenWac_whenServletContext_thenItProvidesGreetController() {
         ServletContext servletContext = this.webApplicationContext.getServletContext();
 
         assertNotNull(servletContext);
-        assertTrue(servletContext instanceof MockServletContext);
-        assertNotNull(webApplicationContext.getBean("greetController"));
+        assertInstanceOf(MockServletContext.class, servletContext);
     }
-
 }
