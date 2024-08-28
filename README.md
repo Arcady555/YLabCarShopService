@@ -6,5 +6,6 @@
 1. [ДЗ №1](https://github.com/Arcady555/YLabCarShopService/tree/master/homework_1)
 2. [ДЗ №2](https://github.com/Arcady555/YLabCarShopService/tree/master/homework_2)
 3. [ДЗ №3](https://github.com/Arcady555/YLabCarShopService/tree/master/homework_3)
-4. [ДЗ №4](https://github.com/Arcady555/YLabCarShopService/pull/4) ссылка на PR
+4. [ДЗ №4](https://github.com/Arcady555/YLabCarShopService/tree/master/homework_4)
+5. [ДЗ №5](https://github.com/Arcady555/YLabCarShopService/pull/5) ссылка на PR
 
