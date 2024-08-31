@@ -1,9 +1,6 @@
 package ru.parfenov.utility;
 
 import lombok.extern.slf4j.Slf4j;
-import org.postgresql.shaded.com.ongres.scram.common.bouncycastle.base64.Base64;
-
-import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 public class Utility {
@@ -23,16 +20,4 @@ public class Utility {
         }
         return result;
     }
-/*
-    public static int getUserId(HttpServletRequest req) {
-        int result = 0;
-        String authHead = req.getHeader("Authorization");
-        if (authHead != null) {
-            byte[] e = Base64.decode(authHead.substring(6));
-            String idNPass = new String(e);
-            String idStr = idNPass.substring(0, idNPass.indexOf(":"));
-            result = Integer.parseInt(idStr);
-        }
-        return result;
-    } */
 }

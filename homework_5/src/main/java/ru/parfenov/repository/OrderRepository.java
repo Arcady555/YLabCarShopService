@@ -1,5 +1,8 @@
 package ru.parfenov.repository;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import ru.parfenov.enums.OrderStatus;
 import ru.parfenov.enums.OrderType;
 import ru.parfenov.model.Order;
@@ -9,44 +12,15 @@ import java.util.List;
 /**
  * Класс передаёт запросы в хранилище данных о заказах
  */
-public interface OrderRepository {
-    /**
-     * Создание карточки заказа
-     *
-     * @param order Order сущность из блока ru/parfenov/homework_3/model. Обёрнут в Optional
-     * @return Order сущность из блока ru/parfenov/homework_3/model. Обёрнут в Optional
-     */
-    Order create(Order order);
-
-    /**
-     * Поиск заказа по его уникальному ID
-     *
-     * @param id ID заказа
-     * @return Order сущность из блока ru/parfenov/homework_3/model. Обёрнут в Optional
-     */
-    Order findById(int id);
-
-    /**
-     * Метод предлагает обновление заказа.
-     *
-     * @param orderId ID заказа
-     * @return получилось обновить или нет
-     */
-    boolean update(int orderId);
-
-    /**
-     * Удаление карточки заказа
-     *
-     * @param orderId ID заказа
-     * @return получилось удалить или нет
-     */
-    boolean delete(int orderId);
+@Repository
+public interface OrderRepository extends CrudRepository<Order, Integer> {
 
     /**
      * Вывод списка всех заказов
      *
      * @return List список всех заказов
      */
+    @Override
     List<Order> findAll();
 
     /**
@@ -55,7 +29,7 @@ public interface OrderRepository {
      * @param authorId ID юзера - создателя заказов
      * @return List список таких заказов
      */
-    List<Order> findByAuthor(int authorId);
+    List<Order> findByAuthorId(int authorId);
 
     /**
      * Метод предлагает поиск заказа по указанным параметрам
@@ -66,5 +40,11 @@ public interface OrderRepository {
      * @param status   статус заказа - открыт или закрыт
      * @return List список таких заказов
      */
+    @Query(
+            "from Order o where o.authorId = ?1" +
+                    " and o.carId = ?2" +
+                    " and o.type = ?3" +
+                    " and o.status = ?4"
+    )
     List<Order> findByParameter(int authorId, int carId, OrderType type, OrderStatus status);
 }

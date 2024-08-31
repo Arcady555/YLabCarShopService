@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <property name="now" value="now()" dbms="postgresql"/>
+    <changeSet id="01" author="Arcady555">
+
+        <createSequence
+                startValue="1"
+                incrementBy="1"
+                sequenceName="cs_users"/>
+
+        <createSequence
+                startValue="1"
+                incrementBy="1"
+                sequenceName="cs_cars"/>
+
+        <createSequence
+                startValue="1"
+                incrementBy="1"
+                sequenceName="cs_orders"/>
+
+        <createSequence
+                startValue="1"
+                incrementBy="1"
+                sequenceName="cs_log"/>
+
+        <sql>
+            CREATE SCHEMA IF NOT EXISTS cs_schema;
+        </sql>
+
+        <createTable tableName="cs_users" schemaName="cs_schema" remarks="Пользователи приложения">
+            <column name="id" type="int" defaultValueComputed="nextval('cs_users')" remarks="id"/>
+            <column name="user_role" type="varchar(50)" remarks="роль пользователя - админ и тд"/>
+            <column name="name" type="varchar(50)" remarks="имя пользователя"/>
+            <column name="password" type="varchar(100)" remarks="пароль для входа в приложение"/>
+            <column name="contact_info" type="varchar(1000)" remarks="контактная информация"/>
+            <column name="buys_amount" type="int" remarks="количество покупок"/>
+        </createTable>
+
+        <createTable tableName="cars" schemaName="cs_schema" remarks="машины">
+            <column name="id" type="int" defaultValueComputed="nextval('cs_cars')" remarks="id"/>
+            <column name="owner_id" type="int" remarks="id собственника"/>
+            <column name="brand" type="varchar(50)" remarks="марка машины"/>
+            <column name="model" type="varchar(50)" remarks="модель машины"/>
+            <column name="year_of_prod" type="int" remarks="год выпуска"/>
+            <column name="price" type="int" remarks="цена"/>
+            <column name="car_condition" type="varchar(50)" remarks="состояние(б/у или новое"/>
+        </createTable>
+
+        <createTable tableName="orders" schemaName="cs_schema" remarks="заказы на машину">
+            <column name="id" type="int" defaultValueComputed="nextval('cs_orders')" remarks="id"/>
+            <column name="author_id" type="int" remarks="создатель заказа"/>
+            <column name="car_id" type="int" remarks="id машины"/>
+            <column name="order_type" type="varchar(50)" remarks="тип заказа(покупка или сервис)"/>
+            <column name="order_status" type="varchar(50)" remarks="статус -заказ закрыт или еще нет"/>
+        </createTable>
+
+        <createTable tableName="log_records" schemaName="cs_schema" remarks="записи в логе">
+            <column name="id" type="bigint" defaultValueComputed="nextval('cs_log')" remarks="id"/>
+            <column name="date_time" type="timestamp" remarks="время создания записи"/>
+            <column name="user_id" type="varchar(50)" remarks="юзер, о котором запись"/>
+            <column name="action" type="varchar" remarks="действие юзера"/>
+        </createTable>
+
+    </changeSet>
+</databaseChangeLog>

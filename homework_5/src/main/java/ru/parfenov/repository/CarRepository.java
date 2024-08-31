@@ -1,5 +1,8 @@
 package ru.parfenov.repository;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import ru.parfenov.enums.CarCondition;
 import ru.parfenov.model.Car;
 
@@ -8,22 +11,8 @@ import java.util.List;
 /**
  * Класс передаёт запросы в хранилище данных о машинах
  */
-public interface CarRepository {
-    /**
-     * Создание карточки машины
-     *
-     * @param car Car - сущность из блока ru/parfenov/homework_3/model
-     * @return Car - сущность из блока ru/parfenov/homework_3/model
-     */
-    Car create(Car car);
-
-    /**
-     * Поиск машины по её уникальному ID
-     *
-     * @param id машины, полученный при её создании, заведении карточки в БД
-     * @return Car - сущность из блока ru/parfenov/homework_3/model.
-     */
-    Car findById(int id);
+@Repository
+public interface CarRepository extends CrudRepository<Car, Integer> {
 
     /**
      * Поиск машины пол ID её собственника
@@ -31,23 +20,7 @@ public interface CarRepository {
      * @param ownerId ID юзера-собственника машины
      * @return Car - сущность из блока ru/parfenov/homework_3/model.
      */
-    List<Car> findByOwner(int ownerId);
-
-    /**
-     * Метод предлагает обновление автомобиля.
-     *
-     * @param car Car - сущность из блока ru/parfenov/homework_3/model.
-     * @return получилось или нет обновить
-     */
-    boolean update(Car car);
-
-    /**
-     * Удаление карточки машины
-     *
-     * @param carId машины, полученный при её создании, заведении карточки в БД
-     * @return получилось или нет удалить
-     */
-    boolean delete(int carId);
+    List<Car> findByOwnerId(int ownerId);
 
     /**
      * Вывод списка всех машин
@@ -68,8 +41,15 @@ public interface CarRepository {
      * @param condition  состояние
      * @return List список таких машин
      */
-    List<Car> findByParameter(
-            int ownerId, String brand, String model, int yearOfProd,
-            int priceFrom, int priceTo, CarCondition condition
-    );
+    @Query(
+            "from Car c where c.ownerId = ?1" +
+                    " and c.brand = ?2" +
+                    " and c.model = ?3" +
+                    " and c.yearOfProd = ?4" +
+                    " and c.price > ?5" +
+                    " and c.price < ?6" +
+                    " and c.condition = ?7"
+    )
+    List<Car> findByParameters(int ownerId, String brand, String model, int yearOfProd, int priceFrom, int priceTo,
+                               CarCondition condition );
 }

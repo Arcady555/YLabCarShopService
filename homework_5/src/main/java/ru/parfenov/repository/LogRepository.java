@@ -1,5 +1,8 @@
 package ru.parfenov.repository;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 import ru.parfenov.model.LineInLog;
 
 import java.time.LocalDateTime;
@@ -8,14 +11,8 @@ import java.util.List;
 /**
  * Служит для передачи запросов в хранилище логов о действиях юзеров
  */
-public interface LogRepository {
-
-    /**
-     * Создание записи строки лога в БД
-     *
-     * @param lineInLog LineInLog сущность из блока ru/parfenov/homework_3/model
-     */
-    public void create(LineInLog lineInLog);
+@Repository
+public interface LogRepository extends CrudRepository<LineInLog, Integer> {
 
     /**
      * Вывод записей лога, которые ушли в базу данных, по параметрам
@@ -26,5 +23,11 @@ public interface LogRepository {
      * @param dateTimeTo   по какую дату-время искать логи
      * @return список строк-записей логов
      */
+    @Query(
+            "from LineInLog l where l.userId = ?1" +
+                    " and l.action = ?2" +
+                    " and l.time > ?3" +
+                    " and l.time < ?4"
+    )
     List<LineInLog> findByParameters(int userId, String action, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo);
 }

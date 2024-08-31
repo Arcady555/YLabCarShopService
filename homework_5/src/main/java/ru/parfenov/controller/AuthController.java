@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.parfenov.dto.UserAllParamDTO;
+import ru.parfenov.dto.PersonAllParamDTO;
 import ru.parfenov.dto.UserDTOMapper;
-import ru.parfenov.dto.UserNamePasContDTO;
+import ru.parfenov.dto.PersonNamePasContDTO;
 import ru.parfenov.model.Person;
 import ru.parfenov.service.PersonService;
 
@@ -31,16 +31,16 @@ public class AuthController {
      * Страница регистрации.
      * Метод обработает HTTP запрос Post.
      * Пользователь вводит свои данные и регистрируется в БД
-     * @param userNamePasContDTO сущность Person, обвёрнутая в DTO для подачи в виде Json
+     * @param personNamePasContDTO сущность Person, обвёрнутая в DTO для подачи в виде Json
      * @return ответ сервера
      */
     @PostMapping("/sign-up")
-    public ResponseEntity<UserAllParamDTO> signUp(@RequestBody UserNamePasContDTO userNamePasContDTO) {
+    public ResponseEntity<PersonAllParamDTO> signUp(@RequestBody PersonNamePasContDTO personNamePasContDTO) {
         Optional<Person> userOptional =
                 personService.createByReg(
-                        userNamePasContDTO.getName(),
-                        userNamePasContDTO.getPassword(),
-                        userNamePasContDTO.getContactInfo()
+                        personNamePasContDTO.getName(),
+                        personNamePasContDTO.getPassword(),
+                        personNamePasContDTO.getContactInfo()
                 );
         return userOptional
                 .map(user -> new ResponseEntity<>(dtoMapper.toUserAllParamDTO(user), HttpStatus.CREATED))

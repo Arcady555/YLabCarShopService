@@ -7,7 +7,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface UserDTOMapper {
-    UserNamePasContDTO toUserDtoFoReg(Person source);
+    PersonNamePasContDTO toUserDtoFoReg(Person source);
 
     /**
      * Перевод сущности в DTO, со всеми исходными полями, переведёнными в int и String.
@@ -16,7 +16,7 @@ public interface UserDTOMapper {
      * @param source Person - сущность из блока ru/parfenov/homework_3/model
      * @return DTO объект
      */
-    UserAllParamDTO toUserAllParamDTO(Person source);
+    PersonAllParamDTO toUserAllParamDTO(Person source);
 
     /**
      * Преобразование каждого элемента в списке по методу toUserAllParamDTO()
@@ -24,5 +24,5 @@ public interface UserDTOMapper {
      * @param source список сущностей Person под преобразование
      * @return список полученных элементов
      */
-    List<UserAllParamDTO> toUserAllParamListDTO(List<Person> source);
+    List<PersonAllParamDTO> toUserAllParamListDTO(List<Person> source);
 }

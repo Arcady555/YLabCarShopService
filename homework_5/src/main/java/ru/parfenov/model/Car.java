@@ -1,9 +1,7 @@
 package ru.parfenov.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 import ru.parfenov.enums.CarCondition;
 
 /**
@@ -11,17 +9,25 @@ import ru.parfenov.enums.CarCondition;
  * у машины есть собственник, бренд(марка), модель, год выпуска, цена и состояние(новая или б/у)
  */
 
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
+@Table(name = "cars")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Car {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "owner_id")
     private int ownerId;
     private String brand;
     private String model;
+    @Column(name = "year_of_prod")
     private int yearOfProd;
     private int price;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "car_condition")
     private CarCondition condition;
 
     @Override

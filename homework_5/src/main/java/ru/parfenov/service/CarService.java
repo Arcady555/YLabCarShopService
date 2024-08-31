@@ -32,14 +32,6 @@ public interface CarService {
     Optional<Car> findById(int id);
 
     /**
-     * Поиск машины по её собственнику
-     *
-     * @param ownerId ID юзера-собственника машины
-     * @return Car - сущность из блока ru/parfenov/homework_3/model
-     */
-    List<Car> findByOwner(int ownerId);
-
-    /**
      * Является ли машина собственностью юзера
      * Два метода, во втором ID машины в String
      *
@@ -82,6 +74,14 @@ public interface CarService {
      * @return List список всех машин в БД
      */
     List<Car> findAll();
+
+    /**
+     * Поиск машины по её собственнику
+     *
+     * @param ownerId ID юзера-собственника машины
+     * @return Car - сущность из блока ru/parfenov/homework_3/model
+     */
+    List<Car> findByOwner(int ownerId);
 
     /**
      * Поиск машин подпадающих под заданные параметры

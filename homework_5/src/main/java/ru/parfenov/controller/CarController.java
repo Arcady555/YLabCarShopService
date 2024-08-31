@@ -1,5 +1,6 @@
 package ru.parfenov.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -7,17 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.parfenov.dto.CarDTO;
 import ru.parfenov.dto.CarDTOMapper;
-import ru.parfenov.enums.PersonRole;
 import ru.parfenov.model.Car;
-import ru.parfenov.model.Person;
 import ru.parfenov.service.CarService;
 import ru.parfenov.service.PersonService;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
-
-//import static ru.parfenov.utility.Utility.getUserId;
 
 @Slf4j
 @RestController
@@ -59,18 +55,15 @@ public class CarController {
      */
     @PostMapping("/update")
     public ResponseEntity<CarDTO> update(HttpServletRequest request, @RequestBody CarDTO carDTO) {
-        boolean isCarUpdated = false;
-        if (checkCorrelation(request, carDTO.getId())) {
-            isCarUpdated = carService.update(
-                    carDTO.getId(),
-                    carDTO.getOwnerId(),
-                    carDTO.getBrand(),
-                    carDTO.getModel(),
-                    carDTO.getYearOfProd(),
-                    carDTO.getPrice(),
-                    carDTO.getCondition()
-            );
-        }
+        boolean isCarUpdated = carService.update(
+                carDTO.getId(),
+                carDTO.getOwnerId(),
+                carDTO.getBrand(),
+                carDTO.getModel(),
+                carDTO.getYearOfProd(),
+                carDTO.getPrice(),
+                carDTO.getCondition()
+        );
         if (isCarUpdated) {
             Optional<Car> carOptional = carService.findById(carDTO.getId());
             return carOptional
@@ -92,10 +85,7 @@ public class CarController {
      */
     @DeleteMapping("/delete/{carId}")
     public ResponseEntity<String> delete(HttpServletRequest request, @PathVariable int carId) {
-        boolean isCarDeleted = false;
-        if (checkCorrelation(request, carId)) {
-            isCarDeleted = carService.delete(carId);
-        }
+        boolean isCarDeleted = carService.delete(carId);
         return isCarDeleted ?
                 new ResponseEntity<>("Car is deleted", HttpStatus.OK) :
                 new ResponseEntity<>("Car is not deleted", HttpStatus.BAD_REQUEST);
@@ -169,17 +159,5 @@ public class CarController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    private boolean checkCorrelation(HttpServletRequest request, int carId) {
-        int userId = getUserId(request);
-        Optional<Person> userOptional = personService.findById(userId);
-        Person person = userOptional.orElse(null);
-        boolean ownCheck = carService.isOwnCar(userId, carId);
-        boolean nullCheck = person != null;
-        return ownCheck || (
-                nullCheck &&
-                        (person.getRole().equals(PersonRole.ADMIN) || person.getRole().equals(PersonRole.MANAGER))
-        );
     }
 }

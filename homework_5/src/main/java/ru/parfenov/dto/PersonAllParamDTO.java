@@ -8,7 +8,7 @@ import org.mapstruct.Mapper;
  */
 @Mapper
 @Data
-public class UserAllParamDTO {
+public class PersonAllParamDTO {
     private int id;
     private String role;
     private String name;

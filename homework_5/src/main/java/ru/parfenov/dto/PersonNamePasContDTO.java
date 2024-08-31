@@ -8,7 +8,7 @@ import lombok.Data;
  * Оставлены только поля, нужные для ввода при sign-up
  */
 @Data
-public class UserNamePasContDTO {
+public class PersonNamePasContDTO {
     private String name;
     private String password;
     private String contactInfo;

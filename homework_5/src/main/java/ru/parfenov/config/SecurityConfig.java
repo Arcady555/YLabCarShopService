@@ -1,46 +1,53 @@
 package ru.parfenov.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+/*import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain; */
+import ru.parfenov.repository.PersonRepository;
+import javax.sql.DataSource;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
-@Configuration
-@EnableWebSecurity
-@EnableMethodSecurity(securedEnabled = true)
+//@Configuration
+//@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
-    @Autowired
-    private DataSource dataSource;
+/*
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .authorizeHttpRequests((authorize) -> authorize
+                        .requestMatchers("/sign-up", "/swagger-ui/**").permitAll()
+                        .requestMatchers("/client").hasAnyRole("CLIENT", "MANAGER", "ADMIN")
+                        .requestMatchers("/manager").hasAnyRole("MANAGER", "ADMIN")
+                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .anyRequest().authenticated()
+                )
+                .formLogin(login -> login
+                        .defaultSuccessUrl("/")
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/"));
+        return http.build();
     }
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .usersByUsernameQuery(
-                        "select login, password, 'true' from my_user " +
-                                "where login=?")
-                .authoritiesByUsernameQuery(
-                        "select login, authority from my_user " +
-                                "where login=?");
+
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/**").permitAll()
-                .and().formLogin();
-    }
+
+    @Bean
+    UserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
+        return new JdbcUserDetailsManager(dataSource);
+    } */
 }
+
+
+
+

@@ -1,9 +1,6 @@
 package ru.parfenov.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,19 +13,24 @@ import ru.parfenov.enums.PersonRole;
  * имя, пароль, контактная информация, количество покупок автомобилей
  */
 
-@NoArgsConstructor
-@AllArgsConstructor
+@Entity
+@Table(name = "users", schema = "cs_schema")
 @Getter
 @Setter
-@Entity(name = "cs_users")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "user_role")
+    @Enumerated(EnumType.STRING)
     private PersonRole role;
     private String name;
     private String password;
+    @Column(name = "contact_info")
     private String contactInfo;
+    @Column(name = "buys_amount")
     private int buysAmount;
 
     public Person(String name, String password) {

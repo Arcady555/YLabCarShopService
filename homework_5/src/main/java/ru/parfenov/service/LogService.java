@@ -18,7 +18,7 @@ public interface LogService {
      * @param userId   ID юзера
      * @param action   наименование события
      */
-    public void saveLineInLog(LocalDateTime dateTime, int userId, String action);
+    void saveLineInLog(LocalDateTime dateTime, int userId, String action);
 
     /**
      * Вывод записей лога, которые ушли в базу данных, по параметрам
@@ -29,7 +29,7 @@ public interface LogService {
      * @param dateTimeToStr  по какую дату-время искать логи
      * @return список строк-записей логов
      */
-    public List<LineInLog> findByParameters(
+    List<LineInLog> findByParameters(
             String userIdStr,
             String action,
             String dateTimeFomStr,
