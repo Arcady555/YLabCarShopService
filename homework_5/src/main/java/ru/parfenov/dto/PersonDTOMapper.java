@@ -6,8 +6,15 @@ import ru.parfenov.model.Person;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface UserDTOMapper {
+public interface PersonDTOMapper {
     PersonNamePasContDTO toUserDtoFoReg(Person source);
+
+    /**
+     * Перевод DTO в сущность
+     * @param destination DTO
+     * @return Person - сущность из блока ru/parfenov/homework_3/model
+     */
+    Person toPerson(PersonIdPassDTO destination);
 
     /**
      * Перевод сущности в DTO, со всеми исходными полями, переведёнными в int и String.

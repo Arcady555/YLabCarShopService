@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.parfenov.dto.PersonAllParamDTO;
-import ru.parfenov.dto.UserDTOMapper;
+import ru.parfenov.dto.PersonDTOMapper;
 import ru.parfenov.dto.PersonNamePasContDTO;
 import ru.parfenov.model.Person;
 import ru.parfenov.service.PersonService;
@@ -19,10 +19,10 @@ import java.util.Optional;
 @RestController
 public class AuthController {
     private final PersonService personService;
-    private final UserDTOMapper dtoMapper;
+    private final PersonDTOMapper dtoMapper;
 
     @Autowired
-    public AuthController(PersonService personService, UserDTOMapper dtoMapper) {
+    public AuthController(PersonService personService, PersonDTOMapper dtoMapper) {
         this.personService = personService;
         this.dtoMapper = dtoMapper;
     }

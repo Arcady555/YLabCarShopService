@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.parfenov.dto.PersonAllParamDTO;
-import ru.parfenov.dto.UserDTOMapper;
+import ru.parfenov.dto.PersonDTOMapper;
 import ru.parfenov.model.Person;
 import ru.parfenov.service.PersonService;
 
@@ -18,10 +18,10 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class PersonController {
     private final PersonService personService;
-    private final UserDTOMapper dtoMapper;
+    private final PersonDTOMapper dtoMapper;
 
     @Autowired
-    public PersonController(PersonService personService, UserDTOMapper dtoMapper) {
+    public PersonController(PersonService personService, PersonDTOMapper dtoMapper) {
         this.personService = personService;
         this.dtoMapper = dtoMapper;
     }
