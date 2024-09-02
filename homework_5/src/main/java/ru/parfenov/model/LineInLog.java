@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * время, id юзера, и название его операции
  */
 @Entity
-@Table(name = "log_records")
+@Table(name = "log_records", schema = "cs_schema")
 @Getter
 @Setter
 @NoArgsConstructor

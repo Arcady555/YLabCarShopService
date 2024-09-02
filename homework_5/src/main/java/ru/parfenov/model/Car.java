@@ -10,7 +10,7 @@ import ru.parfenov.enums.CarCondition;
  */
 
 @Entity
-@Table(name = "cars")
+@Table(name = "cars", schema = "cs_schema")
 @Getter
 @Setter
 @NoArgsConstructor

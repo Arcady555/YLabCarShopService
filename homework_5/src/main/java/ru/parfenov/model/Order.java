@@ -14,7 +14,7 @@ import ru.parfenov.enums.OrderType;
  */
 
 @Entity
-@Table(name = "orders")
+@Table(name = "orders", schema = "cs_schema")
 @Getter
 @Setter
 @NoArgsConstructor
