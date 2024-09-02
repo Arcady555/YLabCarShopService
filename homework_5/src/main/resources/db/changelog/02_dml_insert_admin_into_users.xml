@@ -10,7 +10,7 @@ xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     <insert tableName="people" schemaName="cs_schema">
         <column name="user_role" value="admin"/>
         <column name="name" value="no name"/>
-        <column name="password" value="123"/>
+        <column name="password" value="$2a$10$MRwNz.NeYoKObKrAbXJK2eskZJf6/da/0xO2Ex3yqzbFqkXtrP22q"/>
         <column name="contact_info" value="no data"/>
         <column name="buys_amount" value="0"/>
     </insert>
