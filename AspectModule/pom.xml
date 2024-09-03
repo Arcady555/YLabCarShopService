@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>ru.parfenov</groupId>
-    <artifactId>homework_5</artifactId>
+    <artifactId>AspectModule</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -27,6 +27,13 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>ru.parfenov</groupId>
+            <artifactId>homework_5</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -67,7 +74,7 @@
             <optional>true</optional>
         </dependency>
 
-        <dependency>
+     <!--   <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>
             <version>${mapstruct.version}</version>
@@ -94,7 +101,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
-        </dependency>
+        </dependency> -->
 
         <dependency>
             <groupId>org.springframework</groupId>
@@ -106,7 +113,7 @@
 
     <build>
         <plugins>
-            <plugin>
+          <!--  <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -128,7 +135,7 @@
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
-            </plugin>
+            </plugin> -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -152,4 +159,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
