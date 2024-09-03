@@ -3,7 +3,7 @@ package ru.parfenov.service.impl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.parfenov.enums.PersonRole;
+import ru.parfenov.enums.Role;
 import ru.parfenov.model.Person;
 import ru.parfenov.repository.PersonRepository;
 import ru.parfenov.service.PersonService;
@@ -29,7 +29,7 @@ public class PersonServiceSpringImpl implements PersonService {
     @Override
     public Optional<Person> createByReg(String name, String password, String contactInfo) {
         return Optional.of(repo.save(
-                new Person(0, PersonRole.CLIENT, name, passwordEncoder.encode(password), contactInfo, 0)
+                new Person(0, Role.CLIENT, name, passwordEncoder.encode(password), contactInfo, 0)
                 )
         );
     }
@@ -38,7 +38,7 @@ public class PersonServiceSpringImpl implements PersonService {
     public Optional<Person> createByAdmin(
             int id, String roleStr, String name, String password, String contactInfo, int buysAmount
     ) {
-        PersonRole role = getPersonRoleFromString(roleStr);
+        Role role = getPersonRoleFromString(roleStr);
         return Optional.of(repo.save(
                 new Person(0, role, name, passwordEncoder.encode(password), contactInfo, buysAmount)
                 )
@@ -57,7 +57,7 @@ public class PersonServiceSpringImpl implements PersonService {
 
     @Override
     public boolean update(int userId, String roleStr, String name, String password, String contactInfo, int buysAmount) {
-        PersonRole role = getPersonRoleFromString(roleStr);
+        Role role = getPersonRoleFromString(roleStr);
         Person person = new Person(userId, role, name, password, contactInfo, buysAmount);
         repo.save(person);
         return !repo.existsById(userId);
@@ -77,15 +77,15 @@ public class PersonServiceSpringImpl implements PersonService {
 
     @Override
     public List<Person> findByParameters(String roleStr, String name, String contactInfo, String buysAmountStr) {
-        PersonRole role = getPersonRoleFromString(roleStr);
+        Role role = getPersonRoleFromString(roleStr);
         int buysAmount = getIntFromString(buysAmountStr);
         return repo.findByParameters(role, name, contactInfo, buysAmount);
     }
 
-    private PersonRole getPersonRoleFromString(String roleStr) {
-        return "client".equals(roleStr) ? PersonRole.CLIENT :
-                ("manager".equals(roleStr) ? PersonRole.MANAGER :
-                        ("admin".equals(roleStr) ? PersonRole.ADMIN :
+    private Role getPersonRoleFromString(String roleStr) {
+        return "client".equals(roleStr) ? Role.CLIENT :
+                ("manager".equals(roleStr) ? Role.MANAGER :
+                        ("admin".equals(roleStr) ? Role.ADMIN :
                                 null));
     }
 }

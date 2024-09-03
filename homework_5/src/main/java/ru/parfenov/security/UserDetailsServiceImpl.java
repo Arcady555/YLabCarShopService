@@ -1,7 +1,6 @@
 package ru.parfenov.security;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import ru.parfenov.model.Person;
 import ru.parfenov.repository.PersonRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 import static ru.parfenov.utility.Utility.getIntFromString;
@@ -30,6 +28,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new User(
                 Integer.toString(person.getId()),
                 person.getPassword(),
-                List.of(new SimpleGrantedAuthority(person.getRole().toString())));
+                person.getRole().getAuthorities());
     }
 }

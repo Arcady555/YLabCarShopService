@@ -12,6 +12,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import static ru.parfenov.enums.Role.ADMIN;
+import static ru.parfenov.enums.Role.MANAGER;
 
 @Configuration
 @EnableWebSecurity
@@ -27,23 +29,22 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req
-                                .requestMatchers("/sign-up", "/sign-in", "/swagger-ui/**").permitAll()
+                                .requestMatchers("/sign-up", "/sign-in", "/swagger-ui**").permitAll()
                                 .requestMatchers(
                                         "/users/**",
                                         "/audit/**"
-                                ).hasAnyRole("ADMIN")
+                                ).hasRole(ADMIN.name())
                                 .requestMatchers(
                                         "orders/find-by_parameters/**",
                                         "orders/close/**",
                                         "orders/delete/**",
                                         "orders/all",
                                         "orders/order/**"
-                                ).hasAnyRole("Manager, Admin")
+                                ).hasAnyRole(MANAGER.name(), ADMIN.name())
                                 .anyRequest()
                                 .authenticated()
                 )

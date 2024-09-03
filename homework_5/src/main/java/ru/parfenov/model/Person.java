@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.parfenov.enums.PersonRole;
+import ru.parfenov.enums.Role;
 
 /**
  * Модель пользователя приложения
@@ -25,18 +25,13 @@ public class Person {
     private int id;
     @Column(name = "user_role")
     @Enumerated(EnumType.STRING)
-    private PersonRole role;
+    private Role role;
     private String name;
     private String password;
     @Column(name = "contact_info")
     private String contactInfo;
     @Column(name = "buys_amount")
     private int buysAmount;
-
-    public Person(String name, String password) {
-        this.name = name;
-        this.password = password;
-    }
 
     @Override
     public String toString() {

@@ -3,7 +3,7 @@ package ru.parfenov.repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.parfenov.enums.PersonRole;
+import ru.parfenov.enums.Role;
 import ru.parfenov.model.Person;
 
 import java.util.List;
@@ -46,5 +46,5 @@ public interface PersonRepository extends CrudRepository<Person, Integer> {
                     " and u.contactInfo LIKE %?3%" +
                     " and u.buysAmount = ?4"
     )
-    List<Person> findByParameters(PersonRole role, String name, String contactInfo, int buysAmount);
+    List<Person> findByParameters(Role role, String name, String contactInfo, int buysAmount);
 }
