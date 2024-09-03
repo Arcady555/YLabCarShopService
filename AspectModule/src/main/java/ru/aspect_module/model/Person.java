@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.homework_5.enums.Role;
+import ru.aspect_module.enums.Role;
 
 /**
  * Модель пользователя приложения
