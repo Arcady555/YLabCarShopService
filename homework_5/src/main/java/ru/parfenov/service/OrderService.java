@@ -1,5 +1,6 @@
 package ru.parfenov.service;
 
+import ru.parfenov.dto.OrderDTO;
 import ru.parfenov.model.Order;
 
 import java.util.List;
@@ -14,12 +15,10 @@ public interface OrderService {
     /**
      * Метод задействован при создании карточки заказа пользователем
      *
-     * @param authorId ID юзера-создателя заказа
-     * @param carId    id машины, полученный при её создании, заведении карточки в БД
-     * @param type     тип заказа - продажа или сервис
+     * @param orderDTO сущность Order, обвёрнутая в DTO для подачи в виде Json
      * @return Order сущность из блока ru/parfenov/homework_3/model. Обёрнут в Optional
      */
-    Optional<Order> create(int authorId, int carId, String type);
+    Optional<Order> create(OrderDTO orderDTO);
 
     /**
      * Поиск заказа по его ID

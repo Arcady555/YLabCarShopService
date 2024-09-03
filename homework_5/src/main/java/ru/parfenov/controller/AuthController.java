@@ -68,7 +68,8 @@ public class AuthController {
     /**
      * Страница получения токена.
      * Метод обработает HTTP запрос Post.
-     * Пользователь вводит свои данные и получает токен, который он вставляет в заголовок в дальнейших запросах.
+     * Пользователь вводит свои данные(ID и пароль) и получает токен,
+     * который он вставляет в заголовок в дальнейших запросах.
      * Которые требуют авторизацию
      *
      * @param personDTO сущность Person, обвёрнутая в DTO для подачи в виде Json
@@ -77,7 +78,9 @@ public class AuthController {
     @PostMapping("/sign-in")
     public ResponseEntity<?> signIn(@RequestBody PersonIdPassDTO personDTO) {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(personDTO.getId(), personDTO.getPassword()));
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(personDTO.getId(), personDTO.getPassword())
+            );
         } catch (AuthorizationServiceException e) {
             log.error("Неправильный ID или пароль", e);
             return new ResponseEntity<>("Неправильный ID или пароль", HttpStatus.UNAUTHORIZED);

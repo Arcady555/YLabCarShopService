@@ -1,5 +1,6 @@
 package ru.parfenov.service;
 
+import ru.parfenov.dto.CarDTO;
 import ru.parfenov.model.Car;
 
 import java.util.List;
@@ -46,19 +47,10 @@ public interface CarService {
     /**
      * Изменение данных о машине
      *
-     * @param carId      id машины, полученный при её создании, заведении карточки в БД
-     * @param ownerId    ID юзера-собственника машины
-     * @param brand      марка машины
-     * @param model      модель
-     * @param yearOfProd год выпуска
-     * @param price      цена
-     * @param condition  состояние
+     * @param carDTO сущность Car, обвёрнутая в DTO для подачи в виде Json
      * @return boolean - получилось обновить данные по машине или нет
      */
-    boolean update(
-            int carId, int ownerId, String brand, String model,
-            int yearOfProd, int price, String condition
-    );
+    boolean update(CarDTO carDTO);
 
     /**
      * Удаление карточки машины
