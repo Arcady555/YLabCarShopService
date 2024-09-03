@@ -17,6 +17,15 @@ public interface CarDTOMapper {
     CarDTO toCarDTO(Car source);
 
     /**
+     * Перевод сущности в DTO
+     * (все поля становятся или int или String)
+     *
+     * @param destination CarDTO - сущность из блока ru/parfenov/homework_3/model, обёрнутая в DTO
+     * @return DTO объект
+     */
+    Car toCar(CarDTO destination);
+
+    /**
      * Преобразование каждого элемента в списке по методу toCarDTO()
      *
      * @param source список сущностей Car под преобразование

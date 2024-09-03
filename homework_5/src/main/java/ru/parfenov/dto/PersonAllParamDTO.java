@@ -6,7 +6,6 @@ import org.mapstruct.Mapper;
 /**
  * DTO для удобной подачи в json. Enum заменили на String
  */
-@Mapper
 @Data
 public class PersonAllParamDTO {
     private int id;

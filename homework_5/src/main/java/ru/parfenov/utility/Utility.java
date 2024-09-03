@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Utility {
-    public static String saveLogPath = "homework_1/src/main/java/ru/parfenov/homework_3/SaveLog.txt";
+    public static String saveLogPath = "homework_5/src/main/resources/log/SaveLog.txt";
     public static String nameOfSite = "http://localhost:8080/";
 
     private Utility() {
