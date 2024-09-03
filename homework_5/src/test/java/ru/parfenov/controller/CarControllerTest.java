@@ -34,14 +34,12 @@ class CarControllerTest {
     @MockBean
     private CarService carService;
     @MockBean
-    private PersonService personService;
-    @MockBean
     private CarDTOMapper carDTOMapper;
 
     @Test
     public void test_find_car_by_id() {
         CarService carService = mock(CarService.class);
-        CarController carController = new CarController(carService, personService, carDTOMapper);
+        CarController carController = new CarController(carService, carDTOMapper);
         Car car = new Car(1, 1, "Model", "Brand", 2020, 1000000, CarCondition.NEW);
         when(carService.findById(1))
                 .thenReturn(Optional.of(car));
