@@ -1,12 +1,11 @@
-package ru.aspect_module.service.impl;
+package ru.homework_5.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.aspect_module.model.LineInLog;
-import ru.aspect_module.service.LogService;
-import ru.aspect_module.repository.LogRepository;
-import ru.aspect_module.utility.Utility;
+import ru.homework_5.model.LineInLog;
+import ru.homework_5.service.LogService;
+import ru.homework_5.repository.LogRepository;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -14,6 +13,9 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+
+import static ru.homework_5.utility.Utility.getIntFromString;
+import static ru.homework_5.utility.Utility.saveLogPath;
 
 
 @Slf4j
@@ -56,7 +58,7 @@ public class LogServiceSpringImpl implements LogService {
 
     @Override
     public List<LineInLog> findByParameters(String userIdStr, String action, String dateTimeFomStr, String dateTimeToStr) {
-        int userId = Utility.getIntFromString(userIdStr);
+        int userId = getIntFromString(userIdStr);
         LocalDateTime dateTimeFrom = LocalDateTime.parse(dateTimeFomStr);
         LocalDateTime dateTimeTo = LocalDateTime.parse(dateTimeToStr);
         List<LineInLog> result = repo.findByParameters(userId, action, dateTimeFrom, dateTimeTo);
@@ -65,7 +67,7 @@ public class LogServiceSpringImpl implements LogService {
     }
 
     private void saveList(List<LineInLog> list) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(Utility.saveLogPath))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(saveLogPath))) {
             String data = listToString(list);
             writer.write(data);
         } catch (IOException e) {

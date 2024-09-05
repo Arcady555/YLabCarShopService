@@ -2,8 +2,6 @@ package ru.homework_5.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.homework_5.dto.OrderDTO;
 import ru.homework_5.service.PersonService;
@@ -19,6 +17,8 @@ import ru.homework_5.service.OrderService;
 
 import java.util.List;
 import java.util.Optional;
+
+import static ru.homework_5.utility.Utility.getPersonId;
 
 @Slf4j
 @Service
@@ -136,12 +136,6 @@ public class OrderServiceSpringImpl implements OrderService {
         boolean secondCheck = !carService.isOwnCar(personId, order.getCarId())
                 && order.getType().equals("BUY");
         return firstCheck || secondCheck;
-    }
-
-    private int getPersonId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String personIdStr = authentication.getName();
-        return Utility.getIntFromString(personIdStr);
     }
 
     private void buysAmountPlus(Order order, Person person) {

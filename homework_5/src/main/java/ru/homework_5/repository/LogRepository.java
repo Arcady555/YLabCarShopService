@@ -1,9 +1,9 @@
-package ru.aspect_module.repository;
+package ru.homework_5.repository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.aspect_module.model.LineInLog;
+import ru.homework_5.model.LineInLog;
 
 import java.time.LocalDateTime;
 import java.util.List;

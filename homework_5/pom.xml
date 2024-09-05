@@ -24,6 +24,9 @@
         <io.jsonwebtoken.version>0.11.5</io.jsonwebtoken.version>
         <springdoc.version>1.7.0</springdoc.version>
         <spring-aspects.version>6.0.10</spring-aspects.version>
+        <testcontainers.version>1.19.4</testcontainers.version>
+        <testcontainers.jupiter.version>1.19.4</testcontainers.jupiter.version>
+        <testcontainers.postgresql.version>1.17.6</testcontainers.postgresql.version>
     </properties>
 
     <dependencies>
@@ -96,10 +99,36 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
+    <!--    <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
             <version>${spring-aspects.version}</version>
+        </dependency> -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${testcontainers.jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${testcontainers.postgresql.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -139,15 +168,6 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>17</source>
-                    <target>17</target>
-                    <compilerArgs>--enable-preview</compilerArgs>
                 </configuration>
             </plugin>
         </plugins>

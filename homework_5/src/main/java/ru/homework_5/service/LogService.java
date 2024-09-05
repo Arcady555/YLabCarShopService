@@ -1,6 +1,6 @@
-package ru.aspect_module.service;
+package ru.homework_5.service;
 
-import ru.aspect_module.model.LineInLog;
+import ru.homework_5.model.LineInLog;
 
 import java.time.LocalDateTime;
 import java.util.List;

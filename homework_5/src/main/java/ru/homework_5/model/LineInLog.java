@@ -1,4 +1,4 @@
-package ru.aspect_module.model;
+package ru.homework_5.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

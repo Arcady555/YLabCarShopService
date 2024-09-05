@@ -2,8 +2,6 @@ package ru.homework_5.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.homework_5.dto.CarDTO;
 import ru.homework_5.repository.CarRepository;
@@ -17,6 +15,8 @@ import ru.homework_5.model.Person;
 
 import java.util.List;
 import java.util.Optional;
+
+import static ru.homework_5.utility.Utility.getPersonId;
 
 @Slf4j
 @Service
@@ -118,9 +118,7 @@ public class CarServiceSpringImpl implements CarService {
     }
 
     private boolean checkCorrelation(int carId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String personIdStr = authentication.getName();
-        int personId = Utility.getIntFromString(personIdStr);
+        int personId = getPersonId();
         Optional<Person> personOptional = personService.findById(personId);
         Person person = personOptional.orElse(null);
         boolean ownCheck = isOwnCar(personId, carId);
