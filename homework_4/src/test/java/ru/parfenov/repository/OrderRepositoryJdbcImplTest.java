@@ -16,7 +16,7 @@ import java.sql.SQLException;
 
 @Testcontainers
 class OrderRepositoryJdbcImplTest {
-/*    @Container
+    @Container
     public static InitContainer initContainer;
     private static OrderRepositoryJdbcImpl orderStore;
 
@@ -61,5 +61,5 @@ class OrderRepositoryJdbcImplTest {
         Assertions.assertEquals(orderStore.findById(1).getCarId(), 11);
         Assertions.assertEquals(orderStore.findById(1).getType(), OrderType.BUY);
         Assertions.assertEquals(orderStore.findById(1).getStatus(), OrderStatus.OPEN);
-    } */
+    }
 }
