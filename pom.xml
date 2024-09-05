@@ -14,7 +14,6 @@
         <module>homework_3</module>
         <module>homework_4</module>
         <module>homework_5</module>
-        <module>AspectModule</module>
     </modules>
 
     <properties>
