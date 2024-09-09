@@ -1,4 +1,4 @@
-package ru.homework_5.aspect;
+package ru.parfenov.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -9,16 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
-import static ru.homework_5.utility.Utility.getPersonId;
-
 /**
  * Класс позволяет замерить время выполнения каждого метода из блока SERVICE
  */
-//@Aspect
-//@Component
+@Aspect
+@Component
 @Slf4j
 public class ServiceMethodsLogger {
-  /*  @Autowired
+    @Autowired
     public ServiceMethodsLogger() {
     }
 
@@ -28,7 +26,7 @@ public class ServiceMethodsLogger {
      * @param joinPoint - точка выполнения метода.
      * Из неё получим название метода, в данные для лога
      */
-   /* @Around("execution(public * ru.homework_5.service..*(..))")
+    @Around("execution(public * ru.homework_5.service..*(..))")
     public Object getPeriodOfMethod(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         String className = methodSignature.getDeclaringType().getSimpleName();
@@ -40,5 +38,5 @@ public class ServiceMethodsLogger {
         log.info("Execution time of {}.{} :: {} ms", className, methodName, stopWatch.getTotalTimeMillis());
 
         return result;
-    } */
+    }
 }
