@@ -13,7 +13,7 @@ import java.sql.SQLException;
 
 @Testcontainers
 class CarRepositoryJdbcImplTest {
- /*   @Container
+    @Container
     public static InitContainer initContainer;
 
     private static CarRepositoryJdbcImpl carStore;
@@ -66,5 +66,5 @@ class CarRepositoryJdbcImplTest {
         Assertions.assertEquals(car.getYearOfProd(), 2022);
         Assertions.assertEquals(car.getPrice(), 1000000);
         Assertions.assertEquals(car.getCondition(), CarCondition.NEW);
-    } */
+    }
 }
