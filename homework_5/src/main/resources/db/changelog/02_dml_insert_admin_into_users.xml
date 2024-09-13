@@ -7,7 +7,7 @@ xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 <property name="now" value="now()" dbms="postgresql"/>
 <changeSet id="02" author="Arcady555">
 
-    <insert tableName="people" schemaName="cs_schema">
+    <insert tableName="cs_users" schemaName="cs_schema">
         <column name="user_role" value="admin"/>
         <column name="name" value="no name"/>
         <column name="password" value="$2a$10$MRwNz.NeYoKObKrAbXJK2eskZJf6/da/0xO2Ex3yqzbFqkXtrP22q"/>

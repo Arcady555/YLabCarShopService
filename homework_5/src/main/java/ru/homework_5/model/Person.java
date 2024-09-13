@@ -14,7 +14,7 @@ import ru.homework_5.enums.Role;
  */
 
 @Entity
-@Table(name = "users", schema = "cs_schema")
+@Table(name = "cs_users", schema = "cs_schema")
 @Getter
 @Setter
 @NoArgsConstructor
