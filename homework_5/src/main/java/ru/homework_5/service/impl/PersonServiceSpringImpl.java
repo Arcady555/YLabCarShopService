@@ -82,9 +82,9 @@ public class PersonServiceSpringImpl implements PersonService {
     }
 
     private Role getPersonRoleFromString(String roleStr) {
-        return "client".equals(roleStr) ? Role.CLIENT :
-                ("manager".equals(roleStr) ? Role.MANAGER :
-                        ("admin".equals(roleStr) ? Role.ADMIN :
+        return "CLIENT".equals(roleStr) ? Role.CLIENT :
+                ("MANAGER".equals(roleStr) ? Role.MANAGER :
+                        ("ADMIN".equals(roleStr) ? Role.ADMIN :
                                 null));
     }
 }

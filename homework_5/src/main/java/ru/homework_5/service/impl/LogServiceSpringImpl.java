@@ -28,22 +28,8 @@ public class LogServiceSpringImpl implements LogService {
         this.repo = repo;
     }
 
-    @Override
-    public void saveLineInLog(LocalDateTime dateTime, int userId, String action) {
-        log.info("date time : {}, user id : {}, action : {}", dateTime, userId, action);
-        LineInLog lineInLog = new LineInLog(
-                0L,
-                dateTime.truncatedTo(ChronoUnit.MINUTES),
-                Integer.toString(userId),
-                action
-        );
-        repo.save(lineInLog);
-    }
-
     /**
      * Метод выводит список по заданным параметрам
-     *
-     *
      * и сохраняет его в файл.
      * Таким образом, в приложении, помимо файла со всеми записями лога,
      * есть ещё файлы для аудита  --  с частично выбранными записями лога.

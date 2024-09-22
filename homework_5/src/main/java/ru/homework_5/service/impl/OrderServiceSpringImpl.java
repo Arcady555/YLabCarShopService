@@ -105,16 +105,16 @@ public class OrderServiceSpringImpl implements OrderService {
         int authorId = Utility.getIntFromString(authorIdStr);
         int carId = Utility.getIntFromString(carIdStr);
         OrderType type = getOrderTypeFromString(typeStr);
-        OrderStatus status = "open".equals(statusStr) ?
+        OrderStatus status = "OPEN".equals(statusStr) ?
                 OrderStatus.OPEN :
-                ("closed".equals(statusStr) ? OrderStatus.CLOSED : null);
+                ("CLOSED".equals(statusStr) ? OrderStatus.CLOSED : null);
         return repo.findByParameter(authorId, carId, type, status);
     }
 
     private OrderType getOrderTypeFromString(String str) {
-        return "buy".equals(str) ?
+        return "BUY".equals(str) ?
                 OrderType.BUY :
-                ("service".equals(str) ? OrderType.SERVICE : null);
+                ("SERVICE".equals(str) ? OrderType.SERVICE : null);
     }
 
     private boolean checkCorrelationForDelete(int orderId) {

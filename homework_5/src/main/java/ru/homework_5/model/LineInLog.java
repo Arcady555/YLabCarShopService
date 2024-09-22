@@ -9,11 +9,11 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 /**
- * Модель строки, которая будет отправлена в лог -
+ * Модель строки, которая будет отправлена в БД -
  * время, id юзера, и название его операции
  */
 @Entity
-@Table(name = "log_records", schema = "cs_schema")
+@Table(name = "log_records", schema = "cs_log_schema")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class LineInLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private long eventId;
     @Column(name = "date_time")
     private LocalDateTime time;
     @Column(name = "user_id")

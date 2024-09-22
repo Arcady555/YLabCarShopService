@@ -112,9 +112,9 @@ public class CarServiceSpringImpl implements CarService {
     }
 
     private CarCondition getCarConditionFromString(String str) {
-        return "new".equals(str) ?
+        return "NEW".equals(str) ?
                 CarCondition.NEW :
-                ("used".equals(str) ? CarCondition.NEW : null);
+                ("USED".equals(str) ? CarCondition.USED : null);
     }
 
     private boolean checkCorrelation(int carId) {

@@ -9,6 +9,7 @@ import ru.homework_5.dto.OrderDTO;
 import ru.homework_5.dto.OrderDTOMapper;
 import ru.homework_5.model.Order;
 import ru.homework_5.service.OrderService;
+import ru.parfenov.anotation.EnableParfenovCustomAspect;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +38,7 @@ public class OrderController {
      * @return ответ сервера
      */
     @PostMapping("/create")
+    @EnableParfenovCustomAspect
     public ResponseEntity<OrderDTO> create(@RequestBody OrderDTO orderDTO) {
         Optional<Order> orderOptional = orderService.create(orderDTO);
         return orderOptional.map(

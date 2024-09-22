@@ -9,6 +9,7 @@ import ru.homework_5.dto.CarDTO;
 import ru.homework_5.dto.CarDTOMapper;
 import ru.homework_5.model.Car;
 import ru.homework_5.service.CarService;
+import ru.parfenov.anotation.EnableParfenovCustomAspect;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +50,7 @@ public class CarController {
      * @return ответ сервера
      */
     @PostMapping("/update")
+    @EnableParfenovCustomAspect
     public ResponseEntity<CarDTO> update(@RequestBody CarDTO carDTO) {
         boolean isCarUpdated = carService.update(carDTO);
         if (isCarUpdated) {
@@ -70,6 +72,7 @@ public class CarController {
      * @return ответ сервера
      */
     @DeleteMapping("/delete/{carId}")
+    @EnableParfenovCustomAspect
     public ResponseEntity<String> delete(@PathVariable int carId) {
         boolean isCarDeleted = carService.delete(carId);
         return isCarDeleted ?
@@ -84,6 +87,7 @@ public class CarController {
      * @param carDTO сущность Car, обвёрнутая в DTO для подачи в виде Json
      * @return ответ сервера
      */
+    @EnableParfenovCustomAspect
     @PostMapping("/create")
     public ResponseEntity<CarDTO> create(@RequestBody CarDTO carDTO) {
         Optional<Car> carOptional = carService.create(

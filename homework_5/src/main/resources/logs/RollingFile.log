@@ -1,0 +1,6 @@
+My File Appender: 2024-09-22 12:16:19,515 INFO console and file logger Execution time of CarServiceSpringImpl.create :: 59 ms 
+My File Appender: 2024-09-22 12:40:23,029 INFO console and file logger Execution time of CarServiceSpringImpl.create :: 64 ms 
+My File Appender: 2024-09-22 12:46:23,632 INFO console and file logger Execution time of CarServiceSpringImpl.create :: 68 ms 
+My File Appender: 2024-09-22 16:03:27,140 INFO console and file logger Execution time of CarServiceSpringImpl.create :: 65 ms 
+My File Appender: 2024-09-22 16:19:00,555 INFO console and file logger Execution time of PersonServiceSpringImpl.createByReg :: 182 ms 
+My File Appender: 2024-09-22 16:20:07,021 INFO console and file logger Execution time of CarServiceSpringImpl.create :: 9 ms 
