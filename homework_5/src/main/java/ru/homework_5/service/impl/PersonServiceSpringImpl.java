@@ -76,9 +76,8 @@ public class PersonServiceSpringImpl implements PersonService {
 
     @Override
     public List<Person> findByParameters(String roleStr, String name, String contactInfo, String buysAmountStr) {
-        Role role = getPersonRoleFromString(roleStr);
         int buysAmount = Utility.getIntFromString(buysAmountStr);
-        return repo.findByParameters(role, name, contactInfo, buysAmount);
+        return repo.findByParameters(roleStr, name, contactInfo, buysAmount);
     }
 
     private Role getPersonRoleFromString(String roleStr) {

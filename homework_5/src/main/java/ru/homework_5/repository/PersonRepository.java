@@ -3,7 +3,6 @@ package ru.homework_5.repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.homework_5.enums.Role;
 import ru.homework_5.model.Person;
 
 import java.util.List;
@@ -33,6 +32,7 @@ public interface PersonRepository extends CrudRepository<Person, Integer> {
 
     /**
      * Метод предлагает поиск юзеров по указанным параметрам
+     * Параметры можно указывать не все
      *
      * @param role        роль юзера
      * @param name        имя
@@ -40,11 +40,6 @@ public interface PersonRepository extends CrudRepository<Person, Integer> {
      * @param buysAmount  количество покупок
      * @return List список таких юзеров
      */
-    @Query(
-            "from Person u where u.role = ?1" +
-                    " and u.name = ?2" +
-                    " and u.contactInfo LIKE %?3%" +
-                    " and u.buysAmount = ?4"
-    )
-    List<Person> findByParameters(Role role, String name, String contactInfo, int buysAmount);
+    @Query(value = "select * from find_users_by_parameters(?1, ?2, ?3, ?4)", nativeQuery = true)
+    List<Person> findByParameters(String role, String name, String contactInfo, int buysAmount);
 }

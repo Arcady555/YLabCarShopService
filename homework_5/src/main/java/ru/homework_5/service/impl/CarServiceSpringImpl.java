@@ -31,7 +31,8 @@ public class CarServiceSpringImpl implements CarService {
     }
 
     @Override
-    public Optional<Car> create(int ownerId, String brand, String model, int yearOfProd, int price, String conditionStr) {
+    public Optional<Car> create(String brand, String model, int yearOfProd, int price, String conditionStr) {
+        int ownerId = getPersonId();
         CarCondition condition = getCarConditionFromString(conditionStr);
         return Optional.of(repo.save(new Car(0, ownerId, brand, model, yearOfProd, price, condition)));
     }

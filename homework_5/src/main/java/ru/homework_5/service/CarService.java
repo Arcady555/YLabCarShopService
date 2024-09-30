@@ -1,6 +1,7 @@
 package ru.homework_5.service;
 
 import ru.homework_5.dto.CarDTO;
+import ru.homework_5.enums.CarCondition;
 import ru.homework_5.model.Car;
 
 import java.util.List;
@@ -14,7 +15,6 @@ public interface CarService {
     /**
      * Метод задействован при создании карточки машины пользователем
      *
-     * @param ownerId    ID юзера-собственника машины
      * @param brand      марка машины
      * @param model      модель
      * @param yearOfProd год выпуска
@@ -22,7 +22,7 @@ public interface CarService {
      * @param condition  состояние
      * @return Car - сущность из блока ru/parfenov/homework_3/model. Обёрнут в Optional
      */
-    Optional<Car> create(int ownerId, String brand, String model, int yearOfProd, int price, String condition);
+    Optional<Car> create(String brand, String model, int yearOfProd, int price, String condition);
 
     /**
      * Поиск машины по её ID
@@ -88,7 +88,7 @@ public interface CarService {
      * @return List список таких машин
      */
     List<Car> findByParameter(
-            String ownerId, String brand, String model, String yearOfProd,
+            String ownerId, String brand , String model, String yearOfProd,
             String priceFrom, String priceTo, String condition
     );
 }

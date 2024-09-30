@@ -2,6 +2,7 @@ package ru.homework_5.repository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.homework_5.model.LineInLog;
 
@@ -23,11 +24,17 @@ public interface LogRepository extends CrudRepository<LineInLog, Integer> {
      * @param dateTimeTo   по какую дату-время искать логи
      * @return список строк-записей логов
      */
-    @Query(
-            "from LineInLog l where l.userId = ?1" +
-                    " and l.action = ?2" +
-                    " and l.time > ?3" +
-                    " and l.time < ?4"
+
+    @Query("SELECT l FROM LineInLog l WHERE " +
+            "(:userId = '' OR l.userId = :userId) AND " +
+            "(:action = '' OR l.action LIKE CONCAT ('%', :action, '%')) AND" +
+            "(CAST(:dateTimeFrom AS time) IS NULL OR l.time > :dateTimeFrom) AND" +
+            "(CAST(:dateTimeTo AS time) IS NULL OR l.time < :dateTimeTo)"
     )
-    List<LineInLog> findByParameters(int userId, String action, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo);
+    List<LineInLog> findByParameters(
+            @Param("userId") String userId,
+            @Param("action") String action,
+            @Param("dateTimeFrom") LocalDateTime dateTimeFrom,
+            @Param("dateTimeTo") LocalDateTime dateTimeTo
+    );
 }

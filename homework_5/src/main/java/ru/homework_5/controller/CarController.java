@@ -91,7 +91,7 @@ public class CarController {
     @PostMapping("/create")
     public ResponseEntity<CarDTO> create(@RequestBody CarDTO carDTO) {
         Optional<Car> carOptional = carService.create(
-                carDTO.getOwnerId(),
+              //  carDTO.getOwnerId(),
                 carDTO.getBrand(),
                 carDTO.getModel(),
                 carDTO.getYearOfProd(),
@@ -105,6 +105,11 @@ public class CarController {
 
     /**
      * Страница позволяет провести поиск по нужным параметрам, можно указывать не все
+     * Параметры указываются в адресной строке запроса("/find-by_parameters?ownerId=2&&brand=.... и тд)
+     * поиск можно проводить не по всем 6м параметрам. Некоторые можно не указывать после "=",
+     * тогда они в отборе не участвуют (для int параметров ownerId, yearOfProd, priceFrom, priceTo в этом случае
+     * надо указать -1 ("yearOfProd=-1", например)).
+     * Данный метод доступен только админу(через SecurityConfig)
      *
      * @param ownerId    ID собственника
      * @param brand      марка машины

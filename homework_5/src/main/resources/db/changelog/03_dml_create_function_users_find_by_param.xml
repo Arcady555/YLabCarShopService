@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <property name="now" value="now()" dbms="postgresql"/>
+    <changeSet id="03" author="Arcady555">
+
+        <createProcedure>
+            CREATE
+            OR REPLACE FUNCTION find_users_by_parameters(a_role varchar, a_name varchar, a_contact_info varchar, a_buys_amount int)
+            RETURNS setof cs_schema.cs_users
+            LANGUAGE 'plpgsql'
+            AS $$
+            BEGIN
+            IF (a_role = '') THEN
+                IF (a_name = '') THEN
+                    IF (a_contact_info = '') THEN
+                        IF (a_buys_amount = -1) THEN
+                            RETURN QUERY SELECT * FROM cs_schema.cs_users;
+                        ELSE
+                            RETURN QUERY SELECT * FROM cs_schema.cs_users WHERE buys_amount = a_buys_amount;
+                        END IF;
+                    ELSE
+                        IF (a_buys_amount = -1) THEN
+                            RETURN QUERY SELECT * FROM cs_schema.cs_users WHERE contact_info LIKE CONCAT ('%', a_contact_info, '%');
+                        ELSE
+                            RETURN QUERY SELECT * FROM cs_schema.cs_users WHERE contact_info LIKE CONCAT ('%', a_contact_info, '%') AND buys_amount = a_buys_amount;
+                        END IF;
+                    END IF;
+                ELSE
+                    IF (a_contact_info = '') THEN
+                        IF (a_buys_amount = -1) THEN
+                            RETURN QUERY SELECT * FROM cs_schema.cs_users WHERE name = a_name;
+                        ELSE
+                            RETURN QUERY SELECT * FROM cs_schema.cs_users WHERE name = a_name AND  buys_amount = a_buys_amount;
+                        END IF;
+                    ELSE
+                        IF (a_buys_amount = -1) THEN
+                            RETURN QUERY SELECT * FROM cs_schema.cs_users WHERE name = a_name AND contact_info LIKE CONCAT ('%', a_contact_info, '%');
+                        ELSE
+                            RETURN QUERY SELECT * FROM cs_schema.cs_users WHERE name = a_name AND contact_info LIKE CONCAT ('%', a_contact_info, '%') AND buys_amount = a_buys_amount ;
+                        END IF;
+                    END IF;
+                END IF;
+            ELSE
+                IF (a_name = '') THEN
+                    IF (a_contact_info = '') THEN
+                        IF (a_buys_amount = -1) THEN
+                            RETURN QUERY SELECT * FROM cs_schema.cs_users WHERE user_role = a_role;
+                        ELSE
+                            RETURN QUERY SELECT * FROM cs_schema.cs_users WHERE user_role = a_role AND buys_amount = a_buys_amount;
+                        END IF;
+                    ELSE
+                        IF (a_buys_amount = -1) THEN
+                            RETURN QUERY SELECT * FROM cs_schema.cs_users WHERE user_role = a_role AND contact_info LIKE CONCAT ('%', a_contact_info, '%');
+                        ELSE
+                            RETURN QUERY SELECT * FROM cs_schema.cs_users WHERE user_role = a_role AND contact_info LIKE CONCAT ('%', a_contact_info, '%') AND buys_amount = a_buys_amount ;
+                        END IF;
+                    END IF;
+                ELSE
+                    IF (a_contact_info = '') THEN
+                        IF (a_buys_amount = '') THEN
+                            RETURN QUERY SELECT * FROM cs_schema.cs_users WHERE user_role = a_role AND name = a_name;
+                        ELSE
+                            RETURN QUERY SELECT * FROM cs_schema.cs_users WHERE user_role = a_role AND name = a_name AND  buys_amount = a_buys_amount;
+                        END IF;
+                    ELSE
+                        IF (a_buys_amount = -1) THEN
+                            RETURN QUERY SELECT * FROM cs_schema.cs_users WHERE user_role = a_role AND name = a_name AND contact_info LIKE CONCAT ('%', a_contact_info, '%');
+                        ELSE
+                            RETURN QUERY SELECT * FROM cs_schema.cs_users WHERE user_role = a_role AND name = a_name AND contact_info LIKE CONCAT ('%', a_contact_info, '%') AND buys_amount = a_buys_amount ;
+                        END IF;
+                    END IF;
+                END IF;
+            END IF;
+            END;
+            $$;
+        </createProcedure>
+
+    </changeSet>
+</databaseChangeLog>

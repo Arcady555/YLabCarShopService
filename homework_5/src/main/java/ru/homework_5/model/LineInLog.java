@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
 public class LineInLog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long eventId;
+    private int eventId;
     @Column(name = "date_time")
     private LocalDateTime time;
     @Column(name = "user_id")
