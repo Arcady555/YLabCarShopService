@@ -2,7 +2,9 @@ package ru.homework_5.service.impl;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.TestPropertySource;
 import ru.homework_5.enums.Role;
 import ru.homework_5.model.Person;
 import ru.homework_5.repository.PersonRepository;
@@ -14,6 +16,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@TestPropertySource(locations = "classpath:application-test.properties")
+@SpringBootTest
 class PersonServiceSpringImplTest {
     PersonRepository repo = mock(PersonRepository.class);
     PasswordEncoder passwordEncoder = mock(PasswordEncoder.class);

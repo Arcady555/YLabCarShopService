@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
 import ru.homework_5.dto.OrderDTO;
 import ru.homework_5.dto.OrderDTOMapper;
 import ru.homework_5.enums.OrderStatus;
@@ -24,6 +25,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@TestPropertySource(locations = "classpath:application-test.properties")
 @SpringBootTest
 class OrderServiceSpringImplTest {
     @Autowired

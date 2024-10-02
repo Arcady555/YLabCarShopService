@@ -3,6 +3,7 @@ package ru.homework_5.repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+import ru.homework_5.enums.Role;
 import ru.homework_5.model.Person;
 
 import java.util.List;
@@ -40,6 +41,11 @@ public interface PersonRepository extends CrudRepository<Person, Integer> {
      * @param buysAmount  количество покупок
      * @return List список таких юзеров
      */
-    @Query(value = "select * from find_users_by_parameters(?1, ?2, ?3, ?4)", nativeQuery = true)
-    List<Person> findByParameters(String role, String name, String contactInfo, int buysAmount);
+    @Query("SELECT p FROM Person p WHERE " +
+            "(:role IS NULL OR p.role = :role) AND " +
+            "(:name = '' OR p.name = :name) AND " +
+            "(:contactInfo = '' OR p.contactInfo LIKE CONCAT ('%', :contactInfo, '%')) AND" +
+            "(:buysAmount = -1 OR p.buysAmount = :buysAmount)"
+    )
+    List<Person> findByParameters(Role role, String name, String contactInfo, int buysAmount);
 }

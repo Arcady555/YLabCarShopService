@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 import ru.homework_5.model.LineInLog;
 import ru.homework_5.repository.LogRepository;
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.util.List;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@TestPropertySource(locations = "classpath:application-test.properties")
 @SpringBootTest
 class LogServiceSpringImplTest {
     LogRepository repo = mock(LogRepository.class);

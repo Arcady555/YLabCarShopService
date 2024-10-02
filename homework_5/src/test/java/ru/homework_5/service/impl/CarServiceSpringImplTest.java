@@ -5,6 +5,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.TestPropertySource;
 import ru.homework_5.enums.CarCondition;
 import ru.homework_5.model.Car;
 import ru.homework_5.repository.CarRepository;
@@ -18,6 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@TestPropertySource(locations = "classpath:application-test.properties")
 @SpringBootTest
 public class CarServiceSpringImplTest {
     CarRepository repo = mock(CarRepository.class);
