@@ -34,15 +34,7 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
     </appender>
-    <!-- DATABASE APPENDER -->
-    <appender name="MyDBAppenderName" class="ru.parfenov.appender.MyDBAppender">
-        <connectionSource class="ch.qos.logback.core.db.DriverManagerConnectionSource">
-            <url> ${spring.datasource.url} </url>
-            <user> ${spring.datasource.username} </user>
-            <password> ${spring.datasource.password} </password>
-            <driverClass> ${spring.datasource.driver-class-name} </driverClass>
-        </connectionSource>
-    </appender>
+
     <!-- LOGGER -->
     <logger name="console and file logger" level="INFO">
         <appender-ref ref="MyConsoleAppenderName" />
@@ -50,9 +42,6 @@
         <appender-ref ref="MyRollingFileAppenderName"/>
     </logger>
 
-    <logger name="data base logger" level="INFO">
-        <appender-ref ref="MyDBAppenderName"/>
-    </logger>
     <!-- DISABLE DEFAULT LOGGER (since no appenders are defined) -->
     <root level="info"> </root>
 </configuration>
