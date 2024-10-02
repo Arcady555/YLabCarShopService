@@ -2,6 +2,7 @@ package ru.homework_5.repository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.homework_5.enums.Role;
 import ru.homework_5.model.Person;
@@ -47,5 +48,10 @@ public interface PersonRepository extends CrudRepository<Person, Integer> {
             "(:contactInfo = '' OR p.contactInfo LIKE CONCAT ('%', :contactInfo, '%')) AND" +
             "(:buysAmount = -1 OR p.buysAmount = :buysAmount)"
     )
-    List<Person> findByParameters(Role role, String name, String contactInfo, int buysAmount);
+    List<Person> findByParameters(
+            @Param("role")Role role,
+            @Param("name")String name,
+            @Param("contactInfo")String contactInfo,
+            @Param("buysAmount")int buysAmount
+    );
 }
