@@ -21,7 +21,7 @@ public interface CarDTOMapper {
      * (все поля становятся или int или String)
      *
      * @param destination CarDTO - сущность из блока ru/parfenov/homework_3/model, обёрнутая в DTO
-     * @return DTO объект
+     * @return Car объект
      */
     Car toCar(CarDTO destination);
 

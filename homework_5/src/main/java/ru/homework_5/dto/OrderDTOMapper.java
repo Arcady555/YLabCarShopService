@@ -18,6 +18,15 @@ public interface OrderDTOMapper {
     OrderDTO toOrderDTO(Order source);
 
     /**
+     * Перевод сущности в DTO
+     * (все поля становятся или int или String)
+     *
+     * @param destination orderDTO - сущность из блока ru/parfenov/homework_3/model, обёрнутая в DTO
+     * @return Order объект
+     */
+    Order toOrder(OrderDTO destination);
+
+    /**
      * Преобразование каждого элемента в списке по методу toCarDTO()
      *
      * @param source список сущностей Car под преобразование

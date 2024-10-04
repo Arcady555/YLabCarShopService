@@ -48,7 +48,7 @@ public class SecurityConfig {
                                         "/audit/**"
                                 ).hasRole(ADMIN.name())
                                 .requestMatchers(
-                                        "/orders/find-by_parameters**",
+                                        "/orders/find-by-parameters/**",
                                         "/orders/close/**",
                                         "/orders/delete/**",
                                         "/orders/all",

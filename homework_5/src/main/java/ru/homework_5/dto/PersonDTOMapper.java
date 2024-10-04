@@ -17,6 +17,13 @@ public interface PersonDTOMapper {
     Person toPerson(PersonIdPassDTO destination);
 
     /**
+     * Перевод DTO в сущность
+     * @param destination DTO
+     * @return Person - сущность из блока ru/parfenov/homework_3/model
+     */
+    Person toUserAllParam(PersonAllParamDTO destination);
+
+    /**
      * Перевод сущности в DTO, со всеми исходными полями, переведёнными в int и String.
      * (все поля становятся или int или String)
      * Применяется при распечатке данных юзера

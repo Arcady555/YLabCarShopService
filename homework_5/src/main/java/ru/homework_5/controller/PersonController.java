@@ -136,7 +136,7 @@ public class PersonController {
      * @param buysAmount  число покупок машин
      * @return ответ сервера
      */
-    @GetMapping("/find-by_parameters")
+    @GetMapping("/find-by-parameters")
     public ResponseEntity<List<PersonAllParamDTO>> findByParam(
             @RequestParam String role,
             @RequestParam String name,

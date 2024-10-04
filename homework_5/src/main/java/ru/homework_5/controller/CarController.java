@@ -91,7 +91,6 @@ public class CarController {
     @PostMapping("/create")
     public ResponseEntity<CarDTO> create(@RequestBody CarDTO carDTO) {
         Optional<Car> carOptional = carService.create(
-              //  carDTO.getOwnerId(),
                 carDTO.getBrand(),
                 carDTO.getModel(),
                 carDTO.getYearOfProd(),
@@ -120,7 +119,7 @@ public class CarController {
      * @param condition  состояние
      * @return ответ сервера
      */
-    @GetMapping("/find-by_parameters")
+    @GetMapping("/find-by-parameters")
     public ResponseEntity<List<CarDTO>> findByParam(
             @RequestParam String ownerId,
             @RequestParam String brand,
