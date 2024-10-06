@@ -2,6 +2,7 @@ package ru.homework_5.repository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.homework_5.model.Order;
 import ru.homework_5.enums.OrderStatus;
@@ -40,11 +41,16 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
      * @param status   статус заказа - открыт или закрыт
      * @return List список таких заказов
      */
-    @Query(
-            "from Order o where o.authorId = ?1" +
-                    " and o.carId = ?2" +
-                    " and o.type = ?3" +
-                    " and o.status = ?4"
+    @Query("SELECT o FROM Order o WHERE " +
+            "(:authorId = -1 OR o.authorId = :authorId) AND " +
+            "(:carId = -1 OR o.carId = :carId) AND " +
+            "(:type IS NULL OR o.type = :type) AND" +
+            "(:status IS NULL OR o.status = :status)"
     )
-    List<Order> findByParameter(int authorId, int carId, OrderType type, OrderStatus status);
+    List<Order> findByParameter(
+            @Param("authorId") int authorId,
+            @Param("carId") int carId,
+            @Param("type") OrderType type,
+            @Param("status") OrderStatus status
+    );
 }

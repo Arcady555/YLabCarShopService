@@ -15,20 +15,21 @@
         <createSequence
                 startValue="1"
                 incrementBy="1"
-                sequenceName="cs_cars"/>
+                sequenceName="cars"/>
 
         <createSequence
                 startValue="1"
                 incrementBy="1"
-                sequenceName="cs_orders"/>
+                sequenceName="orders"/>
 
         <createSequence
                 startValue="1"
                 incrementBy="1"
-                sequenceName="cs_log"/>
+                sequenceName="log"/>
 
         <sql>
             CREATE SCHEMA IF NOT EXISTS cs_schema;
+            CREATE SCHEMA IF NOT EXISTS cs_log_schema;
         </sql>
 
         <createTable tableName="cs_users" schemaName="cs_schema" remarks="Пользователи приложения">
@@ -41,7 +42,7 @@
         </createTable>
 
         <createTable tableName="cars" schemaName="cs_schema" remarks="машины">
-            <column name="id" type="int" defaultValueComputed="nextval('cs_cars')" remarks="id"/>
+            <column name="id" type="int" defaultValueComputed="nextval('cars')" remarks="id"/>
             <column name="owner_id" type="int" remarks="id собственника"/>
             <column name="brand" type="varchar(50)" remarks="марка машины"/>
             <column name="model" type="varchar(50)" remarks="модель машины"/>
@@ -51,15 +52,15 @@
         </createTable>
 
         <createTable tableName="orders" schemaName="cs_schema" remarks="заказы на машину">
-            <column name="id" type="int" defaultValueComputed="nextval('cs_orders')" remarks="id"/>
+            <column name="id" type="int" defaultValueComputed="nextval('orders')" remarks="id"/>
             <column name="author_id" type="int" remarks="создатель заказа"/>
             <column name="car_id" type="int" remarks="id машины"/>
             <column name="order_type" type="varchar(50)" remarks="тип заказа(покупка или сервис)"/>
             <column name="order_status" type="varchar(50)" remarks="статус -заказ закрыт или еще нет"/>
         </createTable>
 
-        <createTable tableName="log_records" schemaName="cs_schema" remarks="записи в логе">
-            <column name="id" type="bigint" defaultValueComputed="nextval('cs_log')" remarks="id"/>
+        <createTable tableName="log_records" schemaName="cs_log_schema" remarks="записи в логе">
+            <column name="event_id" type="int" defaultValueComputed="nextval('log')" remarks="id"/>
             <column name="date_time" type="timestamp" remarks="время создания записи"/>
             <column name="user_id" type="varchar(50)" remarks="юзер, о котором запись"/>
             <column name="action" type="varchar" remarks="действие юзера"/>

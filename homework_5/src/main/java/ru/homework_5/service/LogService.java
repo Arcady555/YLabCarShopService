@@ -2,7 +2,6 @@ package ru.homework_5.service;
 
 import ru.homework_5.model.LineInLog;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -10,15 +9,6 @@ import java.util.List;
  * добавляя и изменяя некоторую логику-функционал
  */
 public interface LogService {
-    /**
-     * Метод принимает информацию(время события, ID юзера и название его действия)
-     * и отправляет её в БД
-     *
-     * @param dateTime Время данного события, которое пошло в лог
-     * @param userId   ID юзера
-     * @param action   наименование события
-     */
-    void saveLineInLog(LocalDateTime dateTime, int userId, String action);
 
     /**
      * Вывод записей лога, которые ушли в базу данных, по параметрам

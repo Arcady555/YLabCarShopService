@@ -7,4 +7,5 @@
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     <include file="01_ddl_create_tables.xml" relativeToChangelogFile="true"/>
     <include file="02_dml_insert_admin_into_users.xml" relativeToChangelogFile="true"/>
+ <!--   <include file="03_dml_create_function_users_find_by_param.xml" relativeToChangelogFile="true"/> -->
 </databaseChangeLog>

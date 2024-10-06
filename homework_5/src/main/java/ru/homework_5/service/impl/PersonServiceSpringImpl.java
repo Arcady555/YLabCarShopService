@@ -76,15 +76,15 @@ public class PersonServiceSpringImpl implements PersonService {
 
     @Override
     public List<Person> findByParameters(String roleStr, String name, String contactInfo, String buysAmountStr) {
-        Role role = getPersonRoleFromString(roleStr);
         int buysAmount = Utility.getIntFromString(buysAmountStr);
+        Role role = getPersonRoleFromString(roleStr);
         return repo.findByParameters(role, name, contactInfo, buysAmount);
     }
 
     private Role getPersonRoleFromString(String roleStr) {
-        return "client".equals(roleStr) ? Role.CLIENT :
-                ("manager".equals(roleStr) ? Role.MANAGER :
-                        ("admin".equals(roleStr) ? Role.ADMIN :
+        return "CLIENT".equals(roleStr) ? Role.CLIENT :
+                ("MANAGER".equals(roleStr) ? Role.MANAGER :
+                        ("ADMIN".equals(roleStr) ? Role.ADMIN :
                                 null));
     }
 }

@@ -6,9 +6,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 @Slf4j
 public class Utility {
-    public static String saveLogPath = "homework_5/src/main/resources/logs/SaveLog.txt";
-    public static String nameOfSite = "http://localhost:8080/";
-
     private Utility() {
     }
 
@@ -23,6 +20,9 @@ public class Utility {
         return result;
     }
 
+    /**
+     * @return ID юзера, автора запроса
+     */
     public static int getPersonId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String personIdStr = authentication.getName();

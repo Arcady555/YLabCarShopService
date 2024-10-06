@@ -1,14 +1,13 @@
 package ru.parfenov.aspect;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-//import ru.homework_5.service.LogService;
 
 import java.time.LocalDateTime;
 
@@ -19,28 +18,23 @@ import static ru.parfenov.utility.Utility.getPersonId;
  */
 @Aspect
 @Component
-@Slf4j
 @RequiredArgsConstructor
 public class UserActionLogger {
-//    @Autowired
- //   private final LogService service;
-
     /**
      * Метод принимает информацию(время события, ID юзера и название его действия)
-     * <p>
-     * <p>
-     * и отправляет её по ДВУМ КАНАЛАМ - в журнал логов и в БД
+     * и отправляет её в БД.
+     * Действует в тех методах (классов блока homework_5), которые помечены аннотацией @EnableParfenovCustomAspect
      *
      * @param joinPoint точка выполнения метода.
      */
-    @AfterReturning("@annotation(EnableParfenovCustomAspect)")//("execution(public * ru.homework_5.controller..*(..))")
+    @AfterReturning(value = "execution(@ru.parfenov.anotation.EnableParfenovCustomAspect * *(..))")
     public void enableParfenovCustomAspect(JoinPoint joinPoint) {
+        Logger logger = LoggerFactory.getLogger("data base logger");
         LocalDateTime dateTime = LocalDateTime.now();
-       // int personId = getPersonId();
+        int personId = getPersonId();
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         String action = methodSignature.getDeclaringType().getSimpleName() + "." +
                 methodSignature.getName();
-     //   log.info("date time : {}, user id : {}, action : {}", dateTime, personId, action);
-      //  service.saveLineInLog(dateTime, personId, action);
+        logger.info(personId + ", date time : " + dateTime + ", action : " + action);
     }
 }

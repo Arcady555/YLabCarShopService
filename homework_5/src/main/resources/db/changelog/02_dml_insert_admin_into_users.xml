@@ -8,7 +8,7 @@ xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 <changeSet id="02" author="Arcady555">
 
     <insert tableName="cs_users" schemaName="cs_schema">
-        <column name="user_role" value="admin"/>
+        <column name="user_role" value="ADMIN"/>
         <column name="name" value="no name"/>
         <column name="password" value="$2a$10$MRwNz.NeYoKObKrAbXJK2eskZJf6/da/0xO2Ex3yqzbFqkXtrP22q"/>
         <column name="contact_info" value="no data"/>

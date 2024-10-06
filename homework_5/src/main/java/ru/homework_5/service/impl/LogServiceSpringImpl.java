@@ -4,17 +4,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.homework_5.model.LineInLog;
-import ru.homework_5.service.LogService;
 import ru.homework_5.repository.LogRepository;
+import ru.homework_5.service.LogService;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import static ru.homework_5.utility.Utility.getIntFromString;
 import static ru.homework_5.utility.Utility.saveLogPath;
 
 
@@ -28,40 +26,24 @@ public class LogServiceSpringImpl implements LogService {
         this.repo = repo;
     }
 
-    @Override
-    public void saveLineInLog(LocalDateTime dateTime, int userId, String action) {
-        log.info("date time : {}, user id : {}, action : {}", dateTime, userId, action);
-        LineInLog lineInLog = new LineInLog(
-                0L,
-                dateTime.truncatedTo(ChronoUnit.MINUTES),
-                Integer.toString(userId),
-                action
-        );
-        repo.save(lineInLog);
-    }
-
     /**
      * Метод выводит список по заданным параметрам
-     *
-     *
      * и сохраняет его в файл.
      * Таким образом, в приложении, помимо файла со всеми записями лога,
      * есть ещё файлы для аудита  --  с частично выбранными записями лога.
-     * Данные полученные через этот метод ещё и сохраняются в отдельный текстовый файл.
      *
      *
-     * @param userIdStr      ID юзера
+     * @param userId      ID юзера
      * @param action         действие юзера
-     * @param dateTimeFomStr с какой даты-времени искать логи
+     * @param dateTimeFromStr с какой даты-времени искать логи
      * @param dateTimeToStr  по какую дату-время искать логи
      * @return список строк-записей логов
      */
 
     @Override
-    public List<LineInLog> findByParameters(String userIdStr, String action, String dateTimeFomStr, String dateTimeToStr) {
-        int userId = getIntFromString(userIdStr);
-        LocalDateTime dateTimeFrom = LocalDateTime.parse(dateTimeFomStr);
-        LocalDateTime dateTimeTo = LocalDateTime.parse(dateTimeToStr);
+    public List<LineInLog> findByParameters(String userId, String action, String dateTimeFromStr, String dateTimeToStr) {
+        LocalDateTime dateTimeFrom = "".equals(dateTimeFromStr) ? null : LocalDateTime.parse(dateTimeFromStr);
+        LocalDateTime dateTimeTo = "".equals(dateTimeToStr) ? null : LocalDateTime.parse(dateTimeToStr);
         List<LineInLog> result = repo.findByParameters(userId, action, dateTimeFrom, dateTimeTo);
         saveList(result);
         return result;

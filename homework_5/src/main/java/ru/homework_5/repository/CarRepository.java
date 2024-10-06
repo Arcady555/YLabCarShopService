@@ -2,6 +2,7 @@ package ru.homework_5.repository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.homework_5.enums.CarCondition;
 import ru.homework_5.model.Car;
@@ -41,15 +42,22 @@ public interface CarRepository extends CrudRepository<Car, Integer> {
      * @param condition  состояние
      * @return List список таких машин
      */
-    @Query(
-            "from Car c where c.ownerId = ?1" +
-                    " and c.brand = ?2" +
-                    " and c.model = ?3" +
-                    " and c.yearOfProd = ?4" +
-                    " and c.price > ?5" +
-                    " and c.price < ?6" +
-                    " and c.condition = ?7"
+    @Query("SELECT c FROM Car c WHERE " +
+            "(:ownerId = -1 OR c.ownerId = :ownerId) AND " +
+            "(:brand = '' OR c.brand = :brand) AND" +
+            "(:model = '' OR c.model = :model) AND" +
+            "(:yearOfProd = -1 OR c.yearOfProd = :yearOfProd) AND" +
+            "(:priceFrom = -1 OR c.price > :priceFrom) AND" +
+            "(:priceTo = -1 OR c.price < :priceTo) AND" +
+            "(:condition IS NULL OR c.condition = :condition)"
     )
-    List<Car> findByParameters(int ownerId, String brand, String model, int yearOfProd, int priceFrom, int priceTo,
-                               CarCondition condition );
+    List<Car> findByParameters(
+            @Param("ownerId") int ownerId,
+            @Param("brand") String brand,
+            @Param("model") String model,
+            @Param("yearOfProd") int yearOfProd,
+            @Param("priceFrom") int priceFrom,
+            @Param("priceTo") int priceTo,
+            @Param("condition") CarCondition condition
+    );
 }

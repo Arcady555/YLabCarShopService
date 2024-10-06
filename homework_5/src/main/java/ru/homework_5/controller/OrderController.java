@@ -9,6 +9,7 @@ import ru.homework_5.dto.OrderDTO;
 import ru.homework_5.dto.OrderDTOMapper;
 import ru.homework_5.model.Order;
 import ru.homework_5.service.OrderService;
+import ru.parfenov.anotation.EnableParfenovCustomAspect;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +38,7 @@ public class OrderController {
      * @return ответ сервера
      */
     @PostMapping("/create")
+    @EnableParfenovCustomAspect
     public ResponseEntity<OrderDTO> create(@RequestBody OrderDTO orderDTO) {
         Optional<Order> orderOptional = orderService.create(orderDTO);
         return orderOptional.map(
@@ -118,8 +120,12 @@ public class OrderController {
 
     /**
      * Страница вывода списка заказов по параметрам
-     * Данный метод, доступный только менеджеру или админу(через фильтр сервлетов),
+     * Данный метод, доступный только менеджеру или админу(через SecurityConfig),
      * Метод обработает HTTP запрос Get.
+     * Параметры указываются в адресной строке запроса("/find-by_parameters?authorId=2&&carId=.... и тд).
+     * Поиск можно проводить не по всем 4м параметрам. Некоторые можно не указывать после "=",
+     * тогда они в отборе не участвуют (для int параметров authorId и carId в этом случае
+     * надо указать -1 ("carId=-1", например)).
      *
      * @param authorId ID создателя заказа
      * @param carId    ID машины

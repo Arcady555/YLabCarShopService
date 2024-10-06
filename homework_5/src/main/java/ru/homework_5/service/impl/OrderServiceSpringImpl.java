@@ -34,13 +34,19 @@ public class OrderServiceSpringImpl implements OrderService {
         this.carService = carService;
     }
 
+    /**
+     * Заказ на покупку юзер может создать только если машина не его
+     * А заказ на сервис - если машина его
+     * После покупки машины его buysAmount++
+     */
     @Override
     public Optional<Order> create(OrderDTO orderDTO) {
         Optional<Order> orderOptional = Optional.empty();
+        int authorId = getPersonId();
         if (checkCorrelationForCreate(orderDTO)) {
             OrderType type = getOrderTypeFromString(orderDTO.getType());
             orderOptional = Optional.of(repo.save(
-                    new Order(0, orderDTO.getAuthorId(), orderDTO.getCarId(), type, OrderStatus.OPEN)
+                    new Order(0, authorId, orderDTO.getCarId(), type, OrderStatus.OPEN)
             ));
         }
         if (orderOptional.isPresent()) {
@@ -77,8 +83,11 @@ public class OrderServiceSpringImpl implements OrderService {
     @Override
     public boolean close(int orderId) {
         Optional<Order> order = findById(orderId);
-        order.ifPresent(repo::save);
-        return repo.findById(orderId).get().getStatus().equals(OrderStatus.CLOSED);
+        if (order.isPresent()) {
+            order.get().setStatus(OrderStatus.CLOSED);
+            repo.save(order.get());
+        }
+        return findById(orderId).isPresent() && findById(orderId).get().getStatus().equals(OrderStatus.CLOSED);
     }
 
     @Override
@@ -105,16 +114,16 @@ public class OrderServiceSpringImpl implements OrderService {
         int authorId = Utility.getIntFromString(authorIdStr);
         int carId = Utility.getIntFromString(carIdStr);
         OrderType type = getOrderTypeFromString(typeStr);
-        OrderStatus status = "open".equals(statusStr) ?
+        OrderStatus status = "OPEN".equals(statusStr) ?
                 OrderStatus.OPEN :
-                ("closed".equals(statusStr) ? OrderStatus.CLOSED : null);
+                ("CLOSED".equals(statusStr) ? OrderStatus.CLOSED : null);
         return repo.findByParameter(authorId, carId, type, status);
     }
 
     private OrderType getOrderTypeFromString(String str) {
-        return "buy".equals(str) ?
+        return "BUY".equals(str) ?
                 OrderType.BUY :
-                ("service".equals(str) ? OrderType.SERVICE : null);
+                ("SERVICE".equals(str) ? OrderType.SERVICE : null);
     }
 
     private boolean checkCorrelationForDelete(int orderId) {

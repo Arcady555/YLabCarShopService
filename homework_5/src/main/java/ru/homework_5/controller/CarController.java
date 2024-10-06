@@ -9,6 +9,7 @@ import ru.homework_5.dto.CarDTO;
 import ru.homework_5.dto.CarDTOMapper;
 import ru.homework_5.model.Car;
 import ru.homework_5.service.CarService;
+import ru.parfenov.anotation.EnableParfenovCustomAspect;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +50,7 @@ public class CarController {
      * @return ответ сервера
      */
     @PostMapping("/update")
+    @EnableParfenovCustomAspect
     public ResponseEntity<CarDTO> update(@RequestBody CarDTO carDTO) {
         boolean isCarUpdated = carService.update(carDTO);
         if (isCarUpdated) {
@@ -70,6 +72,7 @@ public class CarController {
      * @return ответ сервера
      */
     @DeleteMapping("/delete/{carId}")
+    @EnableParfenovCustomAspect
     public ResponseEntity<String> delete(@PathVariable int carId) {
         boolean isCarDeleted = carService.delete(carId);
         return isCarDeleted ?
@@ -84,10 +87,10 @@ public class CarController {
      * @param carDTO сущность Car, обвёрнутая в DTO для подачи в виде Json
      * @return ответ сервера
      */
+    @EnableParfenovCustomAspect
     @PostMapping("/create")
     public ResponseEntity<CarDTO> create(@RequestBody CarDTO carDTO) {
         Optional<Car> carOptional = carService.create(
-                carDTO.getOwnerId(),
                 carDTO.getBrand(),
                 carDTO.getModel(),
                 carDTO.getYearOfProd(),
@@ -101,6 +104,11 @@ public class CarController {
 
     /**
      * Страница позволяет провести поиск по нужным параметрам, можно указывать не все
+     * Параметры указываются в адресной строке запроса("/find-by_parameters?ownerId=2&&brand=.... и тд)
+     * поиск можно проводить не по всем 6м параметрам. Некоторые можно не указывать после "=",
+     * тогда они в отборе не участвуют (для int параметров ownerId, yearOfProd, priceFrom, priceTo в этом случае
+     * надо указать -1 ("yearOfProd=-1", например)).
+     * Данный метод доступен только админу(через SecurityConfig)
      *
      * @param ownerId    ID собственника
      * @param brand      марка машины
@@ -111,7 +119,7 @@ public class CarController {
      * @param condition  состояние
      * @return ответ сервера
      */
-    @GetMapping("/find-by_parameters")
+    @GetMapping("/find-by-parameters")
     public ResponseEntity<List<CarDTO>> findByParam(
             @RequestParam String ownerId,
             @RequestParam String brand,

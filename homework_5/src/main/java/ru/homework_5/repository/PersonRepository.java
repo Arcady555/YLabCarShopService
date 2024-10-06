@@ -2,6 +2,7 @@ package ru.homework_5.repository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.homework_5.enums.Role;
 import ru.homework_5.model.Person;
@@ -33,6 +34,7 @@ public interface PersonRepository extends CrudRepository<Person, Integer> {
 
     /**
      * Метод предлагает поиск юзеров по указанным параметрам
+     * Параметры можно указывать не все
      *
      * @param role        роль юзера
      * @param name        имя
@@ -40,11 +42,16 @@ public interface PersonRepository extends CrudRepository<Person, Integer> {
      * @param buysAmount  количество покупок
      * @return List список таких юзеров
      */
-    @Query(
-            "from Person u where u.role = ?1" +
-                    " and u.name = ?2" +
-                    " and u.contactInfo LIKE %?3%" +
-                    " and u.buysAmount = ?4"
+    @Query("SELECT p FROM Person p WHERE " +
+            "(:role IS NULL OR p.role = :role) AND " +
+            "(:name = '' OR p.name = :name) AND " +
+            "(:contactInfo = '' OR p.contactInfo LIKE CONCAT ('%', :contactInfo, '%')) AND" +
+            "(:buysAmount = -1 OR p.buysAmount = :buysAmount)"
     )
-    List<Person> findByParameters(Role role, String name, String contactInfo, int buysAmount);
+    List<Person> findByParameters(
+            @Param("role")Role role,
+            @Param("name")String name,
+            @Param("contactInfo")String contactInfo,
+            @Param("buysAmount")int buysAmount
+    );
 }
